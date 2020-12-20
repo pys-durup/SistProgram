@@ -21,7 +21,7 @@ public class ReserveStudentDAO {
 	private ResultSet rs;
 	
 	/*
-	 예비학생의 기본정보관리에는 삭제 기능 없음 -> 삭제되면 안되는 정보이기 때문.
+	 예비학생 기본정보관리에는 삭제 기능 없음.
 	 */
 	
 	public ReserveStudentDAO() {
