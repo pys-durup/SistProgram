@@ -43,7 +43,7 @@ public class AdminController {
 			} else if (num.equals("3")) { 
 				
 			} else if (num.equals("4")) { 
-				
+				attendanceManagement();
 			} else if (num.equals("5")) { 
 				
 			} else if (num.equals("6")) { 
@@ -68,7 +68,9 @@ public class AdminController {
 	}
 	
 	private void attendanceManagement() {
-		
+		// 출결관리
+		System.out.println("1. 교육생 번호로 검색");
+		System.out.println("2. 과정별");
 	}
 	
 	private void pause() {
