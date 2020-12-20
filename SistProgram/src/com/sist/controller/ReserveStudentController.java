@@ -19,7 +19,7 @@ public class ReserveStudentController {
 		
 		while (check) {
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-//			System.out.printf("예비교육생 %s님 접속을 환영합니다\n", );
+			System.out.printf("예비교육생 %s님 접속을 환영합니다\n", this.rsdto.getName() );
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.println("1. 기본정보 관리");
 			System.out.println("2. 교육과정 수강면접 신청");
