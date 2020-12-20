@@ -51,7 +51,7 @@ public class Login {
 		boolean check = true;
 		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("강사 로그인 페이지");
+		System.out.println("교사 로그인 페이지");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("1. 로그인\t2. 메인화면으로");
 		System.out.print("번호를 입력하세요 :");
@@ -65,7 +65,7 @@ public class Login {
 			
 			
 			try {
-				// 강사 로그인 진행... 
+				// 교사 로그인 진행... 
 				String sql = "select * from tblTeacher";
 				rs = stat.executeQuery(sql);
 				
