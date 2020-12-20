@@ -51,8 +51,7 @@ public class StudentDAO {
 				dto.setTel(rs.getString("tel"));
 				dto.setRegdate(rs.getString("regdate"));
 				
-				return dto;
-				
+				return dto;			
 				}
 			
 		} catch(Exception e) {

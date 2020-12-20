@@ -77,7 +77,7 @@ public class Login {
 							check = false;
 							break;
 						} else {
-							// tblMaster 테이블에 일치하는 아이디와 비밀번호가 없음
+							// 예비교육생 테이블에 일치하는 아이디와 비밀번호가 없음
 							check = true;
 						}
 					
@@ -165,7 +165,7 @@ public class Login {
 							
 							if (check == false) {
 								// 로그인 성공
-								// 로그인 한 예비교육생 계정의 객체를 가져오기 위해서 DAO 객체 생성
+								// 로그인 한 교육생 계정의 객체를 가져오기 위해서 DAO 객체 생성
 								StudentDAO sdao = new StudentDAO();
 								// sdao.getStudent(seq) 로그인한 계정의 seq를 매개변수로 넘겨 교육생 객체를 리턴받는다
 								// 리턴받은 StudentDTO객체를 StudentController객체의 생성자 매개변수로 넘겨준다
