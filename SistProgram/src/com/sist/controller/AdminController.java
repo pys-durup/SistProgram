@@ -11,7 +11,7 @@ public class AdminController {
 	private MasterDTO mdto; // 로그인한 계정의 정보를 담을 객체
 
 	public AdminController(MasterDTO mdto) {
-		this.mdto = mdto; // 로그인한 관리자 계정의 정보를 담는다
+		this.mdto = mdto; // 로그인한 관리자의 계정 정보를 담는다
 	}
 	
 	public void start() {

@@ -31,17 +31,17 @@ public class Login {
 	}
 
 	public void loginReserveStudent() {
-
+		// 예비 교육생 로그인 진행
 		
 	}
 
 	public void loginStudent() {
-
+		// 교육생 로그인 진행
 		
 	}
 
 	public void loginTeacher() {
-
+		// 강사 로그인 진행
 		
 	}
 
