@@ -122,7 +122,7 @@ public class LinkCompanyDAO {
 	}
 
 	/**
-	 * seq 번호를 받아LinkCompanyDTO 객체를 반환하는 메서드 입니다
+	 * seq 번호를 받아 LinkCompanyDTO 객체를 반환하는 메서드 입니다
 	 * @param num 객체로 반환할 기업의 seq 번호
 	 * @return LinkCompanyDTO
 	 */
