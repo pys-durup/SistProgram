@@ -68,4 +68,33 @@ public class LinkCompanyDAO {
 		return null;
 		
 	}
+	/**
+	 * tblLinkCompany에 insert하는 메서드 입니다
+	 * @param dto 테이블에 insert할 LinkCompanyDTO 객체
+	 * @return 
+	 */
+	public int linkCompanyAdd(LinkCompanyDTO dto) {
+		
+		try {
+			
+			String sql = "insert into tblLinkCompany (seq, name, address, department, salary) values (seqLinkCompany.nextVal, ?, ?, ?, ?)";
+			
+			pstat = conn.prepareStatement(sql);
+			
+			pstat.setString(1, dto.getName());
+			pstat.setString(2, dto.getAddress());
+			pstat.setString(3, dto.getDepartment());
+			pstat.setString(4, dto.getSalary());
+			
+			return pstat.executeUpdate();
+				
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("primaryLinkCompanyDAO.enlinkCompanyAdd()");
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	
 }

@@ -152,6 +152,8 @@ public class AdminController {
 		int page = 10; // 한 페이지에 보여질 페이지의 개수
 		int endPage; // 끝 페이지
 		int nowPage = 1; // 현재 페이지
+		int startNum = 0;
+		int endNum = page;
 
 		while (true) {	
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -161,10 +163,15 @@ public class AdminController {
 			
 			ArrayList<LinkCompanyDTO> list = lcdao.linkCompanyList(null);
 //			System.out.println("가져온 레코드의 개수" + list.size());
-			endPage = list.size() / page;
+			if(list.size() % page == 0) {
+				endPage = list.size() / page;
+			} else {
+				endPage = list.size() / page + 1;
+			}
+			
 			
 //			System.out.println("현재 페이지 : " + nowPage);
-			for(int i=(nowPage - 1) * page ; i < page * nowPage ; i++) {
+			for(int i= startNum ; i < endNum ; i++) {
 				
 				System.out.printf("%2s\t%-15s\t\t%-30s\t%-15s\t%7s\n"
 						,list.get(i).getSeq() 
@@ -173,6 +180,7 @@ public class AdminController {
 						,list.get(i).getDepartment()
 						,list.get(i).getSalary());	
 			}
+
 			
 //			for(LinkCompanyDTO dto : list) {
 //			System.out.printf("%s\t%s\t%s\t%s\t\n"
@@ -189,19 +197,29 @@ public class AdminController {
 			System.out.print("번호를 입력하세요 :");
 			num = scan.nextLine();
 			
+			
+			
 			if (num.equals("1")) {
 				if(nowPage == 1) {
 					// 첫 페이지일때 - 이전 페이지로 갈 수 없음
 					System.out.println("현재 페이지가 첫 페이지 입니다");
 				} else {
 					nowPage--; // 현재페이지 1 감소
+					startNum = (nowPage - 1) * page;
+					endNum = startNum + page;
 				}
 			} else if (num.equals("2")) {
 				if(nowPage == endPage) {
 					// 끝 페이지 일때 - 다음 페이지로 갈 수 없음
 					System.err.println("현재 페이지가 끝 페이지 입니다");
+				} else if (nowPage == endPage - 1) {
+					nowPage++;
+					startNum = (nowPage - 1) * page;
+					endNum = startNum + list.size() % page;
 				} else {
 					nowPage++; // 현재페이지 1 증가
+					startNum = (nowPage - 1) * page;
+					endNum = startNum + page;
 				}
 	
 			} else if (num.equals("3")) {
@@ -257,6 +275,37 @@ public class AdminController {
 
 	private void enterpriseAdd() {
 		// 취업지원 관리 - 연계기업 관리 - 연계기업 추가
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("연계기업 추가");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.print("기업이름 : ");
+		String name = scan.nextLine();
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.print("주소 : ");
+		String address = scan.nextLine();
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.print("부서 : ");
+		String departmemt = scan.nextLine();
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.print("제시연봉 : ");
+		String salary = scan.nextLine();
+		
+		// 추가할 정보를 LinkCompanyDTO 객체에 담아 전달
+		LinkCompanyDTO dto = new LinkCompanyDTO();
+		dto.setName(name);
+		dto.setAddress(address);
+		dto.setDepartment(departmemt);
+		dto.setSalary(salary);
+		
+		int result = lcdao.linkCompanyAdd(dto);
+		
+		if (result == 1) {
+			System.out.println("주소록 추가 성공");
+		} else {
+			System.out.println("주소록 추가 실패");
+		}
+		
+		pause();
 		
 	}
 
