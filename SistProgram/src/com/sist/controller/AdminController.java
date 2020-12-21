@@ -157,7 +157,7 @@ public class AdminController {
 
 		while (true) {	
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("연계 기업 조회");
+			System.out.println("연계 기업 목록");
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.println("번호\t회사이름\t\t\t주소\t\t\t\t\t\t부서\t\t\t제시연봉");
 			
@@ -192,12 +192,9 @@ public class AdminController {
 			
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			
-			
 			System.out.println("1. 이전 페이지로 2. 다음 페이지로 3. 뒤로가기");
 			System.out.print("번호를 입력하세요 :");
 			num = scan.nextLine();
-			
-			
 			
 			if (num.equals("1")) {
 				if(nowPage == 1) {
@@ -215,7 +212,8 @@ public class AdminController {
 				} else if (nowPage == endPage - 1) {
 					nowPage++;
 					startNum = (nowPage - 1) * page;
-					endNum = startNum + list.size() % page;
+					int temp = (list.size() % page == 0) ? page : list.size() % page;
+					endNum = startNum + temp;
 				} else {
 					nowPage++; // 현재페이지 1 증가
 					startNum = (nowPage - 1) * page;
@@ -312,10 +310,99 @@ public class AdminController {
 	private void enterpriseEdit() {
 		// 취업지원 관리 - 연계기업 관리 - 연계기업 수정
 		
+		
 	}
 
 	private void enterpriseDelete() {
 		// 취업지원 관리 - 연계기업 관리 - 연계기업 삭제
+		int page = 10; // 한 페이지에 보여질 페이지의 개수
+		int endPage; // 끝 페이지
+		int nowPage = 1; // 현재 페이지
+		int startNum = 0;
+		int endNum = page;
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("연계기업 삭제");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	
+		while (true) {	
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("연계 기업 목록");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("번호\t회사이름\t\t\t주소\t\t\t\t\t\t부서\t\t\t제시연봉");
+			
+			ArrayList<LinkCompanyDTO> list = lcdao.linkCompanyList(null);
+			if(list.size() % page == 0) {
+				endPage = list.size() / page;
+			} else {
+				endPage = list.size() / page + 1;
+			}
+			
+			for(int i= startNum ; i < endNum ; i++) {
+				
+				System.out.printf("%2s\t%-15s\t\t%-30s\t%-15s\t%7s\n"
+						,list.get(i).getSeq() 
+						,list.get(i).getName()
+						,list.get(i).getAddress()
+						,list.get(i).getDepartment()
+						,list.get(i).getSalary());	
+			}
+
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			
+			System.out.println("1. 이전 페이지로 2. 다음 페이지로 3. 삭제하기 4. 뒤로가기");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) {
+				if(nowPage == 1) {
+					// 첫 페이지일때 - 이전 페이지로 갈 수 없음
+					System.out.println("현재 페이지가 첫 페이지 입니다");
+				} else {
+					nowPage--; // 현재페이지 1 감소
+					startNum = (nowPage - 1) * page;
+					endNum = startNum + page;
+				}
+			} else if (num.equals("2")) {
+				if(nowPage == endPage) {
+					// 끝 페이지 일때 - 다음 페이지로 갈 수 없음
+					System.err.println("현재 페이지가 끝 페이지 입니다");
+				} else if (nowPage == endPage - 1) {
+					nowPage++;
+					startNum = (nowPage - 1) * page;
+					int temp = (list.size() % page == 0) ? page : list.size() % page;
+					endNum = startNum + temp;
+				} else {
+					nowPage++; // 현재페이지 1 증가
+					startNum = (nowPage - 1) * page;
+					endNum = startNum + page;
+				}
+	
+			} else if (num.equals("3")) {
+				// 삭제 진행
+				System.out.print("삭제할 기업의 번호를 입력하세요 :");
+				num = scan.nextLine();
+				
+				// 기업을 삭제하는 메서드
+				int result = lcdao.linkCompanyDelete(num); 
+				
+				if(result > 0) {
+					System.out.println("기업 삭제 성공");
+				} else {
+					System.out.println("기업 삭제 실패");
+				}
+				pause();
+				break;
+				
+			} else if (num.equals("4")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		
+		}
 	
 	}
 

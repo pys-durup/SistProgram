@@ -60,7 +60,7 @@ public class LinkCompanyDAO {
 			return list;
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+
 			System.out.println("primaryCompanyLanguageDAO.encompanyList()");
 			e.printStackTrace();
 		}
@@ -69,9 +69,9 @@ public class LinkCompanyDAO {
 		
 	}
 	/**
-	 * tblLinkCompany에 insert하는 메서드 입니다
+	 * tblLinkCompany에 기업을 추가하는 메서드입니다
 	 * @param dto 테이블에 insert할 LinkCompanyDTO 객체
-	 * @return 
+	 * @return 추가 작업의 성공시 1, 실패시 0 반환
 	 */
 	public int linkCompanyAdd(LinkCompanyDTO dto) {
 		
@@ -89,8 +89,33 @@ public class LinkCompanyDAO {
 			return pstat.executeUpdate();
 				
 		} catch (Exception e) {
-			// TODO: handle exception
+
 			System.out.println("primaryLinkCompanyDAO.enlinkCompanyAdd()");
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	/**
+	 * tblLinkCompany에서 기업을 삭제하는 메서드 입니다
+	 * @param num 삭제할 기업의 seq 번호
+	 * @return 삭제 작업의 성공시 1, 실패시 0 반환
+	 */
+	public int linkCompanyDelete(String num) {
+		
+		try {
+			
+			String sql = "delete from tblLinkCompany where seq = ?";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, num);
+			
+			return pstat.executeUpdate();
+			
+			
+		} catch (Exception e) {
+	
+			System.out.println("primaryLinkCompanyDAO.enlinkCompanyDelete()");
 			e.printStackTrace();
 		}
 		return 0;
