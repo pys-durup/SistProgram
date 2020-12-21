@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import com.sist.dto.MasterDTO;
+import com.sist.dto.TeacherDTO;
 import com.sist.main.DBUtil;
 
 public class TeacherDAO {
@@ -30,4 +32,36 @@ public class TeacherDAO {
 		}//try 
 	
 	}//TeacherDAO() 
+	
+	public TeacherDTO getTeacher(String seq) {
+		
+		try {
+			
+			String sql = "select * from tblTeacher where seq = ?";
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+			rs = pstat.executeQuery();
+			
+			if(rs.next()) {
+				
+				TeacherDTO dto = new TeacherDTO();
+		
+				dto.setSeq(rs.getString("seq"));
+				dto.setName(rs.getString("name"));
+				dto.setJumin(rs.getString("jumin"));
+				dto.setTel(rs.getString("tel"));
+				dto.setRegdate(rs.getString("regdate"));
+				
+				return dto;
+			}
+			
+		} catch (Exception e) {
+			System.out.println("primaryMasterDAO.engetMaster()");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
 }

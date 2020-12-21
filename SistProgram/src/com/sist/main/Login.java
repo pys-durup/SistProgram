@@ -8,9 +8,12 @@ import java.util.Scanner;
 import com.sist.controller.AdminController;
 import com.sist.controller.ReserveStudentController;
 import com.sist.controller.StudentController;
-import com.sist.dao.MasterDAO;
 import com.sist.dao.ReserveStudentDAO;
 import com.sist.dao.StudentDAO;
+import com.sist.controller.TeacherController;
+import com.sist.dao.MasterDAO;
+import com.sist.dao.TeacherDAO;
+
 
 public class Login {
 	
@@ -197,6 +200,72 @@ public class Login {
 
 	public void loginTeacher() {
 		// 강사 로그인 진행
+		String num = "";
+		String id = "";
+		String pw = "";
+		String seq = "";
+		boolean check = true;
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("교사 로그인 페이지");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("1. 로그인\t2. 메인화면으로");
+		System.out.print("번호를 입력하세요 :");
+		num = scan.nextLine();
+		
+		if(num.equals("1")) {
+			System.out.print("핸드폰번호를 입력하세요(-제외):");
+			id = scan.nextLine();
+			System.out.print("비밀번호를 입력하세요(주민번호 뒷자리):");
+			pw = scan.nextLine();
+			
+			
+			try {
+				// 교사 로그인 진행... 
+				String sql = "select * from tblTeacher";
+				rs = stat.executeQuery(sql);
+				
+				while (check) {
+					while (rs.next()) {
+						
+						String oracleid = rs.getString("tel").replace("-", "");
+						String oraclepw = rs.getString("jumin").substring(7);
+						
+						if (oracleid.equals(id) && oraclepw.equals(pw)) {
+							// 로그인 성공시 while문을 빠져나간다
+							seq = rs.getString("seq");
+							check = false;
+							break;
+						} else {
+							// tblMaster 테이블에 일치하는 아이디와 비밀번호가 없음
+							check = true;
+						}
+					}
+					
+					if (check == false) {
+						// 로그인 성공
+						TeacherDAO tdao = new TeacherDAO();
+						TeacherController teacher = new TeacherController(tdao.getTeacher(seq));
+						teacher.start();
+					} else {
+						// 로그인 실패
+						System.out.println("아이디와 비밀번호를 확인해주세요");
+						loginAdmin();
+						break;
+					}
+					
+				}
+			
+				
+			} catch (Exception e) {
+				System.out.println("primaryLogin.enloginReserveStudent()");
+				e.printStackTrace();
+			}
+			
+		} else {
+			// 로그인 실패
+			System.out.println("메인으로 이동합니다.");
+		}
 		
 	}
 
