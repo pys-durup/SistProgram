@@ -31,6 +31,7 @@ public class ReserveStudentDAO {
 			this.stat = conn.createStatement();
 				
 		} catch (Exception e) {
+			System.out.println("ReserveStudentDAO.ReserveStudentDAO()");
 			e.printStackTrace();
 			
 		}
@@ -54,7 +55,7 @@ public class ReserveStudentDAO {
 				dto.setName(rs.getString("name"));
 				dto.setJumin(rs.getString("jumin"));
 				dto.setTel(rs.getString("tel"));
-				dto.setAddress(rs.getString(" address"));
+				dto.setAddress(rs.getString("address"));
 				dto.setField(rs.getString("field"));
 				dto.setKnowledge(rs.getString("knowledge"));
 				
