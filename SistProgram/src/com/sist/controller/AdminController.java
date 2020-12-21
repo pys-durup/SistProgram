@@ -2,6 +2,7 @@ package com.sist.controller;
 
 import java.util.Scanner;
 
+import com.sist.dao.StudentDAO;
 import com.sist.dto.MasterDTO;
 
 public class AdminController {
@@ -9,9 +10,11 @@ public class AdminController {
 	private String num = ""; // 사용자가 입력하는 번호
 	private static Scanner scan = new Scanner(System.in);;
 	private MasterDTO mdto; // 로그인한 계정의 정보를 담을 객체
+	private StudentDAO sdao;
 
 	public AdminController(MasterDTO mdto) {
 		this.mdto = mdto; // 로그인한 관리자의 계정 정보를 담는다
+		this.sdao = new StudentDAO();
 	}
 	
 	public void start() {
@@ -74,7 +77,14 @@ public class AdminController {
 
 	private void jobSupportManagement() {
 		// 취업지원 관리
-		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("취업지원 관리");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("1. 연계기업 관리");
+		System.out.println("2. 추천인재 관리");
+		System.out.println("3. 기업에 인재추천");
+		System.out.println("4. 기업에 인재추천");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 	}
 
 	private void jobactivitiesManagement() {
@@ -98,7 +108,7 @@ public class AdminController {
 			num = scan.nextLine();
 			
 			if(num.equals("1")) { 
-				
+				searchStudentNum();
 			} else if (num.equals("2")) {
 				
 			} else if (num.equals("3")) {
@@ -112,6 +122,15 @@ public class AdminController {
 
 	}
 	
+	private void searchStudentNum() {
+		// 출결관리 - 교육생 번호로 검색
+		// 교육생 목록 출력
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.print("교육생 번호 입력 :");
+		
+		
+	}
+
 	private void pause() {
 		System.out.print("엔터를 누르면 이전화면으로 돌아갑니다");
 		String num = scan.nextLine();
