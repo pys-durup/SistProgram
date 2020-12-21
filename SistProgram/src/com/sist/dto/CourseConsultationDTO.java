@@ -5,6 +5,7 @@ public class CourseConsultationDTO {
 	
 	private String seq;
 	private String consultDate;
+	private String teacherNum;	
 	private String content;
 	private String makeSubjectNum;
 	private String resonNum;
@@ -21,6 +22,12 @@ public class CourseConsultationDTO {
 	}
 	public void setConsultDate(String consultDate) {
 		this.consultDate = consultDate;
+	}
+	public String getTeacherNum() {
+		return teacherNum;
+	}
+	public void setTeacherNum(String teacherNum) {
+		this.teacherNum = teacherNum;
 	}
 	public String getContent() {
 		return content;
