@@ -25,4 +25,5 @@ public class CompanyLanguageDAO {
 			e.printStackTrace();
 		}
 	}
+
 }
