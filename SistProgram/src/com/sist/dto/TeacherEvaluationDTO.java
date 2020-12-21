@@ -3,6 +3,7 @@ package com.sist.dto;
 public class TeacherEvaluationDTO {
 	
 	private String seq;//번호
+	private String name; // 학생이름(이 한 컬럼만 필요하기에 추가된 필드-> 프로시저 등 다른 것 사용할 때 해당 프로시저에서 정한 열이름 꼭 확인할 것)
 	private String materials;//자료만족도
 	private String communication;//소통만족도
 	private String jobPreparing;//취업준비만족도
@@ -52,6 +53,12 @@ public class TeacherEvaluationDTO {
 	}
 	public void setCompletNum(String completNum) {
 		this.completNum = completNum;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

@@ -18,7 +18,9 @@ public class StudentController {
 	
 	public StudentController(StudentDTO sdto) {
 		this.sdto = sdto; // 로그인한 교육생의 계정 정보를 담는다
+		this.tdao = new TeacherEvaluationDAO();
 	}
+	
 	
 	public void start() {
 		boolean check = true;
@@ -78,10 +80,12 @@ public class StudentController {
 				break;
 			} else if (num.equals("2")) {
 				listEvaluation();
+				break;
 			} else if (num.equals("3")) {
 				editEvaluation();
+				break;
 			} else if (num.equals("4")) {
-				
+				deleteEvaluation();
 			} else if (num.equals("0")) {
 				start();
 				break;
@@ -95,14 +99,40 @@ public class StudentController {
 	}
 	
 	
+	private void deleteEvaluation() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("교사평가 삭제");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				
+		
+	}
+
 	private void listEvaluation() {
 		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("교사평가 조회");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-				
+		System.out.println();		
+		System.out.printf(" *%s님의 교사평가 내역*\n", this.sdto.getName());
+		System.out.println();
 		
-		
+		String completNum = sdto.getSeq(); 
+		ArrayList<TeacherEvaluationDTO> list = tdao.list(completNum);
+ 		
+		for (TeacherEvaluationDTO dto : list) {
+			System.out.printf(" (1)학습자료 만족도: %s점\n (2)교사-학생 간 소통 만족도: %s점\n (3)취업준비관련 만족도: %s점\n (4)수업 시간분배 만족도: %s점\n (5)전반적인 수업 만족도:%s점\n"
+								,dto.getMaterials()
+								,dto.getCommunication()
+								,dto.getJobPreparing()
+								,dto.getDivisionTime()
+								,dto.getTotalPoint());
+			System.out.println();
+			
+		}
+	
+	
+		pause();
 	}
 
 	
