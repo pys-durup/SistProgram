@@ -3,9 +3,13 @@ package com.sist.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.sist.dao.CourseConsultationDAO;
+import com.sist.dao.JobConsultationDAO;
 import com.sist.dao.ScoreDAO;
 import com.sist.dao.StudentDAO;
 import com.sist.dao.TeacherEvaluationDAO;
+import com.sist.dto.CourseConsultationDTO;
+import com.sist.dto.JobConsultationDTO;
 import com.sist.dto.ScoreAndSubjectDTO;
 import com.sist.dto.StudentDTO;
 import com.sist.dto.TeacherEvaluationDTO;
@@ -41,7 +45,7 @@ public class StudentController {
 			} else if (num.equals("2")) { //2. 성적 조회
 				studentScore();
 			} else if (num.equals("3")) { //3. 상담 일지
-				
+				studentConsultation();
 			} else if (num.equals("4")) { //4. 교사 평가
 				studentEvaluation(); 
 				break;
@@ -58,6 +62,77 @@ public class StudentController {
 	}
 	
 	
+	private void studentConsultation() {
+		view.ConsultationMenuView();
+		
+		boolean check = true;
+		num = scan.nextLine();
+		
+		while (check) {
+		
+			if (num.equals("1")) {
+				listCourseConsultation(); //수업상담 조회
+				break;
+			} else if (num.equals("2")) {
+				listJobConsultation(); //취업상담 조회
+				break;
+			} else if (num.equals("0")) {
+				start(); //학생 메인메뉴로 회귀
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
+		
+		
+	}
+
+
+	private void listJobConsultation() {
+		//취업상담 내역 조회 메서드
+		view.listJConsultationView();
+		String pstudentNum = this.sdto.getSeq();
+		JobConsultationDAO dao = new JobConsultationDAO();
+		
+		ArrayList<JobConsultationDTO> list = dao.list(pstudentNum);
+		
+		System.out.printf("[상담일]\t\t\t[상담 내용]\n");
+		for (JobConsultationDTO dto : list) {
+			System.out.printf("%s\t\t%s\n"
+								,dto.getConsDate()
+								,dto.getContent());
+			
+		}
+		System.out.println();
+		pause();
+		
+	}
+
+
+	private void listCourseConsultation() {
+		//수업상담 내역 조회 메서드
+		view.listCConsultationView();
+		String pstudentNum = this.sdto.getSeq();
+		CourseConsultationDAO dao = new CourseConsultationDAO();
+		
+		ArrayList<CourseConsultationDTO> list = dao.list(pstudentNum);
+		
+		System.out.printf("[상담일]\t\t\t[상담 카테고리]\t\t[상담 내용]\n");
+		for (CourseConsultationDTO dto : list) {
+			System.out.printf("%s\t\t%s\t\t\t%s\n"
+							,dto.getConsultDate()
+							,dto.getReason()
+							,dto.getContent());
+	
+		}
+		System.out.println();
+		pause();
+		
+	}
+
+
 	private void studentScore() {
 		 view.scoreView();
 		 
@@ -171,13 +246,7 @@ public class StudentController {
 	private void editEvaluation() {
 
 		
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("교사평가 수정");
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("**수정을 원하지 않는 항목은 enter키를 입력해주세요.");
-		System.out.println();
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		//System.out.println("이전 교사평가 내역 확인");
+		view.editEvaluationView();
 		
 		TeacherEvaluationDTO dto = new TeacherEvaluationDTO();
 		
