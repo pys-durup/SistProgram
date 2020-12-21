@@ -3,8 +3,10 @@ package com.sist.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.sist.dao.ScoreDAO;
 import com.sist.dao.StudentDAO;
 import com.sist.dao.TeacherEvaluationDAO;
+import com.sist.dto.ScoreAndSubjectDTO;
 import com.sist.dto.StudentDTO;
 import com.sist.dto.TeacherEvaluationDTO;
 import com.sist.view.StudentView;
@@ -37,7 +39,7 @@ public class StudentController {
 			if(num.equals("1")) { //1. 출결체크 및 조회
 				
 			} else if (num.equals("2")) { //2. 성적 조회
-				
+				studentScore();
 			} else if (num.equals("3")) { //3. 상담 일지
 				
 			} else if (num.equals("4")) { //4. 교사 평가
@@ -56,6 +58,31 @@ public class StudentController {
 	}
 	
 	
+	private void studentScore() {
+		 view.scoreView();
+		 
+		
+		 String pstudentNum = this.sdto.getSeq(); 
+		 ScoreDAO dao = new ScoreDAO(); //성적 dao 객체 생성
+		 
+		 ArrayList<ScoreAndSubjectDTO> list = dao.list(pstudentNum);
+		 
+		 System.out.printf("[과목명]\t\t\t\t\t\t\t[출석점수]\t\t[실기점수]\t\t[필기점수]\t\n");
+		 for (ScoreAndSubjectDTO dto : list) {
+			 System.out.printf("%s\t\t\t\t\t\t %s\t\t%s\t\t%s\n"
+					 			,dto.getName()
+					 			,dto.getAttendance()
+					 			,dto.getPractice()
+					 			,dto.getWrite());
+			 
+		 }
+		 
+		 System.out.println("");
+		 pause();
+		 
+	}
+
+
 	private void studentEvaluation() {
 				
 		view.evaluationMenu(); //학생 메인메뉴 메서드 호출

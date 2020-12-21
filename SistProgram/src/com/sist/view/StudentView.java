@@ -74,4 +74,17 @@ public class StudentView {
 	}
 	
 	
+	public void scoreView() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("교육과정 성적 조회");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println();		
+		System.out.printf(" **%s님의 교육과정 성적**\n", this.sdto.getName());
+		System.out.println();
+		
+		
+	}
+	
+	
 }
