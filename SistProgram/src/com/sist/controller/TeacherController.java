@@ -96,9 +96,9 @@ public class TeacherController {
 		
 		ArrayList<TeacherScheduleDTO> list = tsdao.selectList(this.tdto.getSeq());
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("[과정번호][교사명]\t\t[과정명]\t\t  [과목번호]\t\t[과목명]\t\t[책이름]\t[강의실]\t  [개강일]\t[종강일]\t[과정인원수][상태]");
+		System.out.println("[과정번호][교사명]\t\t\t[과정명]\t\t      \t  [과목번호]\t\t\t[과목명]\t\t\t    [책이름]\t\t    [강의실][개강일] [종강일]\t[과정인원수][상태]");
 		for (TeacherScheduleDTO dto : list) {
-			System.out.printf("%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s\n"
+			System.out.printf("%s    \t  %s \t%s \t%s \t%s \t\t       %s      \t%s %s %s %s %s\n"
 					,dto.getCourseNum()
 					,dto.getTeacherName()
 					,dto.getCourseName()
@@ -119,7 +119,7 @@ public class TeacherController {
 	
 	private void checkSchedule() {
 		teacherSchedule();
-		System.out.println("과정별 교육생조회 (과목번호선택1~21): ");
+		System.out.println("과목별 교육생조회 (과목번호선택1~21): ");
 		String pseq = scan.nextLine();
 		
 		ArrayList<CourseStudentListDTO> list = csdao.cslist(pseq);
