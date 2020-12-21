@@ -39,6 +39,7 @@ public class StudentController {
 				
 			} else if (num.equals("4")) { 
 				
+				
 			} else if (num.equals("5")) { 
 				// 로그아웃
 				break;
@@ -50,6 +51,16 @@ public class StudentController {
 		}
 		
 	}
+	
+	
+	private void studentEvaluation() {
+		//4. 교사평가
+		System.out.println("1. 교사평가 등록");
+		System.out.println("2. 교사평가 조회");
+		System.out.println("3. 교사평가 수정");
+		System.out.println("4. 교사평가 삭제");
+	}
+	
 	
 	private void pause() {
 		System.out.print("엔터를 누르면 이전화면으로 돌아갑니다");
