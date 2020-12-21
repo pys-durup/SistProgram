@@ -167,6 +167,29 @@ public int editTeacherEvaluation(TeacherEvaluationDTO dto) {
 
 
 
+public int deleteTeacherEvaluation(String completNum) {
+	//교육생이 자신의 교사평가 글을 삭제하는 메서드
+	try {
+		String sql = "{ call procdeleteEvaluation(?) }";
+		
+		cstat = conn.prepareCall(sql);
+		
+		cstat.setString(1, completNum);
+		
+		return cstat.executeUpdate();
+		
+	} catch(Exception e) {
+		System.out.println("TeacherEvaluationDAO.deleteTeacherEvaluation()");
+		e.printStackTrace();
+	}
+	
+	return 0;
+}
+
+
+
+
+
 
 
 }

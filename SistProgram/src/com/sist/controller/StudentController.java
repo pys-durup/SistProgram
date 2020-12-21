@@ -103,8 +103,30 @@ public class StudentController {
 		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("교사평가 삭제");
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-				
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");				
+		System.out.println();
+		
+		System.out.println(" ** 삭제 시, 등록하였던 내용을 다시 불러올 수 없습니다. 삭제하시겠습니까?");
+		System.out.println("1) 삭제하기 ");
+		System.out.println("0) 이전으로");
+		String num = scan.nextLine();
+	
+		if (num.equals("1")) {
+			String completNum = sdto.getSeq(); 
+			int result = tdao.deleteTeacherEvaluation(completNum);
+			
+			if (result > 0) {
+				System.out.println("삭제 성공");
+			} else {
+				System.out.println("삭제 실패");
+			}
+			studentEvaluation();
+		} else if (num.equals("0")) {
+			studentEvaluation();
+		}
+		
+		
+		
 		
 	}
 
@@ -114,7 +136,7 @@ public class StudentController {
 		System.out.println("교사평가 조회");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println();		
-		System.out.printf(" *%s님의 교사평가 내역*\n", this.sdto.getName());
+		System.out.printf(" **%s님의 교사평가 내역**\n", this.sdto.getName());
 		System.out.println();
 		
 		String completNum = sdto.getSeq(); 
