@@ -45,7 +45,7 @@ public class AdminController {
 			} else if (num.equals("4")) { 
 				attendanceManagement();
 			} else if (num.equals("5")) { 
-				
+				scoreManagement();
 			} else if (num.equals("6")) { 
 				
 			} else if (num.equals("7")) { 
@@ -53,7 +53,7 @@ public class AdminController {
 			} else if (num.equals("8")) { 
 				
 			} else if (num.equals("9")) { 
-			
+				CourseconsultationManagement();
 			} else if (num.equals("0")) {
 				// 로그아웃
 				break;
@@ -67,6 +67,72 @@ public class AdminController {
 
 	}
 	
+	private void CourseconsultationManagement() {
+		// 상담관리
+		boolean check = true;
+		while (check) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("[상담 관리]");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 전체 교육생 조회");
+			System.out.println("2. ");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+			
+				if(num.equals("1")) {
+					System.out.println("[성적관리 - 1. 과정별]");
+				}
+		}
+		
+		
+		
+	}
+
+	private void scoreManagement() {
+		// 성적관리
+		boolean check = true;
+		while (check) {
+
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("[성적 관리]");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 과정별");
+			System.out.println("2. 교육생별");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+					
+				if(num.equals("1")) {
+					System.out.println("[성적관리 - 1. 과정별]");
+					//과정목록 출력
+					//과정(이름, 시작일, 종료일)
+					try {
+						
+						
+						
+					} catch (Exception e) {
+						System.out.println("AdminController.scoreManagement");
+						e.printStackTrace();
+						
+						
+					}
+				}else if(num.equals("2")) {
+					System.out.println("[성적관리 - 2. 교육생별]");
+					//교육생 리스트 츌력
+					//(교육생 이름, 주민번호 뒷자리, 개설 과정명, 개설 과정기간, 강의실명)
+					
+					
+					
+				}else {
+					System.out.println("잘못된 입력입니다");
+					pause();
+					break;
+					}
+				}
+		
+	}
+
 	private void attendanceManagement() {
 		// 출결관리
 		System.out.println("1. 교육생 번호로 검색");
