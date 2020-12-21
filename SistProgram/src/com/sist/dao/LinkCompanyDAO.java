@@ -120,6 +120,71 @@ public class LinkCompanyDAO {
 		}
 		return 0;
 	}
+
+	/**
+	 * seq 번호를 받아LinkCompanyDTO 객체를 반환하는 메서드 입니다
+	 * @param num 객체로 반환할 기업의 seq 번호
+	 * @return LinkCompanyDTO
+	 */
+	public LinkCompanyDTO getLinkCompany(String num) {
+		try {
+			String sql = "select * from tblLinkCompany where seq = ?";
+					
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, num);
+			
+			rs = pstat.executeQuery();
+			
+			if (rs.next()) {
+				LinkCompanyDTO dto = new LinkCompanyDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setName(rs.getString("name"));
+				dto.setAddress(rs.getString("address"));
+				dto.setDepartment(rs.getString("department"));
+				dto.setSalary(rs.getString("salary"));
+				
+				return dto;
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("primaryLinkCompanyDAO.engetLinkCompany()");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * 테이블의 내용을 수정 하는 메서드 입니다
+	 * @param editdto 변경할 값이 저장되어 있는 객체 입니다
+	 * @return 수정 작업의 성공시 1, 실패시 0 반환
+	 */
+	public int linkCompanyEdit(LinkCompanyDTO editdto) {
+		
+		try {
+			
+			String sql = "update tblLinkCompany set name=?, address=?, department=?, salary=? where seq=?";
+			
+			pstat = conn.prepareStatement(sql);
+			
+			pstat.setString(1, editdto.getName());
+			pstat.setString(2, editdto.getAddress());
+			pstat.setString(3, editdto.getDepartment());
+			pstat.setString(4, editdto.getSalary());
+			pstat.setString(5, editdto.getSeq());
+			
+			return pstat.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("primaryLinkCompanyDAO.enlinkCompanyEdit()");
+			e.printStackTrace();
+		}
+		
+		
+		return 0;
+	}
 	
 	
 }
