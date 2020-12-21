@@ -19,7 +19,7 @@ public class StudentController {
 		
 		while (check) {
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-//			System.out.printf("교육생 %s님 접속을 환영합니다\n", );
+			System.out.printf("교육생 %s님 접속을 환영합니다\n", this.sdto.getName() );
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.println("1. 출결체크 및 조회");
 			System.out.println("2. 성적 조회");
