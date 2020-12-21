@@ -29,7 +29,7 @@ public class AdminController {
 			System.out.println("5. 성적 관리");
 			System.out.println("6. 취업활동 관리");
 			System.out.println("7. 취업지원 관리");
-			System.out.println("8. 데이터 통계");
+			System.out.println("8. 데이터 통계 관리");
 			System.out.println("9. 상담일지 관리");
 			System.out.println("0. 로그아웃");
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -43,17 +43,17 @@ public class AdminController {
 			} else if (num.equals("3")) { 
 				
 			} else if (num.equals("4")) { 
-				attendanceManagement();
+				attendanceManagement(); // 출결 관리 - 박영수
 			} else if (num.equals("5")) { 
 				
 			} else if (num.equals("6")) { 
-				
-			} else if (num.equals("7")) { 
-				
+				jobactivitiesManagement(); // 취업활동 관리 - 박영수
+			} else if (num.equals("7")) {
+				jobSupportManagement(); // 취업지원 관리 - 박영수
 			} else if (num.equals("8")) { 
-				
+				dataStatisticsManagement(); // 데이터 통계 관리 - 박영수
 			} else if (num.equals("9")) { 
-			
+				
 			} else if (num.equals("0")) {
 				// 로그아웃
 				break;
@@ -67,10 +67,49 @@ public class AdminController {
 
 	}
 	
+	private void dataStatisticsManagement() {
+		// 데이터 통계 관리
+		
+	}
+
+	private void jobSupportManagement() {
+		// 취업지원 관리
+		
+	}
+
+	private void jobactivitiesManagement() {
+		// 취업활동 관리
+		
+	}
+
 	private void attendanceManagement() {
+		
 		// 출결관리
-		System.out.println("1. 교육생 번호로 검색");
-		System.out.println("2. 과정별");
+		while(true) {
+			
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("출결 관리");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 교육생 번호로 검색");
+			System.out.println("2. 과정별");
+			System.out.println("3. 뒤로가기");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+			
+			if(num.equals("1")) { 
+				
+			} else if (num.equals("2")) {
+				
+			} else if (num.equals("3")) {
+				break;
+				
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+			}
+		}
+
 	}
 	
 	private void pause() {
