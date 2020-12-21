@@ -315,7 +315,7 @@ public class Login {
 						// 로그인 한 관리자 계정의 객체를 가져오기 위해서 DAO 객체 생성
 						MasterDAO mdao = new MasterDAO();
 						// mado.getMaster(seq) 로그인한 계정의 seq를 매개변수로 넘겨 관리자 객체를 리턴받는다
-						// 리턴받은 masterDTO객체를 AdminController객체의 생성자 매개변수로 넘겨준다
+						// 가져온 masterDTO객체를 AdminController객체의 생성자 매개변수로 넘겨준다
 						// 로그인한 관리자의 객체정보를 가진 상태로 프로그램 흐름 진행
 						AdminController admin = new AdminController(mdao.getMaster(seq));
 						admin.start();

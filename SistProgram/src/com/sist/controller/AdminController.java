@@ -175,13 +175,12 @@ public class AdminController {
 			}
 			
 //			for(LinkCompanyDTO dto : list) {
-//				System.out.printf("%s\t%s\t%s\t%s\t\n"
-//						,dto.getSeq() 
-//						,dto.getName()
-//						,dto.getAddress()
-//						,dto.getDepartment()
-//						,dto.getSalary());			
-//			}
+//			System.out.printf("%s\t%s\t%s\t%s\t\n"
+//					,dto.getSeq() 
+//					,dto.getName()
+//					,dto.getAddress()
+//					,dto.getDepartment()
+//					,dto.getSalary());
 			
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			
@@ -217,7 +216,43 @@ public class AdminController {
 
 	private void enterpriseSearch() {
 		// 취업지원 관리 - 연계기업 관리 - 연계기업 검색
-		
+		while(true) {
+			
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("연계 기업명으로 검색");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("검색어를 입력하세요 :");
+			num = scan.nextLine();
+			
+			ArrayList<LinkCompanyDTO> list = lcdao.linkCompanyList(num);
+			if(list.size() != 0) {
+				System.out.println("번호\t회사이름\t\t\t주소\t\t\t\t\t\t부서\t\t\t제시연봉");
+				for(LinkCompanyDTO dto : list) {
+					System.out.printf("%2s\t%-15s\t\t%-30s\t%-15s\t%7s\n"
+							,dto.getSeq() 
+							,dto.getName()
+							,dto.getAddress()
+							,dto.getDepartment()
+							,dto.getSalary());
+				}
+
+			} else {
+				System.out.println("해당 검색어로 검색된 결과가 없습니다");
+			}
+	
+			System.out.println("1. 다시 검색하기 2. 뒤로가기");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) {
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
 	}
 
 	private void enterpriseAdd() {
