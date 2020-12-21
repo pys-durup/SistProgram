@@ -57,7 +57,7 @@ public class TeacherController {
 			num = scan.nextLine();
 			
 			if(num.equals("1")) {
-				checkSchedule();
+				courseStudentList();
 				pause();
 			} else if (num.equals("2")) { 
 				
@@ -90,7 +90,9 @@ public class TeacherController {
 		System.out.print("엔터를 누르면 이전화면으로 돌아갑니다");
 		String num = scan.nextLine();
 	}
-	//01625483365 로그인 휴대폰번호
+	
+	
+	//강의스케줄
 	private void teacherSchedule() {
 		
 		
@@ -116,8 +118,9 @@ public class TeacherController {
 				
 	}
 	
-	
-	private void checkSchedule() {
+	//강의스케줄 + 과정교육생조회
+	private void courseStudentList() {
+		
 		teacherSchedule();
 		System.out.println("과목별 교육생조회 (과목번호선택1~21): ");
 		String pseq = scan.nextLine();
@@ -139,9 +142,11 @@ public class TeacherController {
 		
 	}
 	
+	//교사평가
 	private void TeacherEvaluation() {
 				
 		ArrayList<TeacherEvaluationListDTO> list = tedao.telist(this.tdto.getSeq());
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[번호]\t\t\t[과정명]\t\t\t    [과정번호]\t[개강일]\t\t[종강일]\t  [평가참여수][자료만족도][소통만족도][취업만족도][시간배분만족도]");
 		for (TeacherEvaluationListDTO tedto : list) {
 			System.out.printf("%s\t %s\t %s\t %s\t %s\t %s\t %s\t \t%s\t   %s\t\t %s\n"
