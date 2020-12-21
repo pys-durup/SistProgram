@@ -34,9 +34,19 @@ public class StudentView {
 		System.out.println("5. 로그아웃");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.print("번호를 입력하세요 :");
-		
+	
 	} 
 
+	public void ConsultationMenuView() {
+		
+		System.out.println("1. 수업상담 조회");
+		System.out.println("2. 취업상담 조회");
+		System.out.println();
+		System.out.println("0. 뒤로 가기");
+		
+	}
+	
+	
 	public void evaluationMenu() {
 		
 		System.out.println("1. 교사평가 등록");
@@ -71,6 +81,57 @@ public class StudentView {
 		System.out.println();		
 		System.out.printf(" **%s님의 교사평가 내역**\n", this.sdto.getName());
 		System.out.println();
+	}
+	
+	
+	public void scoreView() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("교육과정 성적 조회");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println();		
+		System.out.printf(" **%s님의 교육과정 성적**\n", this.sdto.getName());
+		System.out.println();
+		
+		
+	}
+	
+	
+	public void editEvaluationView() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("교사평가 수정");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("**수정을 원하지 않는 항목은 enter키를 입력해주세요.");
+		System.out.println();
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	}
+
+
+
+	public void listCConsultationView() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("수업상담 일지 조회");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println();		
+		System.out.printf(" **%s님의 수업상담 일지**\n", this.sdto.getName());
+		System.out.println();
+		
+		
+	}
+
+
+
+	public void listJConsultationView() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("취업상담 일지 조회");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println();		
+		System.out.printf(" **%s님의 취업상담 일지**\n", this.sdto.getName());
+		System.out.println();
+		
 	}
 	
 	
