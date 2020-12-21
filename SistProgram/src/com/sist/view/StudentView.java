@@ -133,6 +133,33 @@ public class StudentView {
 		System.out.println();
 		
 	}
+
+
+
+	public void studentAttendanceMenu() {
+
+		System.out.println("1. 출석 체크하기");
+		System.out.println("2. 전체출결 확인하기");
+		System.out.println();
+		System.out.println("0. 뒤로 가기");
+		
+	}
+
+
+
+	public void addAttendance() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("출석 체크하기");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println();		
+		System.out.printf(" **%s님 출석체크하시겠습니까?**\n", this.sdto.getName());
+		System.out.println();
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("1. 출석 체크하기");
+		System.out.println("0. 이전으로");
+		
+	}
 	
 	
 }
