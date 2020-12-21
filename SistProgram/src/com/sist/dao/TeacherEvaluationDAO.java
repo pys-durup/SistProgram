@@ -58,6 +58,68 @@ public int addTeacherEvaluation(TeacherEvaluationDTO tdto) {
 
 
 
+public TeacherEvaluationDTO get(String completNum) {
+	
+	//교육생이 수정 중 본인의 교사평가 내역 한 행을 조회하는 메서드 
+	try {
+		String sql = "select * from tblTeacherEvaluation where completNum = ?";
+		
+		pstat = conn.prepareStatement(sql);
+		pstat.setString(1, completNum);
+		
+		
+		rs = pstat.executeQuery();
+		
+		if (rs.next()) {
+			
+			TeacherEvaluationDTO dto = new TeacherEvaluationDTO();
+			
+			dto.setSeq(rs.getString("seq"));
+			dto.setMaterials(rs.getString("materials"));
+			dto.setCommunication(rs.getString("communication"));
+			dto.setJobPreparing(rs.getString("jobPreparing"));
+			dto.setDivisionTime(rs.getString("divisionTime"));
+			dto.setTotalPoint(rs.getString("totalPoint"));
+			dto.setCompletNum(rs.getString("completNum"));
+			
+			return dto;
+		}
+					
+	} catch(Exception e) {
+		System.out.println("TeacherEvaluationDAO.get()");
+		e.printStackTrace();
+	}
+	
+	return null;
+}
+
+
+
+public int editTeacherEvaluation(TeacherEvaluationDTO dto) {
+	//교육생이 본인이 작성한 교사평가를 수정하는 메서드
+	try {
+		String sql = "{ call procreEvaluation(?, ?, ?, ?, ?, ?) }";
+		
+		cstat = conn.prepareCall(sql);
+		
+		cstat.setString(1, dto.getMaterials());
+		cstat.setString(2, dto.getCommunication());
+		cstat.setString(3, dto.getJobPreparing());
+		cstat.setString(4, dto.getDivisionTime());
+		cstat.setString(5, dto.getTotalPoint());
+		cstat.setString(6, dto.getCompletNum());
+		
+		return cstat.executeUpdate();
+		
+	} catch(Exception e) {
+		System.out.println("TeacherEvaluationDAO.updateTeacherEvaluation()");
+		e.printStackTrace();
+	}
+	
+	return 0;
+}
+
+
 
 
 
