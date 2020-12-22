@@ -14,6 +14,7 @@ import com.sist.dto.AbleTStudentScoreListDTO;
 import com.sist.dto.CompletStudentListDTO;
 import com.sist.dto.CourseDTO;
 import com.sist.dto.EndCourseListDTO;
+import com.sist.dto.JobInfoDTO;
 import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.MasterDTO;
 import com.sist.dto.QualificationDTO;
@@ -1164,6 +1165,9 @@ public class AdminController {
 		}
 	}
 
+	/**
+	 * 취업 현황 조회 메뉴
+	 */
 	private void jobactivitiesManagement() {
 		// 취업현황 조회
 		while(true) {
@@ -1172,7 +1176,7 @@ public class AdminController {
 			System.out.println("취업현황 조회");
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.println("1. 과정별");
-			System.out.println("2. 개인별");
+			System.out.println("2. 수료생 검색");
 			System.out.println("3. 수료생 목록");
 			System.out.println("4. 뒤로가기");
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -1253,7 +1257,7 @@ public class AdminController {
 		// 취업지원 관리 - 취업현황 조회 - 과정별 - 과정선택
 		
 		while (true) {
-			ArrayList<CompletStudentListDTO> list = jadao.completStudentList(num);
+			ArrayList<CompletStudentListDTO> list = jadao.courseCompletStudentList(num);
 			
 			for (CompletStudentListDTO dto : list) 	{
 				System.out.printf("%s\t%s\t%s\t%s\t%s\n"
@@ -1317,13 +1321,17 @@ public class AdminController {
 		
 		QualificationDTO dto = jadao.getJobActivitesInfo(reginum);
 		
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("보유 자격증 : " + dto.getLicense());
-		System.out.println("이력서 주소 : " + dto.getResume());
-		System.out.println("희망 직군 : " + dto.getJob());
-		System.out.println("github 주소 : " + dto.getGithub());
-		System.out.println("희망 연봉 : " + dto.getSalary());
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		if (dto != null) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("보유 자격증 : " + dto.getLicense());
+			System.out.println("이력서 주소 : " + dto.getResume());
+			System.out.println("희망 직군 : " + dto.getJob());
+			System.out.println("github 주소 : " + dto.getGithub());
+			System.out.println("희망 연봉 : " + dto.getSalary());
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		} else {
+			System.out.println("구직활동 정보가 존재하지 않습니다");
+		}
 		
 		pause();
 	}
@@ -1335,16 +1343,53 @@ public class AdminController {
 	 */
 	private void jobInfo(String reginum) {
 		
+		JobInfoDTO dto = jadao.getJobInfo(reginum);
 		
+		if (dto != null) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("취업 일 : " + dto.getStartDate());
+			System.out.println("고용보험 여부 : " + dto.getInsurance());
+			System.out.println("계약 형태 : " + dto.getForm() );
+			System.out.println("직군 : " + dto.getCareer());
+			System.out.println("연봉 : " + dto.getIncome());
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		} else {
+			System.out.println("취업 정보가 존재하지 않습니다");
+			
+		}
+		
+		pause();
 	}
 
-
-
+	
 	/**
-	 * 개인별
+	 * 수료생 검색
 	 */
 	private void jobactivitiesIndividual() {
-		// 취업지원 관리 - 취업현황 조회 - 개인별
+		// 취업지원 관리 - 취업현황 조회 - 수료생 검색
+		while (true) {
+			System.out.println("━━━━━━━━━━━━━━━이름으로 검색어 입력━━━━━━━━━━━━━━━━━━");
+			System.out.print("검색어를 입력하세요 : ");
+			num = scan.nextLine(); // reginum
+			
+			ArrayList<CompletStudentListDTO> list = jadao.CompletStudentList(num);
+			
+			for (CompletStudentListDTO dto : list) 	{
+				System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+						, dto.getReginum()
+						, dto.getName()
+						, dto.getJumin()
+						, dto.getTel()
+						, dto.getRegdate());
+			}
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("수료생 수강번호를 입력하세요 :");
+			num = scan.nextLine(); // reginum
+			
+			jobactivitiesMenu(num);
+			
+			break;
+		}
 		
 	}
 	
@@ -1353,9 +1398,30 @@ public class AdminController {
 	 */
 	private void completStudentList() {
 		// 취업지원 관리 - 취업현황 조회 - 수료생 목록
-		
+		while (true) {
+			ArrayList<CompletStudentListDTO> list = jadao.CompletStudentList(null);
+			
+			for (CompletStudentListDTO dto : list) 	{
+				System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+						, dto.getReginum()
+						, dto.getName()
+						, dto.getJumin()
+						, dto.getTel()
+						, dto.getRegdate());
+			}
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("수료생 수강번호를 입력하세요 :");
+			num = scan.nextLine(); // reginum
+			
+			jobactivitiesMenu(num);
+			
+			break;
+		}
 	}
 
+	/**
+	 * 출결관리 메뉴
+	 */
 	private void attendanceManagement() {
 		
 		// 출결관리

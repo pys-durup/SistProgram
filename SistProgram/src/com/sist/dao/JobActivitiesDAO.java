@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import com.sist.dto.CompletStudentListDTO;
 import com.sist.dto.EndCourseListDTO;
+import com.sist.dto.JobInfoDTO;
 import com.sist.dto.QualificationDTO;
 import com.sist.main.DBUtil;
 
@@ -77,7 +78,7 @@ public class JobActivitiesDAO {
 	 * @param seq 과정의 번호
 	 * @return
 	 */
-	public ArrayList<CompletStudentListDTO> completStudentList(String num) {
+	public ArrayList<CompletStudentListDTO> courseCompletStudentList(String num) {
 		
 		try {
 			
@@ -116,6 +117,11 @@ public class JobActivitiesDAO {
 		return null;
 	}
 
+	/**
+	 * 수강번호를 받아서 구직 정보를 조회하는 메서드
+	 * @param reginum
+	 * @return
+	 */
 	public QualificationDTO getJobActivitesInfo(String reginum) {
 		// 교육생이 구직정보를 조회하는 메서드
 		try {
@@ -150,6 +156,94 @@ public class JobActivitiesDAO {
 
 		return null;
 	}
+
+	/**
+	 * 전체 수료생 목록을 리턴하는 메서드 입니다
+	 * @return
+	 */
+	public ArrayList<CompletStudentListDTO> CompletStudentList(String word) {
+		
+		try {
+			String where = "";
+			
+			if(word != null) {
+				where = String.format("where name like '%%%s%%'", word);
+			}
+			
+			String sql = String.format("select * from vwCompletStudentList %s", where);
+			ArrayList<CompletStudentListDTO> list = new ArrayList<CompletStudentListDTO>();
+			
+			stat = conn.createStatement();			
+			rs = stat.executeQuery(sql);
+			
+			while (rs.next()) {
+				CompletStudentListDTO dto = new CompletStudentListDTO();
+				
+				dto.setName(rs.getString("name"));
+				dto.setJumin(rs.getString("jumin"));
+				dto.setTel(rs.getString("tel"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setReginum(rs.getString("reginum"));
+				
+				list.add(dto);
+			}
+			
+			return list;
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("primaryJobActivitiesDAO.encompletStudentList()");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 수강 번호를 받아서 취업정보를 리턴하는 메서드
+	 * @param reginum 수강 번호
+	 * @return
+	 */
+	public JobInfoDTO getJobInfo(String reginum) {
+		
+		try {
+			String sql = " { call procJobinfoList(?, ?) }";
+			
+			cstat = conn.prepareCall(sql);
+			cstat.setString(1, reginum);
+			cstat.registerOutParameter(2, OracleTypes.CURSOR);
+			
+			cstat.executeQuery();
+			
+			rs = (ResultSet)cstat.getObject(2);
+			
+			if (rs.next()) {
+				JobInfoDTO dto = new JobInfoDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setStartDate(rs.getString("startdate"));
+				dto.setInsurance(rs.getString("insurance"));
+				dto.setForm(rs.getString("form"));
+				dto.setCareer(rs.getString("career"));
+				dto.setIncome(rs.getString("income"));
+				dto.setCompletNum(rs.getString("completnum"));
+				
+				return dto;
+			}
+			
+			
+			
+		} catch (Exception e) {
+			System.out.println("primaryJobActivitiesDAO.engetJobInfo()");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
+	
 
 
 	
