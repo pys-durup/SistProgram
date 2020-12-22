@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import com.sist.dto.CompletStudentListDTO;
 import com.sist.dto.EndCourseListDTO;
+import com.sist.dto.QualificationDTO;
 import com.sist.main.DBUtil;
 
 import oracle.jdbc.OracleTypes;
@@ -112,6 +113,41 @@ public class JobActivitiesDAO {
 			e.printStackTrace();
 		}
 		
+		return null;
+	}
+
+	public QualificationDTO getJobActivitesInfo(String reginum) {
+		// 교육생이 구직정보를 조회하는 메서드
+		try {
+
+			String sql = "{ call procJobActivitiesInfo(?, ?) }";
+			cstat = conn.prepareCall(sql);
+
+			cstat.setString(1, reginum);
+			cstat.registerOutParameter(2, OracleTypes.CURSOR);
+			cstat.executeUpdate();
+
+			rs = (ResultSet) cstat.getObject(2); // rs로 커서가 받아온 값을 형변환
+
+			if (rs.next()) {
+				QualificationDTO dto = new QualificationDTO();
+
+				// 구직활동 기록번호는 보여주지 않을 예정. 리스트에 담지 않는다.
+				dto.setLicense(rs.getString("license"));
+				dto.setResume(rs.getString("resume"));
+				dto.setJob(rs.getString("Job"));
+				dto.setGithub(rs.getString("github"));
+				dto.setSalary(rs.getString("salary"));
+
+				return dto;
+			}
+			
+
+		} catch (Exception e) {
+			System.out.println("QualificationDAO.list()");
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 

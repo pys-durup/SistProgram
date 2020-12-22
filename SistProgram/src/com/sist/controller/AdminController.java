@@ -16,6 +16,7 @@ import com.sist.dto.CourseDTO;
 import com.sist.dto.EndCourseListDTO;
 import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.MasterDTO;
+import com.sist.dto.QualificationDTO;
 import com.sist.dto.StudentlistDTO;
 import com.sist.dto.TalentedStudentListDTO;
 import com.sist.view.AdminView;
@@ -47,6 +48,7 @@ public class AdminController {
 		this.rdao = new RecommendDAO();
 		this.csdao = new CourseDAO();
 		this.jadao = new JobActivitiesDAO();
+
 	}
 	
 	public void start() {
@@ -1265,9 +1267,12 @@ public class AdminController {
 			System.out.print("수료생 수강번호를 입력하세요 :");
 			num = scan.nextLine(); // reginum
 			
+			
+			
 			jobactivitiesMenu(num);
 			
 			pause();
+			break;
 		}
 		
 	}
@@ -1275,7 +1280,7 @@ public class AdminController {
 	/**
 	 * 과정별 - 과정선택 - 구직활동 / 취업정보
 	 */
-	private void jobactivitiesMenu(String num) {
+	private void jobactivitiesMenu(String reginum) {
 		// 취업지원 관리 - 취업현황 조회 - 과정별 - 과정선택 - 구직활동/취업정보
 		while (true) {
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -1284,10 +1289,14 @@ public class AdminController {
 			num = scan.nextLine(); 
 			
 			if (num.equals("1")) {
-				// 구직활동 내역 출력
+				// 구직활동 내역 출력 메서드
+				jobActivitesInfo(reginum);
+
 				
 			} else if (num.equals("2")) {
-				// 취업정보 출력
+				// 취업정보 출력 메서드
+				jobInfo(reginum);
+
 				
 			} else if (num.equals("3")) {
 				break;
@@ -1299,6 +1308,37 @@ public class AdminController {
 			}
 		}
 	}
+
+	/**
+	 * 수강번호를 받아서 구직활동 내역을 출력하는 메서드
+	 * @param reginum 수강번호
+	 */
+	private void jobActivitesInfo(String reginum) {
+		
+		QualificationDTO dto = jadao.getJobActivitesInfo(reginum);
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("보유 자격증 : " + dto.getLicense());
+		System.out.println("이력서 주소 : " + dto.getResume());
+		System.out.println("희망 직군 : " + dto.getJob());
+		System.out.println("github 주소 : " + dto.getGithub());
+		System.out.println("희망 연봉 : " + dto.getSalary());
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+		pause();
+	}
+	
+	
+	/**
+	 * 수강번호를 받아서 취업정보를 출력하는 메서드
+	 * @param reginum 수강번호
+	 */
+	private void jobInfo(String reginum) {
+		
+		
+	}
+
+
 
 	/**
 	 * 개인별
