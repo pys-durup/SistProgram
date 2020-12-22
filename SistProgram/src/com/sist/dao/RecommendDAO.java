@@ -1,5 +1,6 @@
 package com.sist.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +24,7 @@ public class RecommendDAO {
 	private Connection conn = null;
 	private Statement stat = null;
 	private PreparedStatement pstat = null;
+	private CallableStatement cstat = null;
 	private ResultSet rs = null;
 	
 	public RecommendDAO() {
@@ -73,13 +75,25 @@ public class RecommendDAO {
 		return null;
 	}
 
+	/**
+	 * 추천 목록 을 등록하는 메서드
+	 * @param studentdto
+	 * @param companydto
+	 * @return
+	 */
 	public int recommendStudentADD(TalentedStudentListDTO studentdto, LinkCompanyDTO companydto) {
 		
 		try {
 			
+			// 학procAddRecommend(학생번호, 연계기업번호)
+			String sql = " { call procAddRecommend(?, ?) } ";
 			
+			cstat = conn.prepareCall(sql);
+			cstat.setString(1, studentdto.getSeq());
+			cstat.setString(2, companydto.getSeq());
 			
-			
+			return cstat.executeUpdate();
+
 		} catch (Exception e) {
 			System.out.println("primaryRecommendDAO.enrecommendStudentADD()");
 			e.printStackTrace();

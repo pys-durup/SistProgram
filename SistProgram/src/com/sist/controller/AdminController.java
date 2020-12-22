@@ -1070,17 +1070,28 @@ public class AdminController {
 				System.out.print("추천할 인재의 번호를 선택하세요 : ");
 				num = scan.nextLine();
 				
+				// 추천할 인재의 객체
 				TalentedStudentListDTO studentdto = tsdao.getTalentedStudent(num);
 				
 				aview.enterpriseListView();
 				System.out.print("추천할 기업 번호를 선택하세요 : ");
 				num = scan.nextLine();
 				
+				// 추천할 연계기업의 객체
 				LinkCompanyDTO companydto = lcdao.getLinkCompany(num);
 				
 				
+				// 두개의 객체를 전달해서 등록시킨다
+				int result = rdao.recommendStudentADD(studentdto, companydto);
+				
+				if (result > 0) {
+					System.out.println("추천 등록 성공");
+				} else {
+					System.out.println("추천 등록 실패");
+				}
 				
 				pause();
+				break;
 				
 			} else if (num.equals("2")) {
 				break;
@@ -1099,6 +1110,11 @@ public class AdminController {
 	 */
 	private void recommendDelete() {
 		//취업지원 관리 - 기업에 인재 추천 - 인재 추천 취소
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("추천 인재 조회");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+		aview.recommendStudentListView();
 
 	}
 
