@@ -44,7 +44,7 @@ public class TalentedStudentDAO {
 			
 			// 검색어가 있으면 where절 생성
 			if (word != null) {
-				where = String.format("where seq like '%%%s%%'", word);
+				where = String.format("where reginum like '%%%s%%'", word);
 			}
 			
 			String sql = String.format("select * from vwtalentedStudentList %s", where);
@@ -69,7 +69,6 @@ public class TalentedStudentDAO {
 			
 			
 		} catch (Exception e) {
-			// TODO: handle exception
 			System.out.println("primaryTalentedStudentDAO.entalentedStudenList()");
 			e.printStackTrace();
 		}
@@ -107,7 +106,6 @@ public class TalentedStudentDAO {
 			return list;
 			
 		} catch (Exception e) {
-			// TODO: handle exception
 			System.out.println("primaryTalentedStudentDAO.enableTStudentScoreList()");
 			e.printStackTrace();
 		}
@@ -117,9 +115,9 @@ public class TalentedStudentDAO {
 
 	/**
 	 * 추천 인재를 추가하는 메서드 입니다
-	 * @param reginum
-	 * @param portfolio
-	 * @param reason
+	 * @param reginum 등록할 인재의 수강번호
+	 * @param portfolio 포트폴리오 주소
+	 * @param reason 인재 추가 이유
 	 * @return
 	 */
 	public int talentedStudenAdd(String reginum, String portfolio, String reason) {
@@ -137,12 +135,104 @@ public class TalentedStudentDAO {
 			return cstat.executeUpdate();
 			
 		} catch (Exception e) {
-			// TODO: handle exception
 			System.out.println("primaryTalentedStudentDAO.entalentedStudenAdd()");
 			e.printStackTrace();
 		}
 		return 0;
 	}
+
+	/**
+	 * 추천 인재 테이블에서 인재를 삭제하는 메서드 입니다
+	 * @param reginum
+	 * @return
+	 */
+	public int talentedStudenDelete(String reginum) {
+		
+		try {
+			
+			String sql = "{ call procDeleteTalentedStudent(?) }";
+			
+			cstat = conn.prepareCall(sql);
+			cstat.setString(1, reginum);
+			
+			return cstat.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("primaryTalentedStudentDAO.entalentedStudenDelete()");
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+
+	/**
+	 * TalentedStudentListDTO 객체를 반환하는 메서드 입니다
+	 * @param seq
+	 * @return
+	 */
+	public TalentedStudentListDTO getTalentedStudent(String seq) {
+		
+		try {
+			
+			String sql = "select * from vwtalentedStudentList where seq = ?";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+			
+			rs = pstat.executeQuery();
+			
+			if (rs.next()) {
+				TalentedStudentListDTO dto = new TalentedStudentListDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setName(rs.getString("name"));
+				dto.setTel(rs.getString("tel"));
+				dto.setPortfolio(rs.getString("portfolio"));
+				dto.setReason(rs.getString("reason"));
+				
+				return dto;
+		
+			}
+		} catch (Exception e) {
+			System.out.println("primaryTalentedStudentDAO.engetTalentedStudent()");
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
+
+	/**
+	 * 인재 목록을 수정하는 메서드 입니다
+	 * @param dto2 수정한 값이 담겨있는 객체
+	 * @return 수정의 성공여부 반환 1 성공 0 실패
+	 */
+	public int talentedStudenEdit(TalentedStudentListDTO dto2) {
+		
+		try {
+			
+			String sql = " { call procEditTalentedStudent( ?, ?, ?) } ";
+			
+			cstat = conn.prepareCall(sql);
+			cstat.setString(1, dto2.getSeq());
+			cstat.setString(2, dto2.getPortfolio());
+			cstat.setString(3, dto2.getReason());
+			
+			return cstat.executeUpdate();
+			
+			
+		} catch (Exception e) {
+			System.out.println("primaryTalentedStudentDAO.entalentedStudenEdit()");
+			e.printStackTrace();
+		}
+		
+		
+		return 0;
+	}
+	
+	
+	
+	
 
 
 	
