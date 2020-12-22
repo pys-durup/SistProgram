@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.sist.dao.LinkCompanyDAO;
+import com.sist.dao.RecommendDAO;
 import com.sist.dao.StudentDAO;
 import com.sist.dao.StudentlistDAO;
 import com.sist.dao.TalentedStudentDAO;
@@ -26,6 +27,7 @@ public class AdminController {
 	private StudentDAO sdao;
 	private LinkCompanyDAO lcdao;
 	private TalentedStudentDAO tsdao;
+	private RecommendDAO rdao;
 
 
 	public AdminController(MasterDTO mdto) {
@@ -34,6 +36,7 @@ public class AdminController {
 		this.sdao = new StudentDAO();
 		this.lcdao = new LinkCompanyDAO();
 		this.tsdao = new TalentedStudentDAO();
+		this.rdao = new RecommendDAO();
 	}
 	
 	public void start() {
@@ -169,7 +172,7 @@ public class AdminController {
 			} else if (num.equals("2")) {
 				talentedStudentManagement();
 			} else if (num.equals("3")) {
-
+				recommendManagement();
 			} else if (num.equals("4")) {
 				break;
 			} else {
@@ -996,6 +999,112 @@ public class AdminController {
 		}
 	}
 
+
+	/**
+	 * 기업에 인재 추천 메뉴
+	 */
+	private void recommendManagement() {
+		// 취업지원 관리 - 기업에 인재 추천
+		while (true) {
+
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("추천인재 관리");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 추천현황 조회");
+			System.out.println("2. 인재추천 등록");
+			System.out.println("3. 인재추천 취소");
+			System.out.println("4. 뒤로가기");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+
+			if (num.equals("1")) {
+				recommendList();
+			} else if (num.equals("2")) {
+				recommendAdd();
+			} else if (num.equals("3")) {
+				recommendDelete();
+			} else if (num.equals("4")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+			}
+		}
+
+	}
+	/**
+	 *  추천 현황 조회
+	 */
+	private void recommendList() {
+		//취업지원 관리 - 기업에 인재 추천 - 추천 현황 조회
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("추천 인재 조회");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+		aview.recommendStudentListView();
+		
+		pause();
+	}
+
+	/**
+	 *  인재 추천 등록
+	 */
+	private void recommendAdd() {
+		//취업지원 관리 - 기업에 인재 추천 - 인재 추천 등록
+		
+		while(true) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("인재 추천 등록");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			
+			// 추천 할 인재 선택
+			aview.TalentedStudentListView();
+			
+			System.out.println("1. 인재 추천하기 2. 뒤로가기");
+			System.out.print("번호를 선택하세요 : ");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) {
+				// 인재 추천하기 진행
+				System.out.print("추천할 인재의 번호를 선택하세요 : ");
+				num = scan.nextLine();
+				
+				TalentedStudentListDTO studentdto = tsdao.getTalentedStudent(num);
+				
+				aview.enterpriseListView();
+				System.out.print("추천할 기업 번호를 선택하세요 : ");
+				num = scan.nextLine();
+				
+				LinkCompanyDTO companydto = lcdao.getLinkCompany(num);
+				
+				
+				
+				pause();
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력");
+				pause();
+				break;
+			}
+					
+		}
+		
+	}
+
+	/**
+	 *  인재 추천 취소
+	 */
+	private void recommendDelete() {
+		//취업지원 관리 - 기업에 인재 추천 - 인재 추천 취소
+
+	}
+
+
+
+	
 	private void jobactivitiesManagement() {
 		// 취업활동 관리
 		
