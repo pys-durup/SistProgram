@@ -138,7 +138,8 @@ public class AdminController {
 								, dto.getJumin()
 								, dto.getRegiState());
       
-		System.out.println();		
+		System.out.println();
+		}
     }
 
   
@@ -477,6 +478,8 @@ public class AdminController {
 					pause();
 					break;
 				}
+				
+			}
 		}		
 
 	/**
