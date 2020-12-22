@@ -227,6 +227,46 @@ public class StudentView {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		
 	}
+
+
+
+	public void deletequalificationView() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("구직활동정보 삭제");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");				
+		System.out.println();
+		
+		System.out.println(" ** 삭제된 내용은 다시 불러올 수 없습니다. 삭제하시겠습니까?");
+		System.out.println("1) 삭제하기 ");
+		System.out.println("0) 이전으로");
+		
+	}
+
+
+
+	public void jobInfoMenuView() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("1. 취업내역 등록");
+		System.out.println("2. 취업내역 조회");
+		System.out.println("3. 취업내역 수정");
+		System.out.println();
+		System.out.println("0. 뒤로 가기");
+		
+	}
+
+
+
+	public void listJobInfoView() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("취업내역 조회");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println();		
+		System.out.printf(" **%s님의 취업내역**\n", this.sdto.getName());
+		System.out.println();
+	}
 	
 	
 	
