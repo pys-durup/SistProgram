@@ -41,7 +41,7 @@ public class StudentController {
 			num = scan.nextLine();
 			
 			if(num.equals("1")) { //1. 출결체크 및 조회
-				
+				studentAttendance();
 			} else if (num.equals("2")) { //2. 성적 조회
 				studentScore();
 			} else if (num.equals("3")) { //3. 상담 일지
@@ -62,6 +62,48 @@ public class StudentController {
 	}
 	
 	
+	private void studentAttendance() {
+		view.studentAttendanceMenu();
+		
+		
+		boolean check = true;
+		num = scan.nextLine();
+		
+		while (check) {
+		
+			if (num.equals("1")) {
+				checkAttendance(); //출석체크하기
+				break;
+			} else if (num.equals("2")) {
+				listStudentAttendance(); //출결 전체조회하기
+				break;
+			} else if (num.equals("0")) {
+				start(); //학생 메인메뉴로 회귀
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
+		
+		
+	}
+
+	
+
+	private void checkAttendance() {
+		view.addAttendance();
+		String num = scan.nextLine();
+		
+		if (num.equals("1")) {
+			
+		}
+		
+		
+	}
+
+
 	private void studentConsultation() {
 		view.ConsultationMenuView();
 		
