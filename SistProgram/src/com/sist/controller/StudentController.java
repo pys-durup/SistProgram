@@ -3,15 +3,18 @@ package com.sist.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.sist.dao.AttendanceDAO;
 import com.sist.dao.CourseConsultationDAO;
 import com.sist.dao.JobConsultationDAO;
 import com.sist.dao.ScoreDAO;
 import com.sist.dao.StudentDAO;
 import com.sist.dao.TeacherEvaluationDAO;
+import com.sist.dto.AttendanceDTO;
 import com.sist.dto.CourseConsultationDTO;
 import com.sist.dto.JobConsultationDTO;
 import com.sist.dto.ScoreAndSubjectDTO;
 import com.sist.dto.StudentDTO;
+import com.sist.dto.StudentsRegiCourceDTO;
 import com.sist.dto.TeacherEvaluationDTO;
 import com.sist.view.StudentView;
 
@@ -20,12 +23,13 @@ public class StudentController {
 	private String num = ""; // 사용자가 입력하는 번호
 	private static Scanner scan = new Scanner(System.in);
 	private StudentDTO sdto; // 로그인한 계정의 정보를 담을 객체
-	private TeacherEvaluationDAO tdao; // DB작업에 사용할 객체
-	private TeacherEvaluationDTO tdto; // 값을 포장할 객체
+	private TeacherEvaluationDAO tdao; // 교사평가 DB작업에 사용할 객체 
 	private StudentView view; //출력문 메서드를 모아놓은 객체
+	private StudentsRegiCourceDTO srdto;
 	
-	public StudentController(StudentDTO sdto) {
+	public StudentController(StudentDTO sdto, StudentsRegiCourceDTO srdto) {
 		this.sdto = sdto; // 로그인한 교육생의 계정 정보를 담는다
+		this.srdto = srdto;
 		this.tdao = new TeacherEvaluationDAO();
 		this.view = new StudentView(sdto);  //각 메서드마다 뷰 객체 찍어내지 않고 바로 호출
 	}
@@ -75,7 +79,7 @@ public class StudentController {
 				checkAttendance(); //출석체크하기
 				break;
 			} else if (num.equals("2")) {
-				listStudentAttendance(); //출결 전체조회하기
+				//listStudentAttendance(); //출결 전체조회하기
 				break;
 			} else if (num.equals("0")) {
 				start(); //학생 메인메뉴로 회귀
@@ -94,10 +98,35 @@ public class StudentController {
 
 	private void checkAttendance() {
 		view.addAttendance();
+		//System.out.println("수강번호");
+		//StudentsRegiCourceDTO srdto =  new StudentsRegiCourceDTO();
+		//String pregiNum = srdto.getrSeq(); //프로시저 호출시 필요한 매개변수인 수강번호를 srdto를 통해 가져오기.
+		
 		String num = scan.nextLine();
 		
-		if (num.equals("1")) {
+		if (num.equals("1")) { //출석체크 진행
+			AttendanceDTO dto = new AttendanceDTO();
+			AttendanceDAO dao = new AttendanceDAO();
 			
+			//StudentsRegiCourceDTO srdto =  new StudentsRegiCourceDTO();
+			String pregiNum = srdto.getrSeq(); //프로시저 호출시 필요한 매개변수인 수강번호를 srdto를 통해 가져오기.
+			
+			
+			dto.setRegiNum(pregiNum); // 이상하게도 pregiNum자체가 뜨지 않는다...(null)
+			
+			int result = dao.addAttendance(dto); //매개변수를 담은 dto를 dao의 메서드로 넘기며 호출
+			
+			if (result > 0) {
+				System.out.println("출석체크를 하셨습니다.");
+			} else {
+				System.out.println("출석체크가 정상적으로 되지 않았습니다.");
+			}
+			
+		} else if (num.equals("0")) { // //출석메뉴 뒤로 가기
+			studentAttendance();
+		} else {
+			System.out.println("번호를 잘못 입력하셨습니다.");
+			pause();
 		}
 		
 		
