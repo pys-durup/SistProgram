@@ -738,19 +738,20 @@ public class StudentController {
 			String completNum = this.srdto.getCourceCompletNum();
 			int result = tdao.deleteTeacherEvaluation(completNum);
 			
-			if (result > 0) {
-				System.out.println("삭제 성공");
-			} else {
-				System.out.println("삭제 실패");
-			}
-			studentEvaluation(); // 삭제 행위 이후, 교사평가 메뉴로 돌아간다.
-		} else if (num.equals("0")) { // 이전 메뉴로 돌아가는 버튼
+				if (result > 0) {
+					System.out.println("삭제 성공");
+				} else {
+					System.out.println("삭제 실패");
+				}
+			
+			} else if (num.equals("0")) { // 이전 메뉴로 돌아가는 버튼
 			studentEvaluation();
 		} else {
 			System.out.println("번호를 잘못 입력하였습니다. 이전메뉴로 돌아갑니다.");
 			studentEvaluation();
 		}
 		
+		start();
 		
 	}
 
@@ -775,6 +776,7 @@ public class StudentController {
 		}
 	
 	
+		 
 		 pause();
 	}
 
@@ -907,8 +909,8 @@ public class StudentController {
 			System.out.println("평가등록은 1번을 눌러주세요. 평가가 등록되지 않았습니다.");
 		}
 		
-		 pause();
 		
+		 pause();
 		
 	}
 
