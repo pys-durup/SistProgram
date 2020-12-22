@@ -3,18 +3,16 @@ package com.sist.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
-import com.sist.dto.CourseConsultationDTO;
-import com.sist.dto.MasterDTO;
-import com.sist.dto.StudentlistDTO;
-import com.sist.dao.StudentlistDAO;
 import com.sist.dao.LinkCompanyDAO;
 import com.sist.dao.StudentDAO;
+import com.sist.dao.StudentlistDAO;
 import com.sist.dao.TalentedStudentDAO;
 import com.sist.dto.AbleTStudentScoreListDTO;
 import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.MasterDTO;
+import com.sist.dto.StudentlistDTO;
 import com.sist.dto.TalentedStudentListDTO;
+import com.sist.view.AdminView;
 
 
 public class AdminController {
@@ -22,6 +20,7 @@ public class AdminController {
 	private String num = ""; // 사용자가 입력하는 번호
 	private static Scanner scan = new Scanner(System.in);;
 	private MasterDTO mdto; // 로그인한 계정의 정보를 담을 객체
+	private AdminView aview;
 
 	private StudentlistDAO sldao;
 	private StudentDAO sdao;
@@ -31,6 +30,7 @@ public class AdminController {
 
 	public AdminController(MasterDTO mdto) {
 		this.mdto = mdto; // 로그인한 관리자의 계정 정보를 담는다
+		this.aview = new AdminView();
 		this.sdao = new StudentDAO();
 		this.lcdao = new LinkCompanyDAO();
 		this.tsdao = new TalentedStudentDAO();
@@ -143,31 +143,36 @@ public class AdminController {
     }
 
   
-  	private void dataStatisticsManagement() {
+	private void dataStatisticsManagement() {
 		// 데이터 통계 관리
-	  }
+	}
 
-	  private void jobSupportManagement() {
-      // 취업지원 관리
-      while(true) {
-        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        System.out.println("취업지원 관리");
-        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        System.out.println("1. 연계기업 관리");
-        System.out.println("2. 추천인재 관리");
-        System.out.println("3. 기업에 인재추천");
-        System.out.println("4. 뒤로가기");
+	/**
+	 * 취업지원 관리 메뉴
+	 */
+	private void jobSupportManagement() {
+		// 취업지원 관리
+		while (true) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("취업지원 관리");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 연계기업 관리");
+			System.out.println("2. 추천인재 관리");
+			System.out.println("3. 기업에 인재추천");
+			System.out.println("4. 뒤로가기");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
 
-  
-			if(num.equals("1")) { 
+			if (num.equals("1")) {
 				enterpriseManagement();
 			} else if (num.equals("2")) {
 				talentedStudentManagement();
 			} else if (num.equals("3")) {
-				
+
 			} else if (num.equals("4")) {
 				break;
-			}else {
+			} else {
 				System.out.println("잘못된 입력입니다");
 				pause();
 			}
@@ -802,16 +807,7 @@ public class AdminController {
 		System.out.print("검색할 번호를 입력하세요 :");
 		num = scan.nextLine();
 		
-		ArrayList<TalentedStudentListDTO> list = tsdao.talentedStudenList(num);
-		
-		for (TalentedStudentListDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
-									, dto.getSeq()
-									, dto.getName()
-									, dto.getTel()
-									, dto.getPortfolio()
-									, dto.getReason());
-		}
+		aview.TalentedStudentListView();
 		
 		pause();
 		
@@ -821,22 +817,65 @@ public class AdminController {
 	 */
 	private void talentedStudenAdd() {
 		//취업지원 관리 - 추천인재 관리 - 추천 인재 추가
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("추천 인재 추가");
-		System.out.println("수료생중 성적이 높은 10명");
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		ArrayList<AbleTStudentScoreListDTO> list = tsdao.ableTStudentScoreList();
 		
-		for(AbleTStudentScoreListDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
-									, dto.getReginum()
-									, dto.getName()
-									, dto.getWriter()
-									, dto.getPractice()
-									, dto.getAttendance());
+		while(true) {
+			
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("추천 인재 추가");
+			System.out.println("수료생중 성적이 높은 10명");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("[번호]  [이름]  [필기]  [실기]  [출결]");
+			ArrayList<AbleTStudentScoreListDTO> list = tsdao.ableTStudentScoreList();
+			
+			for(AbleTStudentScoreListDTO dto : list) {
+				System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+						, dto.getReginum()
+						, dto.getName()
+						, dto.getWriter()
+						, dto.getPractice()
+						, dto.getAttendance());
+			}
+			
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 추가하기 2. 뒤로가기");
+			System.out.print("번호를 선택하세요 : ");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) {
+				// 추가하기 진행
+				System.out.print("추가할 학생의 번호를 입력하세요 :");
+				num = scan.nextLine();
+				System.out.print("포트폴리오 주소 입력 : ");
+				String portfolio = scan.nextLine();
+				System.out.print("인재 선정 이유 입력 : ");
+				String reason = scan.nextLine();
+				
+				if(num.equals("") || portfolio.equals("") || reason.equals("")) {
+					System.out.println("잘못된 입력입니다");
+					pause();
+					break;
+				}
+				
+				int result = tsdao.talentedStudenAdd(num, portfolio, reason);
+				
+				if (result > 0) {
+					System.out.println("인재 추가 성공");
+				} else {
+					System.out.println("인재 추가 실패");
+				}
+				
+				pause();
+				break;
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+			
 		}
-		
-		pause();
 		
 	}
 	/**
@@ -844,6 +883,78 @@ public class AdminController {
 	 */
 	private void talentedStudenEdit() {
 		//취업지원 관리 - 추천인재 관리 - 추천 인재 수정
+		while(true) {
+			aview.TalentedStudentListView();
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 수정하기 2. 뒤로가기");
+			System.out.print("번호를 선택하세요 : ");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) {
+				// 수정하기 진행
+				System.out.print("수정할 학생의 번호를 입력하세요 :");
+				num = scan.nextLine();
+				
+				// seq정보를 주면 그기업의 정보를 반환시켜주는 메서드
+				TalentedStudentListDTO dto = tsdao.getTalentedStudent(num);
+				
+				// 수정할 기업의 정보
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.println("수정할 인재 정보");
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.println("이름       : " + dto.getName());
+				System.out.println("전화번호   : " + dto.getTel());
+				System.out.println("포트폴리오 : " + dto.getPortfolio());
+				System.out.println("추천이유   : " + dto.getReason());
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.println("━━━━━━━━━━━━━━ 수정을 하지 않는 컬럼은 엔터를 입력하시오 ━━━━━━━━━━━━━━━━━━━");
+				System.out.print("수정할 포트폴리오 : ");
+				String portfolio = scan.nextLine();
+				
+				if (portfolio.equals("")) {
+					portfolio = dto.getPortfolio();
+				} else {
+					dto.setPortfolio(portfolio);
+				}
+				
+				System.out.print("수정할 추천이유 : ");
+				String reason = scan.nextLine();
+				
+				if (reason.equals("")) {
+					reason = dto.getReason();
+				} else {
+					dto.setReason(reason);
+				}
+				
+				TalentedStudentListDTO dto2 = new TalentedStudentListDTO();
+				
+				dto2.setSeq(dto.getSeq());
+				dto2.setName(dto.getName());
+				dto2.setTel(dto.getTel());
+				dto2.setPortfolio(dto.getPortfolio());
+				dto2.setReason(dto.getReason());
+
+			
+				int result = tsdao.talentedStudenEdit(dto2);
+				
+				if (result > 0) {
+					System.out.println("인재 수정 성공");
+				} else {
+					System.out.println("인재 수정 실패");
+				}
+
+				
+				pause();
+				break;
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
 		
 	}
 	/**
@@ -852,6 +963,37 @@ public class AdminController {
 	private void talentedStudenDelete() {
 		//취업지원 관리 - 추천인재 관리 - 추천 인재 삭제
 		
+		while(true) {
+			aview.TalentedStudentListView();
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 삭제하기 2. 뒤로가기");
+			System.out.print("번호를 선택하세요 : ");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) {
+				// 삭제하기 진행
+				System.out.print("삭제할 학생의 번호를 입력하세요 :");
+				num = scan.nextLine();
+				
+				int result = tsdao.talentedStudenDelete(num);
+				
+				if (result > 0) {
+					System.out.println("인재 삭제 성공");
+				} else {
+					System.out.println("인재 삭제 실패");
+				}
+				
+				pause();
+				break;
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
 	}
 
 	private void jobactivitiesManagement() {

@@ -75,7 +75,7 @@ public class StudentController {
 				checkAttendance(); //출석체크하기
 				break;
 			} else if (num.equals("2")) {
-				listStudentAttendance(); //출결 전체조회하기
+//				listStudentAttendance(); //출결 전체조회하기
 				break;
 			} else if (num.equals("0")) {
 				start(); //학생 메인메뉴로 회귀
