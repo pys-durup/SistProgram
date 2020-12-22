@@ -267,6 +267,19 @@ public class StudentView {
 		System.out.printf(" **%s님의 취업내역**\n", this.sdto.getName());
 		System.out.println();
 	}
+
+
+
+	public void editJobInfoView() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("취업내역 수정");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("**수정을 원하지 않는 항목은 enter키를 입력해주세요.");
+		System.out.println();
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+	}
 	
 	
 	

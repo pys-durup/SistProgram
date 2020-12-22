@@ -119,7 +119,7 @@ public class StudentController {
 				listJobInfo(); //취업내역 조회
 				break;
 			} else if (num.equals("3")) {
-				//editJobInfo(); //취업내역 수정
+				editJobInfo(); //취업내역 수정
 				break;
 			} else if (num.equals("0")) { //이전으로
 				start();
@@ -136,6 +136,85 @@ public class StudentController {
 	}
 
 
+	private void editJobInfo() {
+		//취업내역 수정 메서드
+		view.editJobInfoView();
+		
+		JobInfoDTO dto = new JobInfoDTO();
+		
+		System.out.println("(1) 수정할 취업일자: ");
+		System.out.println("   ex) 20201020");
+		String startDate = scan.nextLine();
+		if (startDate.equals("")) {
+			startDate = dto.getStartDate();
+		}
+		
+
+		System.out.println("(2) 수정할 4대보험 가입여부: ");
+		System.out.println("   ex) (가입 / 미가입)");		
+		String insurance = scan.nextLine();
+		if (insurance.equals("insurance")) {
+			insurance = dto.getInsurance();
+		}
+		
+		System.out.println("(3) 수정할 고용 형태: ");
+		System.out.println("   ex) (정규직/계약직/전환형 인턴/인턴/프리랜서)");		
+		String form = scan.nextLine();
+		if (form.equals("form")) {
+			form = dto.getForm();
+		}
+		
+		System.out.println("(4) 수정할 직무: ");
+		String career = scan.nextLine();
+		if (career.equals("career")) {
+			career = dto.getCareer();
+		}
+		
+		System.out.println("(5) 수정할 연봉: ");
+		System.out.println("   ex) (2600)");		
+		String income = scan.nextLine();
+		if (income.equals("income")) {
+			income = dto.getIncome();
+		}
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println(" **수정한 취업내역 재등록을 위해 1번을 눌러주세요.");
+		
+		String num = scan.nextLine();
+		
+		
+		if(num.equals("1")) {
+			
+			JobInfoDAO dao = new JobInfoDAO();
+			JobInfoDTO dto2 = new JobInfoDTO();
+			
+			String completNum = this.srdto.getCourceCompletNum();
+			//생성자 srdto의 get메서드로 수료번호 불러오기
+			
+			dto2.setStartDate(startDate);
+			dto2.setInsurance(insurance);
+			dto2.setForm(form);
+			dto2.setCareer(career);
+			dto2.setIncome(income);
+			dto2.setCompletNum(completNum);
+			
+			int result = dao.editJobInfo(dto2);
+			
+			if (result > 0) {
+				System.out.println("취업내역 수정이 완료되었습니다.");
+			} else {
+				System.out.println("취업내역 수정이 정상적으로 완료되지 않았습니다.");
+			}
+			
+			
+		}
+		jobInfoMenu(); //취업정보메뉴로 회귀
+		
+		
+	}
+
+
+	
 	private void listJobInfo() {
 		
 		view.listJobInfoView();
@@ -286,31 +365,31 @@ public class StudentController {
 		
 		QualificationDTO dto = new QualificationDTO();
 		
-		System.out.println("(1) 수정할 보유 자격증 항목: ");
+		System.out.println("(1) 수정할 보유 자격증: ");
 		String license = scan.nextLine();
 		if (license.equals("")) {
 			license = dto.getLicense();
 		}
 		
-		System.out.println("(2) 수정할 이력서 저장 드라이브 주소 항목: ");
+		System.out.println("(2) 수정할 이력서 저장 드라이브 주소: ");
 		String resume = scan.nextLine();
 		if (resume.equals("resume")) {
 			resume = dto.getResume();
 		}
 		
-		System.out.println("(3) 수정할 희망직무 항목: ");
+		System.out.println("(3) 수정할 희망직무: ");
 		String Job = scan.nextLine();
 		if (Job.equals("Job")) {
 			Job = dto.getResume();
 		}
 		
-		System.out.println("(4) 수정할 깃허브 주소 항목: ");
+		System.out.println("(4) 수정할 깃허브 주소: ");
 		String github = scan.nextLine();
 		if (github.equals("github")) {
 			github = dto.getGithub();
 		}
 		
-		System.out.println("(5) 수정할 희망연봉 항목: ");
+		System.out.println("(5) 수정할 희망연봉: ");
 		String salary = scan.nextLine();
 		if (salary.equals("salary")) {
 			salary = dto.getSalary();
@@ -328,11 +407,15 @@ public class StudentController {
 			QualificationDAO dao = new QualificationDAO();
 			QualificationDTO dto2 = new QualificationDTO();
 			
+			String regiNum = this.srdto.getrSeq();
+			//생성자srdto의 get메서드로 수강번호 가져오기(매개변수로 넘길 예정)
+			
 			dto2.setLicense(license);
 			dto2.setResume(resume);
 			dto2.setJob(Job);
 			dto2.setGithub(github);
 			dto2.setSalary(salary);
+			dto2.setRegiNum(regiNum);
 			
 			int result = dao.editQualification(dto2);
 			
@@ -586,6 +669,7 @@ public class StudentController {
 
 
 	private void studentScore() {
+		//점수 조회 메서드
 		 view.scoreView();
 		 
 		
@@ -690,7 +774,7 @@ public class StudentController {
 		}
 	
 	
-		pause();
+		 studentEvaluation();
 	}
 
 	

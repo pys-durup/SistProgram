@@ -104,4 +104,31 @@ public class JobInfoDAO {
 	
 	
 	
+	public int editJobInfo(JobInfoDTO dto2) {
+		
+		//교육생이 취업내역을 수정하는 메서드
+		try {
+			String sql = "{ call procreJobInfo(?, ?, ?, ?, ?, ?) }";
+			
+			cstat = conn.prepareCall(sql);
+			
+			cstat.setString(1, dto2.getStartDate());
+			cstat.setString(2, dto2.getInsurance());
+			cstat.setString(3, dto2.getForm());
+			cstat.setString(4, dto2.getCareer());
+			cstat.setString(5, dto2.getIncome());
+			cstat.setString(6, dto2.getCompletNum());
+			
+			return cstat.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("JobInfoDAO.updateJobInfo()");
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+	
+	
+	
 }
