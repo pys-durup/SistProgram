@@ -12,8 +12,9 @@ import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.MasterDTO;
 import com.sist.dto.StudentlistDTO;
 import com.sist.dto.TalentedStudentListDTO;
+import com.sist.dto.CourseDTO;
+import com.sist.dao.CourseDAO;
 import com.sist.view.AdminView;
-
 
 public class AdminController {
 	
@@ -26,7 +27,7 @@ public class AdminController {
 	private StudentDAO sdao;
 	private LinkCompanyDAO lcdao;
 	private TalentedStudentDAO tsdao;
-
+	private CourseDAO csdao;
 
 	public AdminController(MasterDTO mdto) {
 		this.mdto = mdto; // 로그인한 관리자의 계정 정보를 담는다
@@ -59,11 +60,11 @@ public class AdminController {
 			num = scan.nextLine();
 			
 			if(num.equals("1")) {
-				
+				basicinfoManagement(); //기초정보 관리
 			} else if (num.equals("2")) { 
-				
+				makecourseManagement(); //개설 과정 관리
 			} else if (num.equals("3")) { 
-				
+				makesubjectManagement(); //개설 과목 관리 
 			} else if (num.equals("4")) { 
 				attendanceManagement(); // 출결 관리 - 박영수
 			} else if (num.equals("5")) { 
@@ -90,6 +91,73 @@ public class AdminController {
 
 	}
 	
+	private void basicinfoManagement() {
+		boolean check = true;
+		while(check) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("[기초 정보 관리]");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 과정 관리");
+			System.out.println("2. 과목 관리");
+			System.out.println("3. 교재 관리");
+			System.out.println("4. 강의실 관리");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 : ");
+			num = scan.nextLine();
+			
+			if(num.equals("1")) {  //과정 관리
+				courseManagement();
+			}else if(num.equals("2")) {  //과목 관리
+				subjectManagement();
+			}else if(num.equals("3")) {  //교재 관리
+				bookManagement();
+			}else if(num.equals("4")) {  //강의실 관리
+				roomManagement();
+			}else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
+	}//basicinfoManagement()
+
+		private void courseManagement() {
+			ArrayList<CourseDTO> list = csdao.list(null);
+			
+			//관리자 - 기초정보 관리 - 과목 관리
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("[과정관리]");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			
+			for (CourseDTO dto : list) {
+			System.out.println("[번호]\t[과정]\t\t[과정목적]");
+			System.out.printf("%s\t%s\t%s", dto.getSeq(), dto.getName(), dto.getPurpose());
+			System.out.println();
+			
+			}
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 과정 등록");
+			System.out.println("2. 과정 수정");
+			System.out.println("3. 과정 삭제");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("선택(번호) : ");
+			
+		}//courseManagement() 과정관리
+
+		private void subjectManagement() {
+		}//subjectManagement() 과목관리
+
+		private void bookManagement() {
+		}//bookManagement() 교재관리
+
+		private void roomManagement() {
+		}//roomManagement() 강의실관리
+
+	private void makecourseManagement() {
+	}//makecourseManagement() 개설 과정 관리
+
+	private void makesubjectManagement() {
+	}//makesubjectManagement() 개설 과목 관리;
 
 	private void CourseconsultationManagement() {
 		// 상담관리
