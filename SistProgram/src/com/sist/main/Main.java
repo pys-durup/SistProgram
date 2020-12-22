@@ -9,7 +9,7 @@ public class Main {
 	
 	static {
 		scan = new Scanner(System.in);
-//		lg = new Login();
+		lg = new Login();
 	}
 
 	public static void main(String[] args) {

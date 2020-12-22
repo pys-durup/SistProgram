@@ -10,6 +10,7 @@ public class CourseConsultationDTO {
 	private String makeSubjectNum;
 	private String resonNum;
 	private String regiNum;
+	private String reason; //상담 사유 테이블 필드 1개 추가.  
 	
 	public String getSeq() {
 		return seq;
@@ -52,6 +53,12 @@ public class CourseConsultationDTO {
 	}
 	public void setRegiNum(String regiNum) {
 		this.regiNum = regiNum;
+	}
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 	
 	
