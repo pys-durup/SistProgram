@@ -3,18 +3,21 @@ package com.sist.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.sist.dao.CourseDAO;
+import com.sist.dao.JobActivitiesDAO;
 import com.sist.dao.LinkCompanyDAO;
 import com.sist.dao.RecommendDAO;
 import com.sist.dao.StudentDAO;
 import com.sist.dao.StudentlistDAO;
 import com.sist.dao.TalentedStudentDAO;
 import com.sist.dto.AbleTStudentScoreListDTO;
+import com.sist.dto.CompletStudentListDTO;
+import com.sist.dto.CourseDTO;
+import com.sist.dto.EndCourseListDTO;
 import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.MasterDTO;
 import com.sist.dto.StudentlistDTO;
 import com.sist.dto.TalentedStudentListDTO;
-import com.sist.dto.CourseDTO;
-import com.sist.dao.CourseDAO;
 import com.sist.view.AdminView;
 
 
@@ -31,6 +34,7 @@ public class AdminController {
 	private TalentedStudentDAO tsdao;
 	private RecommendDAO rdao;
 	private CourseDAO csdao;
+	private JobActivitiesDAO jadao;
 
 
 
@@ -42,6 +46,7 @@ public class AdminController {
 		this.tsdao = new TalentedStudentDAO();
 		this.rdao = new RecommendDAO();
 		this.csdao = new CourseDAO();
+		this.jadao = new JobActivitiesDAO();
 	}
 	
 	public void start() {
@@ -57,7 +62,7 @@ public class AdminController {
 			System.out.println("3. 개설과목 관리");
 			System.out.println("4. 출결 관리");
 			System.out.println("5. 성적 관리");
-			System.out.println("6. 취업활동 관리");
+			System.out.println("6. 취업현황 조회");
 			System.out.println("7. 취업지원 관리");
 			System.out.println("8. 데이터 통계 관리");
 			System.out.println("9. 상담일지 관리");
@@ -77,7 +82,7 @@ public class AdminController {
 			} else if (num.equals("5")) { 
 				scoreManagement();
 			} else if (num.equals("6")) { 
-				jobactivitiesManagement(); // 취업활동 관리 - 박영수
+				jobactivitiesManagement(); // 취업현황 조회 - 박영수
 			} else if (num.equals("7")) {
 				jobSupportManagement(); // 취업지원 관리 - 박영수
 			} else if (num.equals("8")) { 
@@ -1158,7 +1163,156 @@ public class AdminController {
 	}
 
 	private void jobactivitiesManagement() {
-		// 취업활동 관리
+		// 취업현황 조회
+		while(true) {
+			
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("취업현황 조회");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 과정별");
+			System.out.println("2. 개인별");
+			System.out.println("3. 수료생 목록");
+			System.out.println("4. 뒤로가기");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+			
+			if(num.equals("1")) { 
+				jobactivitiesCourse();
+			} else if (num.equals("2")) {
+				jobactivitiesIndividual();
+			} else if (num.equals("3")) {
+				completStudentList();
+			} else if (num.equals("4")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();				
+			}
+		}
+	}
+	
+	
+	/**
+	 * 과정별
+	 */
+	private void jobactivitiesCourse() {
+		// 취업지원 관리 - 취업현황 조회 - 과정별
+		
+		while (true) {
+			
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("과정별 조회");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			
+			ArrayList<EndCourseListDTO> list = jadao.EndCourseList();
+			
+			for (EndCourseListDTO dto : list ) {
+				System.out.printf("%s\t%s\t%s\t%s\t%s\t\n"
+						, dto.getSeq()
+						, dto.getCourseName()
+						, dto.getStartDate()
+						, dto.getEndDate()
+						, dto.getTeacherName()
+						, dto.getRoom());
+			}
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 과정 선택하기 2. 뒤로가기");
+			System.out.print("번호를 입력해 주세요 : ");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) {
+				// 과정 번호 선택
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.print("과정번호를 입력하세요 :");
+				num = scan.nextLine();
+				
+				// 과정 번호에 따른 수료생 목록 출력
+				courseNumcompletStudentList(num);
+				
+				break;
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		
+		}
+
+		
+	}
+	/**
+	 * 과정별 - 과정선택
+	 */
+	private void courseNumcompletStudentList(String num) {
+		// 취업지원 관리 - 취업현황 조회 - 과정별 - 과정선택
+		
+		while (true) {
+			ArrayList<CompletStudentListDTO> list = jadao.completStudentList(num);
+			
+			for (CompletStudentListDTO dto : list) 	{
+				System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+						, dto.getReginum()
+						, dto.getName()
+						, dto.getJumin()
+						, dto.getTel()
+						, dto.getRegdate());
+			}
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("수료생 수강번호를 입력하세요 :");
+			num = scan.nextLine(); // reginum
+			
+			jobactivitiesMenu(num);
+			
+			pause();
+		}
+		
+	}
+
+	/**
+	 * 과정별 - 과정선택 - 구직활동 / 취업정보
+	 */
+	private void jobactivitiesMenu(String num) {
+		// 취업지원 관리 - 취업현황 조회 - 과정별 - 과정선택 - 구직활동/취업정보
+		while (true) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 구직활동 보기 2. 취업정보 보기 3. 뒤로가기");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine(); 
+			
+			if (num.equals("1")) {
+				// 구직활동 내역 출력
+				
+			} else if (num.equals("2")) {
+				// 취업정보 출력
+				
+			} else if (num.equals("3")) {
+				break;
+				
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
+	}
+
+	/**
+	 * 개인별
+	 */
+	private void jobactivitiesIndividual() {
+		// 취업지원 관리 - 취업현황 조회 - 개인별
+		
+	}
+	
+	/**
+	 * 수료생 목록
+	 */
+	private void completStudentList() {
+		// 취업지원 관리 - 취업현황 조회 - 수료생 목록
 		
 	}
 
