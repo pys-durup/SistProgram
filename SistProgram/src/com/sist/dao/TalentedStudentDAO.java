@@ -1,5 +1,6 @@
 package com.sist.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ public class TalentedStudentDAO {
 	private Connection conn = null;
 	private Statement stat = null;
 	private PreparedStatement pstat = null;
+	private CallableStatement cstat = null;
 	private ResultSet rs = null;
 	
 	public TalentedStudentDAO() {
@@ -112,6 +114,40 @@ public class TalentedStudentDAO {
 		
 		return null;
 	}
+
+	/**
+	 * 추천 인재를 추가하는 메서드 입니다
+	 * @param reginum
+	 * @param portfolio
+	 * @param reason
+	 * @return
+	 */
+	public int talentedStudenAdd(String reginum, String portfolio, String reason) {
+		
+		try {
+			
+			String sql = "{ call procAddTalentedStudent(?, ?, ?) }";
+			
+			cstat = conn.prepareCall(sql);
+			
+			cstat.setString(1, reginum);
+			cstat.setString(2, portfolio);
+			cstat.setString(3, reason);
+			
+			return cstat.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("primaryTalentedStudentDAO.entalentedStudenAdd()");
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+
+	
+	
+	
 	
 	
 	
