@@ -85,10 +85,11 @@ public class StudentDAO {
 					+ " inner join tblRegiCource b"
 					+ " on a.seq = b.studentNum"
 					+ " where a.seq = ?";
+			//sql구문의 띄어쓰기가 제대로 안 되면 sql오류가 일어날 수 있다.
 			
 			pstat = conn.prepareStatement(sql);
 			pstat.setString(1, seq);
-			rs = pstat.executeQuery();
+			rs = pstat.executeQuery(); 
 			
 			if (rs.next()) {
 				StudentsRegiCourceDTO dto = new StudentsRegiCourceDTO();

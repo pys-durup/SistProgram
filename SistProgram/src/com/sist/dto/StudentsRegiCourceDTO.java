@@ -1,7 +1,7 @@
 package com.sist.dto;
 
 public class StudentsRegiCourceDTO { //교육생, 수강, 수강상태 테이블 
-	//StudentDAO에서 수강번호, 수강상태를 얻어야 할 때 사용
+	//StudentDAO에서 수강번호, 수강상태 정보를 얻어야 할 때 사용
 	private String seq; //교육생번호
 	private String name; //교육생이름
 	private String jumin;  //교육생주민번호
