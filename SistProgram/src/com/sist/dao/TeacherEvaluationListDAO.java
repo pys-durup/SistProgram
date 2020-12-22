@@ -64,6 +64,8 @@ public ArrayList<TeacherEvaluationListDTO> telist(String pseq){
 			
 		}
 		rs.close();
+		stat.close();
+		conn.close();
 		return list;
 		
 		

@@ -5,8 +5,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import com.sist.dto.CourseDTO;
 import com.sist.main.DBUtil;
+
 
 public class CourseDAO {
 	
@@ -31,6 +34,46 @@ public CourseDAO() {
 
 	
 	
+}
+
+public ArrayList<CourseDTO> list(String word) {
+
+	
+	try {
+		String where = "";
+		
+		// 검색어가 있으면 where절 생성
+		if (word != null) {
+			where = String.format("where name like '%%%s%%'", word);
+		}
+		
+		String sql = String.format("select *  from tblcourse %s order by seq", where);
+		
+		rs = stat.executeQuery(sql);
+		
+		ArrayList<CourseDTO> list = new ArrayList<CourseDTO>();
+		
+		while (rs.next()) {
+			// 레코드 1개 -> LinkCompanyDTO 1개
+			CourseDTO dto = new CourseDTO();
+			
+			dto.setSeq(rs.getString("seq"));
+			dto.setName(rs.getString("name"));
+			dto.setPurpose(rs.getString("Purpose"));
+							
+			list.add(dto);
+		}
+		
+		return list;
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+		System.out.println("CourseDAO.CourseList()");
+		e.printStackTrace();
+	}
+	
+	return null;
+
 }
 
 }
