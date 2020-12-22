@@ -3,18 +3,19 @@ package com.sist.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
-import com.sist.dto.CourseConsultationDTO;
-import com.sist.dto.MasterDTO;
-import com.sist.dto.StudentlistDTO;
-import com.sist.dao.StudentlistDAO;
 import com.sist.dao.LinkCompanyDAO;
+import com.sist.dao.StudentConsultListDAO;
 import com.sist.dao.StudentDAO;
+import com.sist.dao.StudentlistDAO;
 import com.sist.dao.TalentedStudentDAO;
 import com.sist.dto.AbleTStudentScoreListDTO;
 import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.MasterDTO;
+import com.sist.dto.StudentConsultListDTO;
+import com.sist.dto.StudentConsultListDTO;
+import com.sist.dto.StudentlistDTO;
 import com.sist.dto.TalentedStudentListDTO;
+import com.test.mvc.AddressDTO;
 
 
 public class AdminController {
@@ -27,6 +28,7 @@ public class AdminController {
 	private StudentDAO sdao;
 	private LinkCompanyDAO lcdao;
 	private TalentedStudentDAO tsdao;
+	private StudentConsultListDAO scldao;
 
 
 	public AdminController(MasterDTO mdto) {
@@ -34,6 +36,7 @@ public class AdminController {
 		this.sdao = new StudentDAO();
 		this.lcdao = new LinkCompanyDAO();
 		this.tsdao = new TalentedStudentDAO();
+		this.sldao = new StudentlistDAO();
 	}
 	
 	public void start() {
@@ -124,25 +127,65 @@ public class AdminController {
 	}
 
 	private void CourseconsultationList() {
-		// 관리자 - 상담 관리 - 상담 조회
+		// 관리자 - 상담 관리 - 상담 조회 
+		//교육생 리스트 출력 (교육생이름, 주민번호뒷자리, 수강상태)
+			
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[상담 조회]");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("번호\t교육생이름\t주민번호뒷자리\t수강상태");
 		
-		ArrayList<StudentlistDTO> list = sldao.list(null);
+		ArrayList<StudentlistDTO> list = sldao.Studentlist(null);
 		
 		for(StudentlistDTO dto : list) {
-			System.out.printf("%s, %s, %s, %s\n"
+			System.out.printf("%s\t%s\t%s\t\t%s\n"
 								, dto.getSeq()
-								, dto.getName()
+								, dto.getSname()
 								, dto.getJumin()
 								, dto.getRegiState());
-      
-		System.out.println();		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");	
+		System.out.println("상담조회를 원하는 교육생의 번호를 입력해주세요.");
+		System.out.print("번호입력 : ");
+		num = scan.nextLine();
+		
+		if (num.equals(dto.getSeq())) {
+			StudentConsultList();
+		}else {
+			System.out.println("잘못된 값을 입력하셨습니다.");
+			pause();
+		}
+		//pause();
     }
+	}
+//수정중***********************************************************************  
+  	private void StudentConsultList() {
+  		// 관리자 - 상담 관리 - 상담 조회 
+  		// 교육생 번호 선택
+  		// 전 과목 상담 일지 리스트 (상담번호, 작성날짜, 교육생이름, 과목번호, 과목명, 과정기간, 수료여부, 상담사유, 상담내용 )
+ 		  		
+  		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[상담 조회]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");	
+		
+		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList(null);
+		
+		for(StudentConsultListDTO dto : list) {
+			System.out.printf("%s\t%s\t%s\t\t%s\n"
+								, dto.getSeq()
+								, dto.getConsultDate()
+								, dto.getSname()
+								, dto.getSubjectSeq()
+								, dto.getSubjectName()
+								, dto.getCourseDate()
+								, dto.getConsultReason()
+								, dto.getConsultContent());
+			pause();
+			break;
+			
+		}
+	}
 
-  
-  	private void dataStatisticsManagement() {
+	private void dataStatisticsManagement() {
 		// 데이터 통계 관리
 	  }
 
@@ -388,54 +431,51 @@ public class AdminController {
 		System.out.println("[상담 추가]");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		
+//		System.out.println("상담번호 : ");
+//		String consultseq = scan.nextLine();
+		
 		System.out.println("상담날짜 : ");
 		String consultDate = scan.nextLine();
 		
+		System.out.println("교육생이름 : ");
+		String sname = scan.nextLine();
+		
+		System.out.println("과목번호 : ");
+		String subjectSeq = scan.nextLine();
+		
+		System.out.println("과목명 : ");
+		String subjectName = scan.nextLine();
+
+		System.out.println("과정기간 (ex)2020/01/01-2020/12/31): ");
+		String courseDate = scan.nextLine();
+		
+		System.out.println("상담사유 : ");
+		String consultReason = scan.nextLine();
+			
 		System.out.println("상담내용 : ");
-		String content = scan.nextLine();
-		
-		System.out.println("교사번호 : ");
-		String teacherNum = scan.nextLine();
-		
-		System.out.println("개설과목번호 : ");
-		String makeSubjectNum = scan.nextLine();
-		
-		System.out.println("상담사유번호 : ");
-		String reasonNum = scan.nextLine();
-		
-		System.out.println("수강번호 : ");
-		String regiNum = scan.nextLine();
-		
+		String consultContent = scan.nextLine();
+
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	
+		StudentConsultListDTO dto = new StudentConsultListDTO();
 		
-//		System.out.println("상담을 추가하시려면 1번을 입력하세요.");
-//		System.out.print("번호입력");
-//		num = scan.nextLine();
-//		
-//		if(num.equals("1")) {
-//			
-//			CourseConsultationDTO dto = new CourseConsultationDTO();
-//			dto.setConsultDate(consultDate);
-//			dto.setContent(content);
-//			dto.setTeacherNum(teacherNum);						
-//			dto.setMakeSubjectNum(makeSubjectNum);
-//			dto.setResonNum(reasonNum);
-//			dto.setRegiNum(regiNum);
-//			
-//			int result = dao.add(dto);
-//			
-//			if(result == 1) {
-//				System.out.println("상담 추가 성공입니다.");
-//			}else {
-//				System.out.println("상담 추가 실패입니다.");
-//			}
-//			
-//		}else {
-//			System.out.println("상담 추가 실패입니다.");
-//			System.out.println("상담을 추가하시려면 1번을 입력하세요.");
-//		}
+		dto.setConsultDate(consultDate);
+		dto.setSname(sname);
+		dto.setSubjectSeq(subjectSeq);
+		dto.setSubjectName(subjectName);
+		dto.setCourseDate(courseDate);
+		dto.setConsultReason(consultReason);
+		dto.setConsultContent(consultContent);
+			
+		int result = scldao.add(dto);
 		
-		
+		if(result == 1) {
+			System.out.println("상담 추가 성공입니다.");
+		}else {
+			System.out.println("상담 추가 실패입니다.");
+		}
+			
+		pause();
 	}
 
 	private void CourseconsultationEdit() {
@@ -445,6 +485,33 @@ public class AdminController {
 
 	private void CourseconsultationDelete() {
 		// 관리자 - 상담 관리 - 상담 삭제
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[상담 삭제]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList(null); 
+		
+		for (StudentConsultListDTO dto : list) {
+			System.out.printf("%s\t%s\t%s\t%s\n", dto.getSeq(), dto.getSname(), dto.getSubjectName(), dto.getConsultContent());
+		}
+		System.out.println();
+		
+		System.out.print("삭제할 상담 번호 : ");
+		String seq = scan.nextLine();
+		
+		int result = scldao.delete(seq);
+		
+		if(result>0) {
+			System.out.println("상담 삭제 성공입니다.");
+		}else {
+			System.out.println("상담 삭제 실패입니다.");
+		}
+		
+		
+		
+		pause();
+		
 		
 	}
 
@@ -477,6 +544,7 @@ public class AdminController {
 					pause();
 					break;
 				}
+		}
 		}		
 
 	/**
