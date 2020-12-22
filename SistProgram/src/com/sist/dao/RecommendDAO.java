@@ -76,7 +76,7 @@ public class RecommendDAO {
 	}
 
 	/**
-	 * 추천 목록 을 등록하는 메서드
+	 * 추천 목록에 등록하는 메서드
 	 * @param studentdto
 	 * @param companydto
 	 * @return
@@ -98,6 +98,31 @@ public class RecommendDAO {
 			System.out.println("primaryRecommendDAO.enrecommendStudentADD()");
 			e.printStackTrace();
 		}
+		
+		return 0;
+	}
+
+	/**
+	 * 추천 목록에서 삭제하는 메서드
+	 * @param num
+	 * @return
+	 */
+	public int recommendStudentDelete(String seq) {
+		
+		try {
+			String sql = "{ call procDeleteRecommend(?) }";
+			
+			cstat = conn.prepareCall(sql);
+			cstat.setString(1, seq);
+			
+			return cstat.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("primaryRecommendDAO.enrecommendStudentDelete()");
+			e.printStackTrace();
+		}
+
 		
 		return 0;
 	}

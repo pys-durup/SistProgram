@@ -1011,8 +1011,8 @@ public class AdminController {
 			System.out.println("추천인재 관리");
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.println("1. 추천현황 조회");
-			System.out.println("2. 인재추천 등록");
-			System.out.println("3. 인재추천 취소");
+			System.out.println("2. 기업인재추천 등록");
+			System.out.println("3. 기업인재추천 취소");
 			System.out.println("4. 뒤로가기");
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.print("번호를 입력하세요 :");
@@ -1048,10 +1048,10 @@ public class AdminController {
 	}
 
 	/**
-	 *  인재 추천 등록
+	 *  기업인재추천 등록
 	 */
 	private void recommendAdd() {
-		//취업지원 관리 - 기업에 인재 추천 - 인재 추천 등록
+		//취업지원 관리 - 기업에 인재 추천 - 기업인재추천 등록
 		
 		while(true) {
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -1106,16 +1106,47 @@ public class AdminController {
 	}
 
 	/**
-	 *  인재 추천 취소
+	 *  기업인재 추천 취소
 	 */
 	private void recommendDelete() {
-		//취업지원 관리 - 기업에 인재 추천 - 인재 추천 취소
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("추천 인재 조회");
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		
-		aview.recommendStudentListView();
-
+		//취업지원 관리 - 기업에 인재 추천 - 기업인재 추천 취소
+		while (true) {
+			
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("기업 인재 추천 취소");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			
+			aview.recommendStudentListView();
+			// 인재 추천 취소 하기 진행
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 인재 추천 취소 2. 뒤로가기");
+			System.out.print("번호를 입력하세요 : ");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) {
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.print("삭제할 기업인재 추천 번호를 선택하세요 : ");
+				num = scan.nextLine();
+				
+				int result = rdao.recommendStudentDelete(num);
+				
+				if (result > 0 ) { 
+					System.out.println("인재 추천 취소 성공");
+				} else {
+					System.out.println("인재 추천 취소 실패");
+				}
+				
+				pause();
+				break;
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+			
+		}
 	}
 
 
