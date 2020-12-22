@@ -60,11 +60,11 @@ public class StudentController {
 				break;
 			} else if (num.equals("5")) { //5. 취업활동 관리
 				jobMenu();
-				break;
+				
 			} else {
 				System.out.println("잘못된 입력입니다");
 				pause();
-				break;
+				
 			}
 		}
 		
@@ -92,7 +92,7 @@ public class StudentController {
 			} else {
 				System.out.println("잘못된 입력입니다");
 				pause();
-				break;
+				
 			}
 		}
 		
@@ -208,7 +208,7 @@ public class StudentController {
 			
 			
 		}
-		jobInfoMenu(); //취업정보메뉴로 회귀
+		pause(); //취업정보메뉴로 회귀
 		
 		
 	}
@@ -235,7 +235,7 @@ public class StudentController {
 								,dto.getIncome());
 			
 		}
-		jobInfoMenu();
+		pause();
 		
 	}
 
@@ -275,6 +275,7 @@ public class StudentController {
 			dto.setForm(form); 
 			dto.setCareer(career);
 			dto.setIncome(income);
+			dto.setCompletNum(completNum);
 			
 			int result = dao.addJobInfo(dto);
 			
@@ -288,7 +289,7 @@ public class StudentController {
 			System.out.println("취업내역 등록은 1번을 눌러주세요. 글이 등록되지 않았습니다.");
 		}
 		
-		jobInfoMenu();
+		pause();
 	}
 
 
@@ -429,7 +430,7 @@ public class StudentController {
 			System.out.println("수정은 1번을 눌러주세요. 구직활동정보가 재등록되지 않았습니다.");
 		}
 		
-		qualificationMenu();
+		pause();
 		
 	}
 
@@ -506,7 +507,7 @@ public class StudentController {
 			System.out.println("구직활동정보 등록은 1번을 눌러주세요. 글이 등록되지 않았습니다.");
 		}
 		
-		qualificationMenu();
+		pause();
 	}
 
 
@@ -774,7 +775,7 @@ public class StudentController {
 		}
 	
 	
-		 studentEvaluation();
+		 pause();
 	}
 
 	
@@ -850,7 +851,7 @@ public class StudentController {
 			System.out.println("평가수정은 1번을 눌러주세요. 평가가 재등록되지 않았습니다.");
 		}
 	
-		 studentEvaluation();
+		 pause();
 			
 	}
 
@@ -906,7 +907,7 @@ public class StudentController {
 			System.out.println("평가등록은 1번을 눌러주세요. 평가가 등록되지 않았습니다.");
 		}
 		
-		 studentEvaluation();
+		 pause();
 		
 		
 	}
