@@ -30,6 +30,8 @@ public class AdminController {
 	private LinkCompanyDAO lcdao;
 	private TalentedStudentDAO tsdao;
 	private RecommendDAO rdao;
+	private CourseDAO csdao;
+
 
 
 	public AdminController(MasterDTO mdto) {
@@ -39,6 +41,7 @@ public class AdminController {
 		this.lcdao = new LinkCompanyDAO();
 		this.tsdao = new TalentedStudentDAO();
 		this.rdao = new RecommendDAO();
+		this.csdao = new CourseDAO();
 	}
 	
 	public void start() {

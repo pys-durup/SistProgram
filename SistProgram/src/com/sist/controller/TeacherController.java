@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.sist.dao.CourseStudentListDAO;
-import com.sist.dao.JobConsultationDAO;
 import com.sist.dao.JobConsultationListDAO;
 import com.sist.dao.TeacherEvaluationListDAO;
 import com.sist.dao.TeacherScheduleDAO;
