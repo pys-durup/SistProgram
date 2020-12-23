@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
 
+import com.sist.dto.InterviewResultDTO;
 import com.sist.dto.ReserveStudentDTO;
 import com.sist.main.DBUtil;
 
@@ -40,7 +41,7 @@ public class ReserveStudentDAO {
 	
 	
 	public ReserveStudentDTO getReserveStudent(String seq) {
-		
+		//로그인한 예비학생의 정보를 불러오는 메서드
 		try {
 			String sql = "select * from tblReserveStudent where seq = ?";
 			pstat = conn.prepareStatement(sql);
@@ -101,7 +102,50 @@ public class ReserveStudentDAO {
 	
 	
 	
-	
+	public InterviewResultDTO getInterviewResult(String seq) {
+		//로그인한 예비학생의 면접 결과를 불러오는 메서드
+		
+		
+		try {
+			String sql = "SELECT "
+					//+ "a.name as rName,"
+					+ " d.seq as cSeq,"
+					+ " e.name as cName,"
+					+ " c.result"
+					+ " FROM tblReserveStudent a"
+					+ " inner join tblInterviewApply b"
+					+ " on a.seq = b.reserveStudentNum"
+					+ " inner join tblInterviewResult c"
+					+ " on c.interviewNum = b.seq"
+					+ " inner join tblMakeCource d"
+					+ " on d.seq = b.createdCourceNum"
+					+ " inner join tblCourse e"
+					+ " on e.seq = d.courceNum"
+					+ " where a.seq = ?";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+			rs = pstat.executeQuery(); 
+			
+			if (rs.next()) {
+				
+				InterviewResultDTO dto = new InterviewResultDTO();
+				
+				dto.setcSeq(rs.getString("cSeq"));
+				dto.setcName(rs.getString("cName"));
+				dto.setResult(rs.getString("result"));
+				
+				return dto;
+			}
+			
+		} catch(Exception e) {
+			System.out.println("ReserveStudentDAO.getInterviewResult()");
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
 	
 	
 }

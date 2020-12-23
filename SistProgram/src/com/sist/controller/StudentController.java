@@ -51,16 +51,19 @@ public class StudentController {
 			
 			if(num.equals("1")) { //1. 출결체크 및 조회
 				studentAttendance();
+				break;
 			} else if (num.equals("2")) { //2. 성적 조회
 				studentScore();
+				break;
 			} else if (num.equals("3")) { //3. 상담 일지
 				studentConsultation();
+				break;
 			} else if (num.equals("4")) { //4. 교사 평가
 				studentEvaluation(); 
 				break;
 			} else if (num.equals("5")) { //5. 취업활동 관리
 				jobMenu();
-				
+				break;
 			} else {
 				System.out.println("잘못된 입력입니다");
 				pause();
@@ -153,27 +156,27 @@ public class StudentController {
 		System.out.println("(2) 수정할 4대보험 가입여부: ");
 		System.out.println("   ex) (가입 / 미가입)");		
 		String insurance = scan.nextLine();
-		if (insurance.equals("insurance")) {
+		if (insurance.equals("")) {
 			insurance = dto.getInsurance();
 		}
 		
 		System.out.println("(3) 수정할 고용 형태: ");
 		System.out.println("   ex) (정규직/계약직/전환형 인턴/인턴/프리랜서)");		
 		String form = scan.nextLine();
-		if (form.equals("form")) {
+		if (form.equals("")) {
 			form = dto.getForm();
 		}
 		
 		System.out.println("(4) 수정할 직무: ");
 		String career = scan.nextLine();
-		if (career.equals("career")) {
+		if (career.equals("")) {
 			career = dto.getCareer();
 		}
 		
 		System.out.println("(5) 수정할 연봉: ");
 		System.out.println("   ex) (2600)");		
 		String income = scan.nextLine();
-		if (income.equals("income")) {
+		if (income.equals("")) {
 			income = dto.getIncome();
 		}
 		
@@ -374,25 +377,25 @@ public class StudentController {
 		
 		System.out.println("(2) 수정할 이력서 저장 드라이브 주소: ");
 		String resume = scan.nextLine();
-		if (resume.equals("resume")) {
+		if (resume.equals("")) {
 			resume = dto.getResume();
 		}
 		
 		System.out.println("(3) 수정할 희망직무: ");
 		String Job = scan.nextLine();
-		if (Job.equals("Job")) {
+		if (Job.equals("")) {
 			Job = dto.getResume();
 		}
 		
 		System.out.println("(4) 수정할 깃허브 주소: ");
 		String github = scan.nextLine();
-		if (github.equals("github")) {
+		if (github.equals("")) {
 			github = dto.getGithub();
 		}
 		
 		System.out.println("(5) 수정할 희망연봉: ");
 		String salary = scan.nextLine();
-		if (salary.equals("salary")) {
+		if (salary.equals("")) {
 			salary = dto.getSalary();
 		}
 		
@@ -751,7 +754,7 @@ public class StudentController {
 			studentEvaluation();
 		}
 		
-		start();
+		pause();
 		
 	}
 
@@ -917,5 +920,6 @@ public class StudentController {
 	private void pause() {
 		System.out.print("엔터를 누르면 이전화면으로 돌아갑니다");
 		String num = scan.nextLine();
+		start();
 	}
 }

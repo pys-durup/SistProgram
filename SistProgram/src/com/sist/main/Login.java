@@ -11,6 +11,7 @@ import com.sist.controller.StudentController;
 import com.sist.dao.ReserveStudentDAO;
 import com.sist.dao.StudentDAO;
 import com.sist.controller.TeacherController;
+import com.sist.dao.InterviewResultDAO;
 import com.sist.dao.MasterDAO;
 import com.sist.dao.TeacherDAO;
 
@@ -97,7 +98,7 @@ public class Login {
 							if (check == false) {
 								// 로그인 성공
 								ReserveStudentDAO rsdao = new ReserveStudentDAO();
-								ReserveStudentController ReserveStudent = new ReserveStudentController(rsdao.getReserveStudent(seq));
+								ReserveStudentController ReserveStudent = new ReserveStudentController(rsdao.getReserveStudent(seq),rsdao.getInterviewResult(seq));
 								ReserveStudent.start();
 							} else {
 								// 로그인 실패

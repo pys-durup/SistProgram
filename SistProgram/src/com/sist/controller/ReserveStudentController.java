@@ -18,12 +18,12 @@ public class ReserveStudentController {
 	private static Scanner scan = new Scanner(System.in);
 	private ReserveStudentDTO rsdto; // 로그인한 계정의 정보를 담을 객체
 	private ReserveStudentView view;
-	private InterviewResultDTO irdto; //로그인한 계정의 면접결과 정보를 담는 객체
+	private InterviewResultDTO idto; //로그인한 계정의 면접결과 정보를 담는 객체
 	
-	public ReserveStudentController(ReserveStudentDTO rsdto) {
+	public ReserveStudentController(ReserveStudentDTO rsdto, InterviewResultDTO idto) {
 		this.rsdto = rsdto; // 로그인한 예비교육생의 계정 정보를 담는다
 		this.view = new ReserveStudentView(rsdto);
-		
+		this.idto = idto;
 	}
 	
 	public void start() {
@@ -36,8 +36,10 @@ public class ReserveStudentController {
 			
 			if(num.equals("1")) { //1. 기본정보관리
 				 ReserveInfoMenu();
+				 break;
 			} else if (num.equals("2")) { //2. 교육과정 수강면접 신청
 				addApply();
+				break;
 			} else if (num.equals("3")) { //3. 면접결과 확인
 				myResult();
 				break;
@@ -78,13 +80,11 @@ public class ReserveStudentController {
 		//면접결과 합격일 경우에만 다음 메서드로 넘어가기
 	
 		//InterviewResultDTO dto = new InterviewResultDTO();
-		//String result = dto.getResult();
-		/*
+		String result = idto.getResult();
+		
 		if (result.equals("합격")) {
 			 System.out.println();
 			 System.out.println("합격하셨습니다. 예비교육생에서 교육생 계정 전환을 위해 번호 1번을 눌러주세요.");
-			 
-			 
 			 
 			 String num = scan.nextLine(); 
 				 if (num.equals("1")) {	 
@@ -97,8 +97,8 @@ public class ReserveStudentController {
 		} else {
 			pause();
 		}
-		*/
-		start();
+		
+		pause();
 	}
 
 	
@@ -147,7 +147,7 @@ public class ReserveStudentController {
 					 System.out.println("면접 신청이 정상적으로 완료되지 않았습니다.");
 				 }
 				
-		 start();
+		 pause();
 		 }
 
 	
@@ -187,42 +187,42 @@ public class ReserveStudentController {
 
 		view.editReserveInfoView();
 		
-		ReserveStudentDTO dto = new ReserveStudentDTO();
+		
 		
 		System.out.println("(1) 수정할 이름: ");
 		String name = scan.nextLine();
 		if (name.equals("")) {
-			name = dto.getName();	
+			name = rsdto.getName();	
 		}
 		
 		System.out.println("(2) 수정할 주민등록번호: ");
 		String jumin = scan.nextLine();
-		if (jumin.equals("jumin")) {
-			jumin = dto.getJumin();
+		if (jumin.equals("")) {
+			jumin = rsdto.getJumin();
 		}
 
 		System.out.println("(3) 수정할 연락처: ");
 		String tel = scan.nextLine();
-		if (tel.equals("tel")) {
-			 tel = dto.getTel();
+		if (tel.equals("")) {
+			 tel = rsdto.getTel();
 		}
 
 		System.out.println("(4) 수정할 주소: ");
 		String address = scan.nextLine();
-		if (address.equals("address")) {
-			address = dto.getAddress();
+		if (address.equals("")) {
+			address = rsdto.getAddress();
 		}
 
 		System.out.println("(5) 수정할 희망직무: ");
 		String field = scan.nextLine();
-		if (field.equals("field")) {
-			field = dto.getField();
+		if (field.equals("")) {
+			field = rsdto.getField();
 		}		
 
 		System.out.println("(6) 수정할 사전지식: ");
 		String knowledge = scan.nextLine();
-		if (knowledge.equals("knowledge")) {
-			knowledge = dto.getKnowledge();
+		if (knowledge.equals("")) {
+			knowledge = rsdto.getKnowledge();
 		}		
 
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -287,5 +287,6 @@ public class ReserveStudentController {
 	public void pause() {
 		System.out.print("엔터를 누르면 이전화면으로 돌아갑니다");
 		String num = scan.nextLine();
+		start();
 	}
 }
