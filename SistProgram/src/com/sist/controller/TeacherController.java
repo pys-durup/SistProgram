@@ -3,11 +3,13 @@ package com.sist.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.sist.dao.CompletionStudentDAO;
 import com.sist.dao.CourseStudentListDAO;
 import com.sist.dao.JobConsultationDAO;
 import com.sist.dao.JobConsultationListDAO;
 import com.sist.dao.TeacherEvaluationListDAO;
 import com.sist.dao.TeacherScheduleDAO;
+import com.sist.dto.CompletionStudentDTO;
 import com.sist.dto.CourseStudentListDTO;
 import com.sist.dto.JobConsultationListDTO;
 import com.sist.dto.TeacherDTO;
@@ -26,12 +28,14 @@ public class TeacherController {
 	private static CourseStudentListDAO csdao;
 	private static TeacherEvaluationListDAO tedao;
 	private static JobConsultationListDAO jcdao;
+	private static CompletionStudentDAO cdao;
 	
 	static {
 		tsdao = new TeacherScheduleDAO(); //강의계획조회		
 		csdao = new CourseStudentListDAO();//과정학생조회
 		tedao = new TeacherEvaluationListDAO();//교사평가조회
 		jcdao = new JobConsultationListDAO(); //취업상담조회
+		cdao = new CompletionStudentDAO();  //수료자 리스트(취업상담조회 가능자)
 	}
 
 	private String num = ""; // 사용자가 입력하는 번호
@@ -205,7 +209,7 @@ public class TeacherController {
 		
 		while (check) {
 		if (num.equals("1")) {			
-			addJobConsultation();//취업상담내역조회
+			addJobConsultation();//취업상담추가
 		} else if (num.equals("2")) {
 			editJobConsultation();//상담내역 수정
 		} else if (num.equals("3")) {
@@ -223,6 +227,9 @@ public class TeacherController {
 	
 	
 	private void addJobConsultation() {
+		System.out.println("취업상담가능한 학생리스트(수료자)");
+		System.out.println("[상담번호][학생명][교사명][과정번호][과정명][개강일][종강일][수강상태]");
+		CompletionStudent();
 		
 		System.out.println("상담내역 추가하기");
 		
@@ -248,13 +255,27 @@ public class TeacherController {
 		JobConsultation();
 	}	
 	
-	
-	
-	
-	
-	
-	
-	
+	//취업상담가능한 수료자들 list
+	private void CompletionStudent() {
+		System.out.println("");
+		ArrayList<CompletionStudentDTO> list = cdao.list(this.tdto.getSeq());
+		for (CompletionStudentDTO cdto : list) {
+			System.out.printf("%s %s %s %s %s %s %s %s\n"
+					,cdto.getStudentNum()
+					,cdto.getStudentName()
+					,cdto.getTeacherName()
+					,cdto.getCourseNum()
+					,cdto.getCourseName()
+					,cdto.getStartDate()
+					,cdto.getEndDate()
+					,cdto.getRegistate());
+		}
+		System.out.println();
+		
+		
+		
+	}
+		
 	//취업상담 수정
 	private void editJobConsultation() {
 		
@@ -322,7 +343,7 @@ public class TeacherController {
 		JobConsultation();
 		
 	}
-	
+		
 	
 	
 	
