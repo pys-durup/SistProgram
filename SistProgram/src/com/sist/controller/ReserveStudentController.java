@@ -10,6 +10,7 @@ import com.sist.dto.AvailableApplyListDTO;
 import com.sist.dto.InterviewApplyDTO;
 import com.sist.dto.InterviewResultDTO;
 import com.sist.dto.ReserveStudentDTO;
+import com.sist.main.Login;
 import com.sist.view.ReserveStudentView;
 
 public class ReserveStudentController {
@@ -79,8 +80,7 @@ public class ReserveStudentController {
 		
 		//면접결과 합격일 경우에만 다음 메서드로 넘어가기
 	
-		//InterviewResultDTO dto = new InterviewResultDTO();
-		String result = idto.getResult();
+		String result = idto.getResult(); //생성자 idto를 통해 로그인한 예비학생의 면접결과 가져오기
 		
 		if (result.equals("합격")) {
 			 System.out.println();
@@ -88,7 +88,7 @@ public class ReserveStudentController {
 			 
 			 String num = scan.nextLine(); 
 				 if (num.equals("1")) {	 
-					 //migration();	 
+					 migration();	 
 				 } else {
 					 System.out.println("번호를 잘못 입력하였습니다. 이전 메뉴로 돌아갑니다.");
 					 start();
@@ -104,7 +104,35 @@ public class ReserveStudentController {
 	
 	
 	private void migration() {
-		// TODO Auto-generated method stub
+		
+		view.migrationView();
+		
+		num = scan.nextLine();
+		
+		if (num.equals("1")) {
+
+			ReserveStudentDAO dao = new ReserveStudentDAO();
+			String seq = this.rsdto.getSeq(); //생성자 rsdto의 get메서드로 로그인한 학생번호를 가져와 매개변수 선언
+			int result = dao.addMigration(seq);
+			
+			if (result > 0) {
+				
+				System.out.println("교육생 계정전환이 성공적으로 완료되었습니다. 로그아웃 후 교육생계정으로 다시 로그인해주세요.");
+				Login lg = new Login(); 
+				lg.loginStudent(); //로그인 객체 생성하여 교육생 로그인 메서드 호출하기
+			} else {
+				System.out.println("교육생 계정전환이 정상적으로 완료되지 않았습니다.");
+				pause();
+			}
+			
+			
+		} else if (num.equals("2")) {
+			start();
+		} else {
+			System.out.println("번호를 잘못 입력하였습니다.");
+		}
+		
+		pause();
 		
 	}
 

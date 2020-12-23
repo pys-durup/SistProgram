@@ -143,9 +143,31 @@ public class ReserveStudentDAO {
 			e.printStackTrace();
 		}
 		
-		
 		return null;
 	}
+	
+	
+	public int addMigration(String seq) {
+		
+		try {
+			String sql = "{ call procMigration(?) }";
+			
+			cstat = conn.prepareCall(sql);
+			
+			cstat.setString(1, seq);
+			return cstat.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("ReserveStudentDAO.addMigration()");
+			e.printStackTrace();
+		}
+		
+		
+		return 0;
+	}
+	
+	
+	
 	
 	
 }

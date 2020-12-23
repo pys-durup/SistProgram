@@ -87,6 +87,21 @@ public class ReserveStudentView {
 		System.out.println();
 		
 	}
+
+
+	public void migrationView() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("계정전환");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println();		
+		System.out.printf(" **%s님의 교육생 계정전환**\n", this.rsdto.getName());
+		System.out.println();
+		System.out.printf("교육생으로의 계정전환 이후, 전환한 교육생 계정으로 로그인해주세요.\n");
+		System.out.printf(" (1) 계정전환    (0) 뒤로 가기 ");
+		
+		
+	}
 	
 	
 	
