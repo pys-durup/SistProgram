@@ -20,7 +20,6 @@ import com.sist.dto.JobInfoDTO;
 import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.MasterDTO;
 import com.sist.dto.StudentConsultListDTO;
-import com.test.mvc.AddressDTO;
 import com.sist.dto.QualificationDTO;
 import com.sist.dto.StudentlistDTO;
 import com.sist.dto.TalentedStudentListDTO;
