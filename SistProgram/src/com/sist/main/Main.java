@@ -36,6 +36,10 @@ public class Main {
 				// 관리자 로그인 처리 + controller 호출
 				lg.loginAdmin();
 			} else if (num.equals("5")) {
+				//회원가입(예비교육생) 회원가입 클래스의 회원가입 메서드 호출
+				JoinNewMember jm = new JoinNewMember();
+				jm.join();
+			} else if (num.equals("6")) {
 				System.exit(0);
 			} else {
 				System.out.println("올바르지 않은 입력입니다");
@@ -63,7 +67,8 @@ public class Main {
 		System.out.println("2. 교육생계정으로 로그인");
 		System.out.println("3. 교사계정으로 로그인");
 		System.out.println("4. 관리자계정으로 로그인");
-		System.out.println("5. 프로그램 종료");
+		System.out.println("5. 회원가입");
+		System.out.println("6. 프로그램 종료");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 	}
 	
