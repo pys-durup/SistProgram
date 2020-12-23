@@ -3,6 +3,7 @@ package com.sist.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.sist.dao.AttendanceDAO;
 import com.sist.dao.CourseDAO;
 import com.sist.dao.DataStatisticsDAO;
 import com.sist.dao.JobActivitiesDAO;
@@ -13,6 +14,7 @@ import com.sist.dao.StudentDAO;
 import com.sist.dao.StudentlistDAO;
 import com.sist.dao.TalentedStudentDAO;
 import com.sist.dto.AbleTStudentScoreListDTO;
+import com.sist.dto.AttendanceInfoDTO;
 import com.sist.dto.AttendanceStatisticsDTO;
 import com.sist.dto.CompletStudentListDTO;
 import com.sist.dto.CourseDTO;
@@ -23,7 +25,9 @@ import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.MasterDTO;
 import com.sist.dto.QualificationDTO;
 import com.sist.dto.StudentConsultListDTO;
+import com.sist.dto.StudentDTO;
 import com.sist.dto.StudentlistDTO;
+import com.sist.dto.SubjectListDTO;
 import com.sist.dto.TalentedStudentListDTO;
 import com.sist.view.AdminView;
 
@@ -45,7 +49,7 @@ public class AdminController {
 	private CourseDAO csdao;
 	private JobActivitiesDAO jadao;
 	private DataStatisticsDAO dsdao;
-
+	private AttendanceDAO adao;
 
 
 	public AdminController(MasterDTO mdto) {
@@ -60,6 +64,7 @@ public class AdminController {
 		this.csdao = new CourseDAO();
 		this.jadao = new JobActivitiesDAO();
 		this.dsdao = new DataStatisticsDAO();
+		this.adao = new AttendanceDAO();
 
 	}
 	
@@ -1716,7 +1721,7 @@ public class AdminController {
 			if(num.equals("1")) { 
 				searchStudentNum();
 			} else if (num.equals("2")) {
-				
+				courseAttendance();
 			} else if (num.equals("3")) {
 				break;
 				
@@ -1726,15 +1731,177 @@ public class AdminController {
 			}
 		}
 	}
-	
+
+
+	/**
+	 * 교육생 번호로 검색
+	 */
 	private void searchStudentNum() {
 		// 출결관리 - 교육생 번호로 검색
 		// 교육생 목록 출력
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.print("교육생 번호 입력 :");
+		while (true) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("교육생 번호 입력 :");
+			String stnum = scan.nextLine();
+			
+			StudentDTO dto = sdao.getStudent(stnum);
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("이름 : " + dto.getName());
+			System.out.println("주민번호 : " + dto.getJumin());
+			System.out.println("전화번호 : " + dto.getTel());
+			System.out.println("등록일 : " + dto.getRegdate());
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 과정출결 보기 , 2. 과목별 출결 보기 3. 뒤로가기");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) { 
+				courseAttList(stnum);
+				break;
+			} else if (num.equals("2")) {
+				subjectAttList(stnum);
+				break;
+			} else if (num.equals("3")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+				
+			}
+			
+			
+		}
+	}
+	/**
+	 * 과정 출결 보기
+	 * 학생 번호를 매개변수로 받아 과정의 출결정보를 모두 출력한다
+	 * @param stnum 학생번호
+	 */
+	private void courseAttList(String stnum) {
 		
+		ArrayList<AttendanceInfoDTO> list = adao.courseAttList(stnum);
+		
+		if (list != null) {
+			System.out.println("[날짜]\t[입실시간]\t[퇴실시간]\t[출결상태]");
+			for (AttendanceInfoDTO dto : list ) {
+				System.out.printf("%s\t%s\t%s\t%s\n"
+						, dto.getAlldate()
+						, dto.getIntime()
+						, dto.getOuttime()
+						, dto.getAttstate());
+				
+			}			
+		} else {
+			System.out.println("출결정보가 없습니다");
+		}
+		
+		pause();
 		
 	}
+
+	/**
+	 * 과목별 출결 보기
+	 * @param stnum 학생번호
+	 */
+	private void subjectAttList(String stnum) {
+		
+		while (true) {
+			ArrayList<SubjectListDTO> list = adao.subjectList(stnum);
+			
+			if (list != null) { // 과목 정보 출결 내용이 있을떄
+				System.out.println("[과목번호]\t[과목명]\t[시작일]\t[종료일]\t[교재명]\t[강사명]");
+				for (SubjectListDTO dto : list ) {
+					System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\n"
+							, dto.getSubjectseq()
+							, dto.getSubjectname()
+							, dto.getStartdate()
+							, dto.getEnddate()
+							, dto.getBookname()
+							, dto.getTeachername());
+					
+				}
+				
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.println("1. 과목 번호 입력  2. 뒤로가기");
+				System.out.print("번호를 입력하세요 :");
+				num = scan.nextLine();
+				
+				if (num.equals("1")) {
+					System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+					System.out.print("과목 번호를 입력하세요 :");
+					num = scan.nextLine();
+					
+					SubjectListDTO dto = adao.getsubjectInfo(num);
+					System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+					System.out.println("과목 번호 : " + dto.getSubjectseq());
+					System.out.println("과목명 : " + dto.getBookname());
+					System.out.println("시작일 : " + dto.getStartdate());
+					System.out.println("종료일 : " + dto.getEnddate());
+					System.out.println("책이름 : " + dto.getBookname());
+					System.out.println("강사명 : " + dto.getTeachername() );
+					System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+					
+					subjectAttList(stnum, num);
+
+					pause();
+					
+				} else if (num.equals("2")) {
+					break;
+				} else {
+					System.out.println("잘못된 입력입니다");
+					pause();
+					break;
+				}
+				
+
+			} else { // 과목 정보 출결 내용이 없을때
+				System.out.println("출결정보가 없습니다");
+				pause();
+				break;
+			}
+			
+		}
+		
+	}
+
+
+
+	/**
+	 * 학생번호, 과목번호를 매개변수로 과목의 출결정보를 출력하는 메서드
+	 * @param stnum 학생번호
+	 * @param subjectnum 과목번호
+	 */
+	private void subjectAttList(String stnum, String subjectnum) {
+		
+		ArrayList<AttendanceInfoDTO> list = adao.subjectAttList(stnum, subjectnum);
+		
+		if (list != null) {
+			System.out.println("[날짜]\t[입실시간]\t[퇴실시간]\t[출결상태]");
+			for (AttendanceInfoDTO dto : list ) {
+				System.out.printf("%s\t%s\t%s\t%s\n"
+						, dto.getAlldate()
+						, dto.getIntime()
+						, dto.getOuttime()
+						, dto.getAttstate());
+				
+			}			
+		} else {
+			System.out.println("출결정보가 없습니다");
+			
+		}
+		
+	}
+
+	/**
+	 * 과정별
+	 */
+	private void courseAttendance() {
+		// 출결관리 - 과정별
+		
+	}
+	
+	
 
 	private void pause() {
 		System.out.print("엔터를 누르면 이전화면으로 돌아갑니다");

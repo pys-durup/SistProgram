@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.sist.dto.AttendanceDTO;
+import com.sist.dto.AttendanceInfoDTO;
 import com.sist.dto.StudentsAttendanceDTO;
+import com.sist.dto.SubjectListDTO;
 import com.sist.main.DBUtil;
 
 import oracle.jdbc.OracleTypes;
@@ -94,7 +96,213 @@ public class AttendanceDAO {
 		
 		return null;
 	}
+
+
+
+	/**
+	 * 학생 번호를 매개변수로 입력받아 해당 학생이 수강하고있는 과정의 모든 출석정보 리턴
+	 * @param stnum 학생번호
+	 * @return
+	 */
+	public ArrayList<AttendanceInfoDTO> courseAttList(String stnum) {
+		
+		try {
+			
+			String sql = " { call procAttCourseList( ?, ?) }";
+			ArrayList<AttendanceInfoDTO> list = new ArrayList<AttendanceInfoDTO>();
+			
+			
+			cstat = conn.prepareCall(sql);
+			cstat.setString(1,	stnum);
+			cstat.registerOutParameter(2, OracleTypes.CURSOR);
+			
+			cstat.executeQuery();
+			
+			rs = (ResultSet)cstat.getObject(2);
+			
+			while (rs.next()) {
+				
+				AttendanceInfoDTO dto = new AttendanceInfoDTO();
+				
+				String intime = rs.getString("intime");
+				String outtime = rs.getString("outtime");
+				
+				if(intime == null) {
+					intime = "-";
+				}
+				
+				if(outtime == null) {
+					outtime = "-";
+				}
+				
+				dto.setAlldate(rs.getString("alldate"));
+				dto.setIntime(intime);
+				dto.setOuttime(outtime);
+				dto.setAttstate(rs.getString("attstate"));
+				
+				list.add(dto);
+				
+			}
+			
+			return list;
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("primaryAttendanceDAO.encourseAttList()");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
+
+	/**
+	 * 학생 번호를 매개변수로 입력받아 해당 학생이 수강하고있는 과목 목록을 리턴
+	 * @param stnum 학생번호
+	 * @return
+	 */
+	public ArrayList<SubjectListDTO> subjectList(String stnum) {
+		
+		try {
+			
+			String sql = "{ call procStudentregiSubjectList(?, ?) }";
+			ArrayList<SubjectListDTO> list = new ArrayList<SubjectListDTO>();
+			
+			cstat = conn.prepareCall(sql);
+			cstat.setString(1, stnum);
+			cstat.registerOutParameter(2, OracleTypes.CURSOR);
+			
+			cstat.executeQuery();
+			
+			rs = (ResultSet)cstat.getObject(2);
+			
+			while (rs.next()) {
+				
+				SubjectListDTO dto = new SubjectListDTO();
+				
+				dto.setSubjectseq(rs.getString("subjectseq"));
+				dto.setSubjectname(rs.getString("subjectname"));
+				dto.setStartdate(rs.getString("startdate"));
+				dto.setEnddate(rs.getString("enddate"));
+				dto.setBookname(rs.getString("bookname"));
+				dto.setTeachername(rs.getString("teachername"));
+				
+				
+				list.add(dto);
+				
+			}
+			
+			return list;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("primaryAttendanceDAO.ensubjectList()");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+
+
+	/**
+	 * 과목 번호를 받아서 과목 객체의 정보를 리턴하는 메서드
+	 * @param subjectNum 과목번호
+	 * @return
+	 */
+	public SubjectListDTO getsubjectInfo(String subjectNum) {
+		
+		try {
+			
+			String sql = "select * from vwMakeSubjectList where subjectseq = ?";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, subjectNum);
+			
+			rs = pstat.executeQuery();
+			
+			if (rs.next()) {
+				SubjectListDTO dto = new SubjectListDTO();
+					
+				dto.setSubjectseq(rs.getString("subjectseq"));
+				dto.setSubjectname(rs.getString("subjectname"));
+				dto.setStartdate(rs.getString("startdate"));
+				dto.setEnddate(rs.getString("enddate"));
+				dto.setBookname(rs.getString("bookname"));
+				dto.setTeachername(rs.getString("teachername"));
+				
+				return dto;
+			}
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("primaryAttendanceDAO.engetsubjectInfo()");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
+
+
+	public ArrayList<AttendanceInfoDTO> subjectAttList(String stnum, String subjectnum) {
+		
+		try {
+			
+			String sql = " {call procAttSubjectList( ?, ?, ?) } ";
+			ArrayList<AttendanceInfoDTO> list = new ArrayList<AttendanceInfoDTO>();
+			
+			cstat = conn.prepareCall(sql);
+			cstat.setString(1, stnum);
+			cstat.setString(2, subjectnum);
+			cstat.registerOutParameter(3, OracleTypes.CURSOR);
+			
+			cstat.executeQuery();
+			
+			rs = (ResultSet)cstat.getObject(3);
+			
+			while (rs.next()) {
+				
+				AttendanceInfoDTO dto = new AttendanceInfoDTO();
+				
+				String intime = rs.getString("intime");
+				String outtime = rs.getString("outtime");
+				
+				if(intime == null) {
+					intime = "-";
+				}
+				
+				if(outtime == null) {
+					outtime = "-";
+				}
+				
+				dto.setAlldate(rs.getString("alldate"));
+				dto.setIntime(intime);
+				dto.setOuttime(outtime);
+				dto.setAttstate(rs.getString("attstate"));
+				
+				list.add(dto);
+			}
+			
+			return list;
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("primaryAttendanceDAO.ensubjectAttList()");
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
+
+	
+	
+	
+
 	
 	
 }
+
