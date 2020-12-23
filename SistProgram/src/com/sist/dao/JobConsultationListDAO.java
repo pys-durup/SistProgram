@@ -210,7 +210,7 @@ public int editJobConsulting(JobConsultationListDTO dto2) {
 	return 0;
 	
 }
-
+//취업상담내역 삭제
 public int deleteJobConsulting(String seq) {
 	
 	try {
