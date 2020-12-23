@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 import com.sist.dto.AttendanceDTO;
 import com.sist.dto.AttendanceInfoDTO;
+import com.sist.dto.EndCourseListDTO;
+import com.sist.dto.StudentInfoListDTO;
 import com.sist.dto.StudentsAttendanceDTO;
 import com.sist.dto.SubjectListDTO;
 import com.sist.main.DBUtil;
@@ -246,7 +248,12 @@ public class AttendanceDAO {
 
 
 
-
+	/**
+	 * 학생번호와 과목번호를 받아서 해당 학생이 해당 과목을 듣는동안 생긴 출결데이터 리턴
+	 * @param stnum 학생번호
+	 * @param subjectnum 과목번호
+	 * @return
+	 */
 	public ArrayList<AttendanceInfoDTO> subjectAttList(String stnum, String subjectnum) {
 		
 		try {
@@ -296,8 +303,100 @@ public class AttendanceDAO {
 		}
 		return null;
 	}
+
+
+
+	/**
+	 * 
+	 * @return
+	 */
+	public ArrayList<EndCourseListDTO> allCourseList() {
+
+		try {
+			
+			String sql = "select * from vwAllCourseList";
+			ArrayList<EndCourseListDTO> list = new ArrayList<EndCourseListDTO>();
+			
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+			
+			while (rs.next()) {
+				
+				EndCourseListDTO dto = new EndCourseListDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setCourseName(rs.getString("coursename"));
+				dto.setStartDate(rs.getString("startdate"));
+				dto.setEndDate(rs.getString("enddate"));
+				dto.setTeacherName(rs.getString("teachername"));
+				dto.setRoom(rs.getString("room"));
+			
+				list.add(dto);
+			}
+			
+			return list;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("primaryAttendanceDAO.enallCourseList()");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	// StudentInfoList
+
+
+	public ArrayList<StudentInfoListDTO> courseStudentList(String courseNum) {
+		
+		try {
+			
+			String sql = "{ call procCourseStudentList( ?, ?) }";
+			ArrayList<StudentInfoListDTO> list = new ArrayList<StudentInfoListDTO>();
+			
+			cstat = conn.prepareCall(sql);
+			cstat.setString(1, courseNum);
+			cstat.registerOutParameter(2, OracleTypes.CURSOR);
+			
+			cstat.executeQuery();
+			
+			rs = (ResultSet)cstat.getObject(2);
+			
+			while (rs.next()) {
+				
+				StudentInfoListDTO dto = new StudentInfoListDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setName(rs.getString("name"));
+				dto.setJumin(rs.getString("jumin"));
+				dto.setTel(rs.getString("tel"));
+				dto.setRegdate(rs.getString("regdate"));
+				
+				list.add(dto);
+			
+			}
+			
+			return list;
+			
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("primaryAttendanceDAO.encourseStudentList()");
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
 	
 
+	
+	
+	
+	
+	
+	
 	
 	
 	
