@@ -72,6 +72,48 @@ public class JobActivitiesDAO {
 		
 		return null;
 	}
+	
+	/**
+	 * 과목 번호를 받아서 종료된 과정중 하나의 객체를 리턴하는 메서드
+	 * @param num
+	 * @return
+	 */
+	public EndCourseListDTO getEndCours(String num) {
+try {
+			
+			String sql = "select * from vwEndCourseList where seq = ?";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, num);
+			
+			rs = pstat.executeQuery();
+			
+			while (rs.next()) {
+				EndCourseListDTO dto = new EndCourseListDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setCourseName(rs.getString("coursename"));
+				dto.setStartDate(rs.getString("startdate"));
+				dto.setEndDate(rs.getString("enddate"));
+				dto.setTeacherName(rs.getString("teachername"));
+				dto.setRoom(rs.getString("room"));
+
+				return dto;
+			}
+		
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("primaryJobActivitiesDAO.enEndCourseList()");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	 
+	
+	
+	
 
 	/**
 	 * 과정의 번호를 받아 해당 과정을 수료한 수료생의 목록을 리턴하는 메서드
@@ -107,6 +149,48 @@ public class JobActivitiesDAO {
 			
 			return list;
 			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("primaryJobActivitiesDAO.encompletStudentList()");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 과정의 번호를 받아 해당 과정을 수료후 취업한 수료생의 목록을 리턴하는 메서드
+	 * @param num
+	 * @return
+	 */
+	public ArrayList<CompletStudentListDTO> gotJobCompletStudentList(String num) {
+		
+		try {
+			
+			String sql = " { call procGetJobStudentList(?, ?) }";
+			ArrayList<CompletStudentListDTO> list = new ArrayList<CompletStudentListDTO>();
+			
+			cstat = conn.prepareCall(sql);
+			cstat.setString(1, num);
+			cstat.registerOutParameter(2, OracleTypes.CURSOR);
+			
+			cstat.executeQuery();
+			
+			rs = (ResultSet)cstat.getObject(2);
+			
+			while (rs.next()) {
+				CompletStudentListDTO dto = new CompletStudentListDTO();
+				
+				dto.setName(rs.getString("name"));
+				dto.setJumin(rs.getString("jumin"));
+				dto.setTel(rs.getString("tel"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setReginum(rs.getString("reginum"));
+				
+				list.add(dto);
+			}
+			
+			return list;
 			
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -117,6 +201,7 @@ public class JobActivitiesDAO {
 		return null;
 	}
 
+	
 	/**
 	 * 수강번호를 받아서 구직 정보를 조회하는 메서드
 	 * @param reginum

@@ -1,7 +1,7 @@
 package com.sist.dto;
 
-public class StudentsRegiCourceDTO { //교육생, 수강, 수강상태 테이블 
-	//StudentDAO에서 수강번호, 수강상태 정보를 얻어야 할 때 사용
+public class StudentsRegiCourceDTO { //교육생, 수강, 수강상태 테이블, 수료테이블 
+	//StudentDAO에서 수강번호, 수강상태 정보, 수료번호 정보를 얻어야 할 때 사용
 	private String seq; //교육생번호
 	private String name; //교육생이름
 	private String jumin;  //교육생주민번호
@@ -11,6 +11,7 @@ public class StudentsRegiCourceDTO { //교육생, 수강, 수강상태 테이블
 	private String createdCourceNum; //개설과정번호
 	private String regiStateNum; //수강상태번호
 	private String regiState; //수강상태 
+	private String CourceCompletNum; //수료 테이블의 수료번호(seq)
 	
 	
 	public String getSeq() {
@@ -66,6 +67,12 @@ public class StudentsRegiCourceDTO { //교육생, 수강, 수강상태 테이블
 	}
 	public void setRegiState(String regiState) {
 		this.regiState = regiState;
+	}
+	public String getCourceCompletNum() {
+		return CourceCompletNum;
+	}
+	public void setCourceCompletNum(String courceCompletNum) {
+		CourceCompletNum = courceCompletNum;
 	}
 	
 }
