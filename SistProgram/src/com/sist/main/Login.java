@@ -181,7 +181,7 @@ public class Login {
 					if (check == false) {
 						// 로그인 성공
 						StudentDAO sdao = new StudentDAO();
-						StudentController Student = new StudentController(sdao.getStudent(seq));
+						StudentController Student = new StudentController(sdao.getStudent(seq), sdao.getStudentsRegiCource(seq));
 						Student.start();
 					} else {
 						// 로그인 실패

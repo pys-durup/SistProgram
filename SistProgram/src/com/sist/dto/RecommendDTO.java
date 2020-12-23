@@ -5,7 +5,7 @@ public class RecommendDTO {
 	private String seq;
 	private String studenNum;
 	private String companyNum;
-	private String date;
+	private String recodate;
 	
 	public String getSeq() {
 		return seq;
@@ -25,11 +25,11 @@ public class RecommendDTO {
 	public void setCompanyNum(String companyNum) {
 		this.companyNum = companyNum;
 	}
-	public String getDate() {
-		return date;
+	public String getRecoDate() {
+		return recodate;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setRecoDate(String recodate) {
+		this.recodate = recodate;
 	}
 	
 	

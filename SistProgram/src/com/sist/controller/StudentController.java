@@ -3,15 +3,21 @@ package com.sist.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.sist.dao.AttendanceDAO;
 import com.sist.dao.CourseConsultationDAO;
 import com.sist.dao.JobConsultationDAO;
+import com.sist.dao.QualificationDAO;
 import com.sist.dao.ScoreDAO;
 import com.sist.dao.StudentDAO;
 import com.sist.dao.TeacherEvaluationDAO;
+import com.sist.dto.AttendanceDTO;
 import com.sist.dto.CourseConsultationDTO;
 import com.sist.dto.JobConsultationDTO;
+import com.sist.dto.QualificationDTO;
 import com.sist.dto.ScoreAndSubjectDTO;
 import com.sist.dto.StudentDTO;
+import com.sist.dto.StudentsAttendanceDTO;
+import com.sist.dto.StudentsRegiCourceDTO;
 import com.sist.dto.TeacherEvaluationDTO;
 import com.sist.view.StudentView;
 
@@ -20,12 +26,13 @@ public class StudentController {
 	private String num = ""; // 사용자가 입력하는 번호
 	private static Scanner scan = new Scanner(System.in);
 	private StudentDTO sdto; // 로그인한 계정의 정보를 담을 객체
-	private TeacherEvaluationDAO tdao; // DB작업에 사용할 객체
-	private TeacherEvaluationDTO tdto; // 값을 포장할 객체
+	private TeacherEvaluationDAO tdao; // 교사평가 DB작업에 사용할 객체 
 	private StudentView view; //출력문 메서드를 모아놓은 객체
+	private StudentsRegiCourceDTO srdto;
 	
-	public StudentController(StudentDTO sdto) {
+	public StudentController(StudentDTO sdto, StudentsRegiCourceDTO srdto) {
 		this.sdto = sdto; // 로그인한 교육생의 계정 정보를 담는다
+		this.srdto = srdto; //로그인한 교육생의 교육생테이블, 교육생&수강테이블 정보 담기 (수강번호가 필요)
 		this.tdao = new TeacherEvaluationDAO();
 		this.view = new StudentView(sdto);  //각 메서드마다 뷰 객체 찍어내지 않고 바로 호출
 	}
@@ -41,7 +48,7 @@ public class StudentController {
 			num = scan.nextLine();
 			
 			if(num.equals("1")) { //1. 출결체크 및 조회
-				
+				studentAttendance();
 			} else if (num.equals("2")) { //2. 성적 조회
 				studentScore();
 			} else if (num.equals("3")) { //3. 상담 일지
@@ -50,7 +57,7 @@ public class StudentController {
 				studentEvaluation(); 
 				break;
 			} else if (num.equals("5")) { //5. 취업활동 관리
-				// 로그아웃
+				jobMenu();
 				break;
 			} else {
 				System.out.println("잘못된 입력입니다");
@@ -62,6 +69,305 @@ public class StudentController {
 	}
 	
 	
+	private void jobMenu() {
+		//취업관리 메뉴
+		view.jobMenuView();
+		
+		boolean check = true;
+		num = scan.nextLine();
+		
+		while (check) {
+		
+			if (num.equals("1")) {
+				qualificationMenu(); //구직활동 관리 메뉴
+				break;
+			} else if (num.equals("2")) {
+				//jobInfoMenu(); //취업내역 관리 메뉴
+				break;
+			} else if (num.equals("0")) {
+				start(); //이전으로
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
+		
+		
+	}
+
+
+
+
+	private void qualificationMenu() {
+		//구직활동 메뉴
+		view.qualificationMenu();
+		
+		boolean check = true;
+		num = scan.nextLine();
+		
+		while (check) {
+		
+			if (num.equals("1")) {
+				addqualification(); //구직활동 등록
+				break;
+			} else if (num.equals("2")) {
+				listqualification(); //구직활동 조회
+				break;
+			} else if (num.equals("3")) {
+				editqualification(); //구직활동 수정
+				break;
+			} else if (num.equals("4")) {
+				//deletequalification(); //구직활동 삭제
+			} else if (num.equals("0")) {
+				start();
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
+		
+		
+	}
+
+	
+
+	private void editqualification() {
+		//구직활동 수정하기 메서드
+		view.editqualificationView();
+		
+		QualificationDTO dto = new QualificationDTO();
+		
+		System.out.println("(1) 수정할 보유 자격증 항목: ");
+		String license = scan.nextLine();
+		if (license.equals("")) {
+			license = dto.getLicense();
+		}
+		
+		System.out.println("(2) 수정할 이력서 저장 드라이브 주소 항목: ");
+		String resume = scan.nextLine();
+		if (resume.equals("resume")) {
+			resume = dto.getResume();
+		}
+		
+		System.out.println("(3) 수정할 희망직무 항목: ");
+		String Job = scan.nextLine();
+		if (Job.equals("Job")) {
+			Job = dto.getResume();
+		}
+		
+		System.out.println("(4) 수정할 깃허브 주소 항목: ");
+		String github = scan.nextLine();
+		if (github.equals("github")) {
+			github = dto.getGithub();
+		}
+		
+		System.out.println("(5) 수정할 희망연봉 항목: ");
+		String salary = scan.nextLine();
+		if (salary.equals("salary")) {
+			salary = dto.getSalary();
+		}
+		
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println(" **수정한 구직활동정보 재등록을 위해 1번을 눌러주세요.");
+		
+		String num = scan.nextLine();
+		
+		
+		if (num.equals("1")) {
+			
+			QualificationDAO dao = new QualificationDAO();
+			QualificationDTO dto2 = new QualificationDTO();
+			
+			dto2.setLicense(license);
+			dto2.setResume(resume);
+			dto2.setJob(Job);
+			dto2.setGithub(github);
+			dto2.setSalary(salary);
+			
+			int result = dao.editQualification(dto2);
+			
+			if (result > 0) {
+				System.out.println("구직활동정보 등록을 성공하였습니다.");
+			} else {
+				System.out.println("구직활동정보 등록을 실패하였습니다.");
+			}
+			
+		} else {
+			System.out.println("수정은 1번을 눌러주세요. 구직활동정보가 재등록되지 않았습니다.");
+		}
+		
+		
+		
+	}
+
+
+	private void listqualification() {
+		//구직활동 조회하기 메서드
+		view.listqualificationView();
+
+		String pregiNum = this.srdto.getrSeq(); 
+		//생성자로 만든 srdto의 get메서드를 통해 DAO의 메서드로 넘길 매개변수 선언
+		
+		QualificationDAO dao = new QualificationDAO();
+		
+		ArrayList<QualificationDTO> list = dao.list(pregiNum);
+		
+		for (QualificationDTO dto : list) {
+			System.out.printf("[보유자격증] %s\n[이력서] %s\n[희망 직무] %s\n[깃허브 주소] %s\n[희망 연봉] %s\n"
+								, dto.getLicense()
+								, dto.getResume()
+								, dto.getJob()
+								, dto.getGithub()
+								, dto.getSalary());
+		}
+		pause();		
+		
+	}
+
+
+	private void addqualification() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("구직활동정보 등록");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("(1) 보유자격증 입력: ");
+		String license = scan.nextLine();
+		System.out.println("(2) 이력서 저장 드라이브 주소 입력: ");
+		String resume = scan.nextLine();
+		System.out.println("(3) 희망 직무 입력: ");
+		String job = scan.nextLine();
+		System.out.println("(4) 깃허브 주소 입력: ");
+		String github = scan.nextLine();
+		System.out.println("(5) 희망연봉 입력(*숫자만 입력): ");
+		//연봉 입력시, 숫자(NUMBER)가 아니면 오라클 테이블 지정 자료형크기보다 커서 안 들어간다...(에러난다)
+		String salary = scan.nextLine();
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println(" **작성한 구직활동정보 등록을 위해 1번을 눌러주세요.");
+		
+		String num = scan.nextLine();
+		
+		if (num.equals("1")) {
+			
+			 QualificationDTO dto = new QualificationDTO();
+			 QualificationDAO dao = new  QualificationDAO();
+			
+			 String pregiNum = this.srdto.getrSeq();
+			 //생성자로 만든 srdto의 get메서드로 수강과정번호 받아오기
+			 
+			 dto.setLicense(license);
+			 dto.setResume(resume);
+			 dto.setJob(job);
+			 dto.setGithub(github);
+			 dto.setSalary(salary);
+			 dto.setRegiNum(pregiNum);
+			 
+			 int result = dao.addQualification(dto);
+			 
+			 if (result > 0) {
+				 System.out.println("구직활동정보 등록을 완료하였습니다.");
+			 } else {
+				 System.out.println("구직활동정보 등록을 실패하였습니다.");
+			 }
+			 
+		} else {
+			System.out.println("구직활동정보 등록은 1번을 눌러주세요. 글이 등록되지 않았습니다.");
+		}
+		
+		qualificationMenu();
+	}
+
+
+	private void studentAttendance() {
+		view.studentAttendanceMenu();
+		
+		boolean check = true;
+		num = scan.nextLine();
+		
+		while (check) {
+		
+			if (num.equals("1")) {
+				checkAttendance(); //출석체크하기
+				break;
+			} else if (num.equals("2")) {
+				listStudentAttendance(); //출결 전체조회하기
+				break;
+			} else if (num.equals("0")) {
+				start(); //학생 메인메뉴로 회귀
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
+		
+		
+	}
+
+	
+
+	private void listStudentAttendance() {
+		view.listAttendance();
+	
+		String pregiNum = this.srdto.getrSeq(); 
+		//생성자로 만들어놓은 srdto의 수강번호를 프로시저에 필요한 매개변수로 쓸 것임.
+		String pcreatedCourceNum = this.srdto.getCreatedCourceNum();
+		//생성자로 만들어놓은 srdto의 개설과정번호를 프로시저에 필요한 매개변수로 쓸 것임.
+		AttendanceDAO dao = new AttendanceDAO();
+		
+		ArrayList<StudentsAttendanceDTO> list = dao.list(pregiNum, pcreatedCourceNum);
+		
+		System.out.printf("[날짜]\t\t[근태상황]\n");
+		System.out.println();
+		for (StudentsAttendanceDTO dto : list) {
+		
+			System.out.printf("%s\t\t%s\n",
+								dto.getAlldates(),
+								dto.getAttstate());
+		}
+		
+		pause();
+	}
+
+
+	
+	private void checkAttendance() {
+		view.addAttendance();
+		
+		String num = scan.nextLine();
+		
+		if (num.equals("1")) { //출석체크 진행
+			AttendanceDTO dto = new AttendanceDTO();
+			AttendanceDAO dao = new AttendanceDAO();
+			
+			String pregiNum = srdto.getrSeq(); //프로시저 호출시 필요한 매개변수인 수강번호를 srdto(생성자로 만듦)를 통해 가져오기.
+			
+			dto.setRegiNum(pregiNum);
+			
+			int result = dao.addAttendance(dto); //매개변수를 담은 dto를 dao의 메서드로 넘기며 호출
+			
+			if (result > 0) {
+				System.out.println("출석체크를 하셨습니다.");
+			} else {
+				System.out.println("출석체크가 정상적으로 되지 않았습니다.");
+			}
+			
+		} else if (num.equals("0")) { // //출석메뉴 뒤로 가기
+			studentAttendance();
+		} else {
+			System.out.println("번호를 잘못 입력하셨습니다.");
+			pause();
+		}
+		
+		
+	}
+
+
 	private void studentConsultation() {
 		view.ConsultationMenuView();
 		
@@ -160,7 +466,7 @@ public class StudentController {
 
 	private void studentEvaluation() {
 				
-		view.evaluationMenu(); //학생 메인메뉴 메서드 호출
+		view.evaluationMenu(); //교사평가메뉴 메서드 호출
 				
 		boolean check = true;
 		num = scan.nextLine();

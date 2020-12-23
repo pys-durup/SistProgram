@@ -3,19 +3,29 @@ package com.sist.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.sist.dao.LinkCompanyDAO;
+
 import com.sist.dao.StudentConsultListDAO;
+import com.sist.dao.CourseDAO;
+import com.sist.dao.JobActivitiesDAO;
+import com.sist.dao.LinkCompanyDAO;
+import com.sist.dao.RecommendDAO;
 import com.sist.dao.StudentDAO;
 import com.sist.dao.StudentlistDAO;
 import com.sist.dao.TalentedStudentDAO;
 import com.sist.dto.AbleTStudentScoreListDTO;
+import com.sist.dto.CompletStudentListDTO;
+import com.sist.dto.CourseDTO;
+import com.sist.dto.EndCourseListDTO;
+import com.sist.dto.JobInfoDTO;
 import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.MasterDTO;
 import com.sist.dto.StudentConsultListDTO;
-import com.sist.dto.StudentConsultListDTO;
+import com.test.mvc.AddressDTO;
+import com.sist.dto.QualificationDTO;
 import com.sist.dto.StudentlistDTO;
 import com.sist.dto.TalentedStudentListDTO;
-import com.test.mvc.AddressDTO;
+import com.sist.view.AdminView;
+
 
 
 public class AdminController {
@@ -23,20 +33,30 @@ public class AdminController {
 	private String num = ""; // 사용자가 입력하는 번호
 	private static Scanner scan = new Scanner(System.in);;
 	private MasterDTO mdto; // 로그인한 계정의 정보를 담을 객체
+	private AdminView aview;
 
 	private StudentlistDAO sldao;
 	private StudentDAO sdao;
 	private LinkCompanyDAO lcdao;
 	private TalentedStudentDAO tsdao;
 	private StudentConsultListDAO scldao;
+	private RecommendDAO rdao;
+	private CourseDAO csdao;
+	private JobActivitiesDAO jadao;
+
 
 
 	public AdminController(MasterDTO mdto) {
 		this.mdto = mdto; // 로그인한 관리자의 계정 정보를 담는다
+		this.aview = new AdminView();
 		this.sdao = new StudentDAO();
 		this.lcdao = new LinkCompanyDAO();
 		this.tsdao = new TalentedStudentDAO();
 		this.sldao = new StudentlistDAO();
+		this.rdao = new RecommendDAO();
+		this.csdao = new CourseDAO();
+		this.jadao = new JobActivitiesDAO();
+
 	}
 	
 	public void start() {
@@ -52,7 +72,7 @@ public class AdminController {
 			System.out.println("3. 개설과목 관리");
 			System.out.println("4. 출결 관리");
 			System.out.println("5. 성적 관리");
-			System.out.println("6. 취업활동 관리");
+			System.out.println("6. 취업현황 조회");
 			System.out.println("7. 취업지원 관리");
 			System.out.println("8. 데이터 통계 관리");
 			System.out.println("9. 상담일지 관리");
@@ -62,17 +82,17 @@ public class AdminController {
 			num = scan.nextLine();
 			
 			if(num.equals("1")) {
-				
+				basicinfoManagement(); //기초정보 관리
 			} else if (num.equals("2")) { 
-				
+				makecourseManagement(); //개설 과정 관리
 			} else if (num.equals("3")) { 
-				
+				makesubjectManagement(); //개설 과목 관리 
 			} else if (num.equals("4")) { 
 				attendanceManagement(); // 출결 관리 - 박영수
 			} else if (num.equals("5")) { 
 				scoreManagement();
 			} else if (num.equals("6")) { 
-				jobactivitiesManagement(); // 취업활동 관리 - 박영수
+				jobactivitiesManagement(); // 취업현황 조회 - 박영수
 			} else if (num.equals("7")) {
 				jobSupportManagement(); // 취업지원 관리 - 박영수
 			} else if (num.equals("8")) { 
@@ -143,6 +163,7 @@ public class AdminController {
 								, dto.getSname()
 								, dto.getJumin()
 								, dto.getRegiState());
+
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");	
 		System.out.println("상담조회를 원하는 교육생의 번호를 입력해주세요.");
 		System.out.print("번호입력 : ");
@@ -155,6 +176,7 @@ public class AdminController {
 			pause();
 		}
 		//pause();
+
     }
 	}
 //수정중***********************************************************************  
@@ -185,31 +207,160 @@ public class AdminController {
 		}
 	}
 
-	private void dataStatisticsManagement() {
-		// 데이터 통계 관리
-	  }
 
-	  private void jobSupportManagement() {
-      // 취업지원 관리
-      while(true) {
-        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        System.out.println("취업지원 관리");
-        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        System.out.println("1. 연계기업 관리");
-        System.out.println("2. 추천인재 관리");
-        System.out.println("3. 기업에 인재추천");
-        System.out.println("4. 뒤로가기");
+	private void CourseconsultationAdd() {
+		// 관리자 - 상담 관리 - 상담 추가
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[상담 추가]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+//		System.out.println("상담번호 : ");
+//		String consultseq = scan.nextLine();
+		
+		System.out.println("상담날짜 : ");
+		String consultDate = scan.nextLine();
+		
+		System.out.println("교육생이름 : ");
+		String sname = scan.nextLine();
+		
+		System.out.println("과목번호 : ");
+		String subjectSeq = scan.nextLine();
+		
+		System.out.println("과목명 : ");
+		String subjectName = scan.nextLine();
+
+		System.out.println("과정기간 (ex)2020/01/01-2020/12/31): ");
+		String courseDate = scan.nextLine();
+		
+		System.out.println("상담사유 : ");
+		String consultReason = scan.nextLine();
+			
+		System.out.println("상담내용 : ");
+		String consultContent = scan.nextLine();
+
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	
+		StudentConsultListDTO dto = new StudentConsultListDTO();
+		
+		dto.setConsultDate(consultDate);
+		dto.setSname(sname);
+		dto.setSubjectSeq(subjectSeq);
+		dto.setSubjectName(subjectName);
+		dto.setCourseDate(courseDate);
+		dto.setConsultReason(consultReason);
+		dto.setConsultContent(consultContent);
+			
+		int result = scldao.add(dto);
+		
+		if(result == 1) {
+			System.out.println("상담 추가 성공입니다.");
+		}else {
+			System.out.println("상담 추가 실패입니다.");
+		}
+			
+		pause();
+	}
+
+	private void CourseconsultationEdit() {
+		// 관리자 - 상담 관리 - 상담 수정
+		
+	}
+
+	private void CourseconsultationDelete() {
+		// 관리자 - 상담 관리 - 상담 삭제
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[상담 삭제]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList(null); 
+		
+		for (StudentConsultListDTO dto : list) {
+			System.out.printf("%s\t%s\t%s\t%s\n", dto.getSeq(), dto.getSname(), dto.getSubjectName(), dto.getConsultContent());
+		}
+		System.out.println();
+		
+		System.out.print("삭제할 상담 번호 : ");
+		String seq = scan.nextLine();
+		
+		int result = scldao.delete(seq);
+		
+		if(result>0) {
+			System.out.println("상담 삭제 성공입니다.");
+		}else {
+			System.out.println("상담 삭제 실패입니다.");
+		}
+		
+		
+		
+		pause();
+		
+		
+	}
+
+	private void scoreManagement() {
+		// 성적 관리
+		boolean check = true;
+		while (check) {
+
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("[성적 관리]");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 성적 조회");
+			System.out.println("2. 성적 추가");
+			System.out.println("3. 성적 수정");
+			System.out.println("4. 성적 삭제");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+					
+				if(num.equals("1")) {
+															
+				}else if(num.equals("2")) {
+					
+				}else if(num.equals("3")) {
+						
+				}else if(num.equals("4")) {					
+					
+				}else {
+					System.out.println("잘못된 입력입니다");
+					pause();
+					break;
+				}
+		}
+	}		
 
   
-			if(num.equals("1")) { 
+  private void dataStatisticsManagement() {
+		// 데이터 통계 관리
+	}
+
+	/**
+	 * 취업지원 관리 메뉴
+	 */
+	private void jobSupportManagement() {
+		// 취업지원 관리
+		while (true) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("취업지원 관리");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 연계기업 관리");
+			System.out.println("2. 추천인재 관리");
+			System.out.println("3. 기업에 인재추천");
+			System.out.println("4. 뒤로가기");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+
+			if (num.equals("1")) {
 				enterpriseManagement();
 			} else if (num.equals("2")) {
 				talentedStudentManagement();
 			} else if (num.equals("3")) {
-				
+				recommendManagement();
 			} else if (num.equals("4")) {
 				break;
-			}else {
+			} else {
 				System.out.println("잘못된 입력입니다");
 				pause();
 			}
@@ -424,128 +575,6 @@ public class AdminController {
 		
 	}
 
-
-	private void CourseconsultationAdd() {
-		// 관리자 - 상담 관리 - 상담 추가
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("[상담 추가]");
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		
-//		System.out.println("상담번호 : ");
-//		String consultseq = scan.nextLine();
-		
-		System.out.println("상담날짜 : ");
-		String consultDate = scan.nextLine();
-		
-		System.out.println("교육생이름 : ");
-		String sname = scan.nextLine();
-		
-		System.out.println("과목번호 : ");
-		String subjectSeq = scan.nextLine();
-		
-		System.out.println("과목명 : ");
-		String subjectName = scan.nextLine();
-
-		System.out.println("과정기간 (ex)2020/01/01-2020/12/31): ");
-		String courseDate = scan.nextLine();
-		
-		System.out.println("상담사유 : ");
-		String consultReason = scan.nextLine();
-			
-		System.out.println("상담내용 : ");
-		String consultContent = scan.nextLine();
-
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-	
-		StudentConsultListDTO dto = new StudentConsultListDTO();
-		
-		dto.setConsultDate(consultDate);
-		dto.setSname(sname);
-		dto.setSubjectSeq(subjectSeq);
-		dto.setSubjectName(subjectName);
-		dto.setCourseDate(courseDate);
-		dto.setConsultReason(consultReason);
-		dto.setConsultContent(consultContent);
-			
-		int result = scldao.add(dto);
-		
-		if(result == 1) {
-			System.out.println("상담 추가 성공입니다.");
-		}else {
-			System.out.println("상담 추가 실패입니다.");
-		}
-			
-		pause();
-	}
-
-	private void CourseconsultationEdit() {
-		// 관리자 - 상담 관리 - 상담 수정
-		
-	}
-
-	private void CourseconsultationDelete() {
-		// 관리자 - 상담 관리 - 상담 삭제
-		
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("[상담 삭제]");
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		
-		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList(null); 
-		
-		for (StudentConsultListDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\n", dto.getSeq(), dto.getSname(), dto.getSubjectName(), dto.getConsultContent());
-		}
-		System.out.println();
-		
-		System.out.print("삭제할 상담 번호 : ");
-		String seq = scan.nextLine();
-		
-		int result = scldao.delete(seq);
-		
-		if(result>0) {
-			System.out.println("상담 삭제 성공입니다.");
-		}else {
-			System.out.println("상담 삭제 실패입니다.");
-		}
-		
-		
-		
-		pause();
-		
-		
-	}
-
-	private void scoreManagement() {
-		// 성적 관리
-		boolean check = true;
-		while (check) {
-
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("[성적 관리]");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("1. 성적 조회");
-			System.out.println("2. 성적 추가");
-			System.out.println("3. 성적 수정");
-			System.out.println("4. 성적 삭제");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.print("번호를 입력하세요 :");
-			num = scan.nextLine();
-					
-				if(num.equals("1")) {
-															
-				}else if(num.equals("2")) {
-					
-				}else if(num.equals("3")) {
-						
-				}else if(num.equals("4")) {					
-					
-				}else {
-					System.out.println("잘못된 입력입니다");
-					pause();
-					break;
-				}
-		}
-		}		
 
 	/**
 	 * 연계 기업 수정
@@ -867,16 +896,7 @@ public class AdminController {
 		System.out.print("검색할 번호를 입력하세요 :");
 		num = scan.nextLine();
 		
-		ArrayList<TalentedStudentListDTO> list = tsdao.talentedStudenList(num);
-		
-		for (TalentedStudentListDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
-									, dto.getSeq()
-									, dto.getName()
-									, dto.getTel()
-									, dto.getPortfolio()
-									, dto.getReason());
-		}
+		aview.TalentedStudentListView();
 		
 		pause();
 		
@@ -886,22 +906,65 @@ public class AdminController {
 	 */
 	private void talentedStudenAdd() {
 		//취업지원 관리 - 추천인재 관리 - 추천 인재 추가
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("추천 인재 추가");
-		System.out.println("수료생중 성적이 높은 10명");
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		ArrayList<AbleTStudentScoreListDTO> list = tsdao.ableTStudentScoreList();
 		
-		for(AbleTStudentScoreListDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
-									, dto.getReginum()
-									, dto.getName()
-									, dto.getWriter()
-									, dto.getPractice()
-									, dto.getAttendance());
+		while(true) {
+			
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("추천 인재 추가");
+			System.out.println("수료생중 성적이 높은 10명");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("[번호]  [이름]  [필기]  [실기]  [출결]");
+			ArrayList<AbleTStudentScoreListDTO> list = tsdao.ableTStudentScoreList();
+			
+			for(AbleTStudentScoreListDTO dto : list) {
+				System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+						, dto.getReginum()
+						, dto.getName()
+						, dto.getWriter()
+						, dto.getPractice()
+						, dto.getAttendance());
+			}
+			
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 추가하기 2. 뒤로가기");
+			System.out.print("번호를 선택하세요 : ");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) {
+				// 추가하기 진행
+				System.out.print("추가할 학생의 번호를 입력하세요 :");
+				num = scan.nextLine();
+				System.out.print("포트폴리오 주소 입력 : ");
+				String portfolio = scan.nextLine();
+				System.out.print("인재 선정 이유 입력 : ");
+				String reason = scan.nextLine();
+				
+				if(num.equals("") || portfolio.equals("") || reason.equals("")) {
+					System.out.println("잘못된 입력입니다");
+					pause();
+					break;
+				}
+				
+				int result = tsdao.talentedStudenAdd(num, portfolio, reason);
+				
+				if (result > 0) {
+					System.out.println("인재 추가 성공");
+				} else {
+					System.out.println("인재 추가 실패");
+				}
+				
+				pause();
+				break;
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+			
 		}
-		
-		pause();
 		
 	}
 	/**
@@ -909,6 +972,78 @@ public class AdminController {
 	 */
 	private void talentedStudenEdit() {
 		//취업지원 관리 - 추천인재 관리 - 추천 인재 수정
+		while(true) {
+			aview.TalentedStudentListView();
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 수정하기 2. 뒤로가기");
+			System.out.print("번호를 선택하세요 : ");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) {
+				// 수정하기 진행
+				System.out.print("수정할 학생의 번호를 입력하세요 :");
+				num = scan.nextLine();
+				
+				// seq정보를 주면 그기업의 정보를 반환시켜주는 메서드
+				TalentedStudentListDTO dto = tsdao.getTalentedStudent(num);
+				
+				// 수정할 기업의 정보
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.println("수정할 인재 정보");
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.println("이름       : " + dto.getName());
+				System.out.println("전화번호   : " + dto.getTel());
+				System.out.println("포트폴리오 : " + dto.getPortfolio());
+				System.out.println("추천이유   : " + dto.getReason());
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.println("━━━━━━━━━━━━━━ 수정을 하지 않는 컬럼은 엔터를 입력하시오 ━━━━━━━━━━━━━━━━━━━");
+				System.out.print("수정할 포트폴리오 : ");
+				String portfolio = scan.nextLine();
+				
+				if (portfolio.equals("")) {
+					portfolio = dto.getPortfolio();
+				} else {
+					dto.setPortfolio(portfolio);
+				}
+				
+				System.out.print("수정할 추천이유 : ");
+				String reason = scan.nextLine();
+				
+				if (reason.equals("")) {
+					reason = dto.getReason();
+				} else {
+					dto.setReason(reason);
+				}
+				
+				TalentedStudentListDTO dto2 = new TalentedStudentListDTO();
+				
+				dto2.setSeq(dto.getSeq());
+				dto2.setName(dto.getName());
+				dto2.setTel(dto.getTel());
+				dto2.setPortfolio(dto.getPortfolio());
+				dto2.setReason(dto.getReason());
+
+			
+				int result = tsdao.talentedStudenEdit(dto2);
+				
+				if (result > 0) {
+					System.out.println("인재 수정 성공");
+				} else {
+					System.out.println("인재 수정 실패");
+				}
+
+				
+				pause();
+				break;
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
 		
 	}
 	/**
@@ -917,13 +1052,447 @@ public class AdminController {
 	private void talentedStudenDelete() {
 		//취업지원 관리 - 추천인재 관리 - 추천 인재 삭제
 		
+		while(true) {
+			aview.TalentedStudentListView();
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 삭제하기 2. 뒤로가기");
+			System.out.print("번호를 선택하세요 : ");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) {
+				// 삭제하기 진행
+				System.out.print("삭제할 학생의 번호를 입력하세요 :");
+				num = scan.nextLine();
+				
+				int result = tsdao.talentedStudenDelete(num);
+				
+				if (result > 0) {
+					System.out.println("인재 삭제 성공");
+				} else {
+					System.out.println("인재 삭제 실패");
+				}
+				
+				pause();
+				break;
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
 	}
 
-	private void jobactivitiesManagement() {
-		// 취업활동 관리
+
+	/**
+	 * 기업에 인재 추천 메뉴
+	 */
+	private void recommendManagement() {
+		// 취업지원 관리 - 기업에 인재 추천
+		while (true) {
+
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("추천인재 관리");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 추천현황 조회");
+			System.out.println("2. 기업인재추천 등록");
+			System.out.println("3. 기업인재추천 취소");
+			System.out.println("4. 뒤로가기");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+
+			if (num.equals("1")) {
+				recommendList();
+			} else if (num.equals("2")) {
+				recommendAdd();
+			} else if (num.equals("3")) {
+				recommendDelete();
+			} else if (num.equals("4")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+			}
+		}
+
+	}
+
+	/**
+	 *  추천 현황 조회
+	 */
+	private void recommendList() {
+		//취업지원 관리 - 기업에 인재 추천 - 추천 현황 조회
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("추천 인재 조회");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+		aview.recommendStudentListView();
+		
+		pause();
+	}
+
+	/**
+	 *  기업인재추천 등록
+	 */
+	private void recommendAdd() {
+		//취업지원 관리 - 기업에 인재 추천 - 기업인재추천 등록
+		
+		while(true) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("인재 추천 등록");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			
+			// 추천 할 인재 선택
+			aview.TalentedStudentListView();
+			
+			System.out.println("1. 인재 추천하기 2. 뒤로가기");
+			System.out.print("번호를 선택하세요 : ");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) {
+				// 인재 추천하기 진행
+				System.out.print("추천할 인재의 번호를 선택하세요 : ");
+				num = scan.nextLine();
+				
+				// 추천할 인재의 객체
+				TalentedStudentListDTO studentdto = tsdao.getTalentedStudent(num);
+				
+				aview.enterpriseListView();
+				System.out.print("추천할 기업 번호를 선택하세요 : ");
+				num = scan.nextLine();
+				
+				// 추천할 연계기업의 객체
+				LinkCompanyDTO companydto = lcdao.getLinkCompany(num);
+				
+				
+				// 두개의 객체를 전달해서 등록시킨다
+				int result = rdao.recommendStudentADD(studentdto, companydto);
+				
+				if (result > 0) {
+					System.out.println("추천 등록 성공");
+				} else {
+					System.out.println("추천 등록 실패");
+				}
+				
+				pause();
+				break;
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력");
+				pause();
+				break;
+			}
+					
+		}
 		
 	}
 
+	/**
+	 *  기업인재 추천 취소
+	 */
+	private void recommendDelete() {
+		//취업지원 관리 - 기업에 인재 추천 - 기업인재 추천 취소
+		while (true) {
+			
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("기업 인재 추천 취소");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			
+			aview.recommendStudentListView();
+			// 인재 추천 취소 하기 진행
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 인재 추천 취소 2. 뒤로가기");
+			System.out.print("번호를 입력하세요 : ");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) {
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.print("삭제할 기업인재 추천 번호를 선택하세요 : ");
+				num = scan.nextLine();
+				
+				int result = rdao.recommendStudentDelete(num);
+				
+				if (result > 0 ) { 
+					System.out.println("인재 추천 취소 성공");
+				} else {
+					System.out.println("인재 추천 취소 실패");
+				}
+				
+				pause();
+				break;
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+			
+		}
+	}
+
+	/**
+	 * 취업 현황 조회 메뉴
+	 */
+	private void jobactivitiesManagement() {
+		// 취업현황 조회
+		while(true) {
+			
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("취업현황 조회");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 과정별");
+			System.out.println("2. 수료생 검색");
+			System.out.println("3. 수료생 목록");
+			System.out.println("4. 뒤로가기");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+			
+			if(num.equals("1")) { 
+				jobactivitiesCourse();
+			} else if (num.equals("2")) {
+				jobactivitiesIndividual();
+			} else if (num.equals("3")) {
+				completStudentList();
+			} else if (num.equals("4")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();				
+			}
+		}
+	}
+	
+	
+	/**
+	 * 과정별
+	 */
+	private void jobactivitiesCourse() {
+		// 취업지원 관리 - 취업현황 조회 - 과정별
+		
+		while (true) {
+			
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("과정별 조회");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			
+			ArrayList<EndCourseListDTO> list = jadao.EndCourseList();
+			
+			for (EndCourseListDTO dto : list ) {
+				System.out.printf("%s\t%s\t%s\t%s\t%s\t\n"
+						, dto.getSeq()
+						, dto.getCourseName()
+						, dto.getStartDate()
+						, dto.getEndDate()
+						, dto.getTeacherName()
+						, dto.getRoom());
+			}
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 과정 선택하기 2. 뒤로가기");
+			System.out.print("번호를 입력해 주세요 : ");
+			num = scan.nextLine();
+			
+			if (num.equals("1")) {
+				// 과정 번호 선택
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.print("과정번호를 입력하세요 :");
+				num = scan.nextLine();
+				
+				// 과정 번호에 따른 수료생 목록 출력
+				courseNumcompletStudentList(num);
+				
+				break;
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		
+		}
+
+		
+	}
+	/**
+	 * 과정별 - 과정선택
+	 */
+	private void courseNumcompletStudentList(String num) {
+		// 취업지원 관리 - 취업현황 조회 - 과정별 - 과정선택
+		
+		while (true) {
+			ArrayList<CompletStudentListDTO> list = jadao.courseCompletStudentList(num);
+			
+			for (CompletStudentListDTO dto : list) 	{
+				System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+						, dto.getReginum()
+						, dto.getName()
+						, dto.getJumin()
+						, dto.getTel()
+						, dto.getRegdate());
+			}
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("수료생 수강번호를 입력하세요 :");
+			num = scan.nextLine(); // reginum
+			
+			
+			
+			jobactivitiesMenu(num);
+			
+			pause();
+			break;
+		}
+		
+	}
+
+	/**
+	 * 과정별 - 과정선택 - 구직활동 / 취업정보
+	 */
+	private void jobactivitiesMenu(String reginum) {
+		// 취업지원 관리 - 취업현황 조회 - 과정별 - 과정선택 - 구직활동/취업정보
+		while (true) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 구직활동 보기 2. 취업정보 보기 3. 뒤로가기");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine(); 
+			
+			if (num.equals("1")) {
+				// 구직활동 내역 출력 메서드
+				jobActivitesInfo(reginum);
+
+				
+			} else if (num.equals("2")) {
+				// 취업정보 출력 메서드
+				jobInfo(reginum);
+
+				
+			} else if (num.equals("3")) {
+				break;
+				
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
+	}
+
+	/**
+	 * 수강번호를 받아서 구직활동 내역을 출력하는 메서드
+	 * @param reginum 수강번호
+	 */
+	private void jobActivitesInfo(String reginum) {
+		
+		QualificationDTO dto = jadao.getJobActivitesInfo(reginum);
+		
+		if (dto != null) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("보유 자격증 : " + dto.getLicense());
+			System.out.println("이력서 주소 : " + dto.getResume());
+			System.out.println("희망 직군 : " + dto.getJob());
+			System.out.println("github 주소 : " + dto.getGithub());
+			System.out.println("희망 연봉 : " + dto.getSalary());
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		} else {
+			System.out.println("구직활동 정보가 존재하지 않습니다");
+		}
+		
+		pause();
+	}
+	
+	
+	/**
+	 * 수강번호를 받아서 취업정보를 출력하는 메서드
+	 * @param reginum 수강번호
+	 */
+	private void jobInfo(String reginum) {
+		
+		JobInfoDTO dto = jadao.getJobInfo(reginum);
+		
+		if (dto != null) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("취업 일 : " + dto.getStartDate());
+			System.out.println("고용보험 여부 : " + dto.getInsurance());
+			System.out.println("계약 형태 : " + dto.getForm() );
+			System.out.println("직군 : " + dto.getCareer());
+			System.out.println("연봉 : " + dto.getIncome());
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		} else {
+			System.out.println("취업 정보가 존재하지 않습니다");
+			
+		}
+		
+		pause();
+	}
+
+	
+	/**
+	 * 수료생 검색
+	 */
+	private void jobactivitiesIndividual() {
+		// 취업지원 관리 - 취업현황 조회 - 수료생 검색
+		while (true) {
+			System.out.println("━━━━━━━━━━━━━━━이름으로 검색어 입력━━━━━━━━━━━━━━━━━━");
+			System.out.print("검색어를 입력하세요 : ");
+			num = scan.nextLine(); // reginum
+			
+			ArrayList<CompletStudentListDTO> list = jadao.CompletStudentList(num);
+			
+			for (CompletStudentListDTO dto : list) 	{
+				System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+						, dto.getReginum()
+						, dto.getName()
+						, dto.getJumin()
+						, dto.getTel()
+						, dto.getRegdate());
+			}
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("수료생 수강번호를 입력하세요 :");
+			num = scan.nextLine(); // reginum
+			
+			jobactivitiesMenu(num);
+			
+			break;
+		}
+		
+	}
+	
+	/**
+	 * 수료생 목록
+	 */
+	private void completStudentList() {
+		// 취업지원 관리 - 취업현황 조회 - 수료생 목록
+		while (true) {
+			ArrayList<CompletStudentListDTO> list = jadao.CompletStudentList(null);
+			
+			for (CompletStudentListDTO dto : list) 	{
+				System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+						, dto.getReginum()
+						, dto.getName()
+						, dto.getJumin()
+						, dto.getTel()
+						, dto.getRegdate());
+			}
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("수료생 수강번호를 입력하세요 :");
+			num = scan.nextLine(); // reginum
+			
+			jobactivitiesMenu(num);
+			
+			break;
+		}
+	}
+
+	/**
+	 * 출결관리 메뉴
+	 */
 	private void attendanceManagement() {
 		
 		// 출결관리
@@ -967,4 +1536,74 @@ public class AdminController {
 		System.out.print("엔터를 누르면 이전화면으로 돌아갑니다");
 		String num = scan.nextLine();
 	}
+  
+	private void basicinfoManagement() {
+		boolean check = true;
+		while(check) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("[기초 정보 관리]");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 과정 관리");
+			System.out.println("2. 과목 관리");
+			System.out.println("3. 교재 관리");
+			System.out.println("4. 강의실 관리");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 : ");
+			num = scan.nextLine();
+			
+			if(num.equals("1")) {  //과정 관리
+				courseManagement();
+			}else if(num.equals("2")) {  //과목 관리
+				subjectManagement();
+			}else if(num.equals("3")) {  //교재 관리
+				bookManagement();
+			}else if(num.equals("4")) {  //강의실 관리
+				roomManagement();
+			}else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
+	}//basicinfoManagement()
+
+		private void courseManagement() {
+			ArrayList<CourseDTO> list = csdao.list(null);
+			
+			//관리자 - 기초정보 관리 - 과목 관리
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("[과정관리]");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			
+			for (CourseDTO dto : list) {
+			System.out.println("[번호]\t[과정]\t\t[과정목적]");
+			System.out.printf("%s\t%s\t%s", dto.getSeq(), dto.getName(), dto.getPurpose());
+			System.out.println();
+			
+			}
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 과정 등록");
+			System.out.println("2. 과정 수정");
+			System.out.println("3. 과정 삭제");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("선택(번호) : ");
+			
+		}//courseManagement() 과정관리
+
+		private void subjectManagement() {
+		}//subjectManagement() 과목관리
+
+		private void bookManagement() {
+		}//bookManagement() 교재관리
+
+		private void roomManagement() {
+		}//roomManagement() 강의실관리
+
+	private void makecourseManagement() {
+	}//makecourseManagement() 개설 과정 관리
+
+	private void makesubjectManagement() {
+	}//makesubjectManagement() 개설 과목 관리;
+
 }
+
