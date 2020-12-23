@@ -214,4 +214,19 @@ public class AdminView {
 		System.out.print("번호를 입력하세요 :");
 		
 	}
+
+	/**
+	 * 종료된 과정 하나의 정보를 출력
+	 * @param num 과정번호
+	 */
+	public void endCourseInfoView(String num) {
+		
+		EndCourseListDTO dto = jadao.getEndCours(num);
+		System.out.println("과정명 : " + dto.getCourseName());
+		System.out.println("시작일 : " + dto.getStartDate());
+		System.out.println("종료일 : " + dto.getEndDate());
+		System.out.println("강사명 : " + dto.getTeacherName());
+		System.out.println("강의실 : " + dto.getRoom());
+		
+	}
 }

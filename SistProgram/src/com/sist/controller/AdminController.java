@@ -1502,8 +1502,7 @@ public class AdminController {
 			System.out.println("1. 과정별 출석률");
 			System.out.println("2. 과정별 수료율");
 			System.out.println("3. 과정별 취업률");
-			System.out.println("4. 과정별 시험점수");
-			System.out.println("5. 뒤로가기");
+			System.out.println("4. 뒤로가기");
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.print("번호를 입력하세요 :");
 			num = scan.nextLine();
@@ -1515,10 +1514,7 @@ public class AdminController {
 			} else if (num.equals("3")) {
 				employmentRate();
 			} else if (num.equals("4")) {
-				ScoreStatistics();
-			} else if (num.equals("5")) {
 				break;
-				
 			} else {
 				System.out.println("잘못된 입력입니다");
 				pause();
@@ -1528,7 +1524,7 @@ public class AdminController {
 	
 	
 	/**
-	 *  과정별 출석률 (미완성 ********************************************)
+	 *  과정별 출석률
 	 */
 	private void attendanceRate() {
 		// 데이터 통계 관리 - 과정별 출석률
@@ -1543,16 +1539,20 @@ public class AdminController {
 				num = scan.nextLine(); // 과정번호 입력
 				
 				// 과정별 출석률 출력
-				System.out.println("과정별 출석률 출력");
+
 				
 				// 해당 과정의 수료생 리스트
 				ArrayList<CompletStudentListDTO> list = jadao.courseCompletStudentList(num);
-				System.out.println("수료생 리스트 반환 완료");
 				
+
 				// 수료생의 출결 데이터
 				ArrayList<AttendanceStatisticsDTO> slist = dsdao.attendanceStatisticsList(list);
-				System.out.println("출결데이터 반환 완료");
 				
+				// 선택한 과정의 상세정보
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━선택한 과정정보━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				aview.endCourseInfoView(num);
+				
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━과정의 출결정보━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 				System.out.println("[수강번호]\t[이름]\t[출석횟수]\t[결석횟수]\t[지각횟수]\t[조퇴횟수]\t[출석률]");
 				
 				for(AttendanceStatisticsDTO dto : slist) {
@@ -1566,6 +1566,7 @@ public class AdminController {
 													, dto.getAttendanceRate());
 
 				}
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 				
 				pause();
 				break;
@@ -1595,6 +1596,10 @@ public class AdminController {
 				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 				System.out.print("과정 번호를 입력하세요 :");
 				num = scan.nextLine(); // 과정번호 입력
+				
+				// 선택한 과정의 상세정보
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━선택한 과정정보━━━━━━━━━━━━━━━━━━━━━━━━━");
+				aview.endCourseInfoView(num);
 				
 				ArrayList<String> list = dsdao.completionRateInfo(num);
 				System.out.println("━━━━━━━━━━━━━━━━━━━━━과정 수료율 정보━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -1642,9 +1647,16 @@ public class AdminController {
 			
 			if(num.equals("1")) {
 				// 과정별 취업률 출력
-				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 				System.out.print("과정 번호를 입력하세요 :");
 				num = scan.nextLine(); // 과정번호 입력
+				
+				
+				// 선택한 과정의 상세정보
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━선택한 과정정보━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				aview.endCourseInfoView(num);
+				
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━취업률 정보━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 				
 				ArrayList<EmploymentRateDTO> list = dsdao.employmentRateInfo(num);
 				
@@ -1652,7 +1664,21 @@ public class AdminController {
 					System.out.printf("%s : %s\n", dto.getColumn(), dto.getValue());
 				}
 				
-				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━취업한 수료생━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				
+				ArrayList<CompletStudentListDTO> list2 = jadao.gotJobCompletStudentList(num);
+				
+				for (CompletStudentListDTO dto : list2) 	{
+					System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+							, dto.getReginum()
+							, dto.getName()
+							, dto.getJumin()
+							, dto.getTel()
+							, dto.getRegdate());
+				}
+				
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				
 				
 				pause();
 				break;
@@ -1668,27 +1694,6 @@ public class AdminController {
 		}
 	}
 
-	/**
-	 *  과정별 시험점수
-	 */
-	private void ScoreStatistics() {
-		// 데이터 통계 관리 - 과정별 시험점수
-		while(true) {
-			
-			aview.endCourseListView();
-			num = scan.nextLine(); // 과정번호 입력
-			
-			if(num.equals("1")) {
-				
-			} else if (num.equals("2")) {
-				break;
-			} else {
-				System.out.println("잘못된 입력입니다");
-				pause();
-				break;
-			}
-		}
-	}
 
 	/**
 	 * 출결관리 메뉴
