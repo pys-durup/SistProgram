@@ -167,6 +167,31 @@ public class ReserveStudentDAO {
 	}
 	
 	
+	public int addNewReserve(ReserveStudentDTO dto) {
+		
+		try {
+			String sql = "{ call procaddReserve(?, ?, ?, ?, ?, ?) }";
+			
+			cstat = conn.prepareCall(sql);
+			
+			cstat.setString(1, dto.getName());
+			cstat.setString(2, dto.getJumin());
+			cstat.setString(3, dto.getTel());
+			cstat.setString(4, dto.getAddress());
+			cstat.setString(5, dto.getField());
+			cstat.setString(6, dto.getKnowledge());
+			
+			return cstat.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("ReserveStudentDAO.addNewReserve()");
+			e.printStackTrace();
+		}
+		
+		
+		
+		return 0;
+	}
 	
 	
 	
