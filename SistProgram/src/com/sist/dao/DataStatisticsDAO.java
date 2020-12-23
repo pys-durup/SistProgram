@@ -2,6 +2,7 @@ package com.sist.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -59,6 +60,7 @@ public class DataStatisticsDAO {
 				cstat.registerOutParameter(5, OracleTypes.NUMBER);
 				cstat.registerOutParameter(6, OracleTypes.NUMBER);
 				
+								
 				cstat.executeQuery();
 				
 				AttendanceStatisticsDTO adto = new AttendanceStatisticsDTO();
@@ -73,10 +75,9 @@ public class DataStatisticsDAO {
 				slist.add(adto);
 				
 				System.out.println(dto.getReginum() + "번의 출결데이터 생성중...");
-				System.out.println("출석일수 " + adto.getAttendance());
+
 				
 				cstat.close();
-				
 			}
 			
 			return slist;

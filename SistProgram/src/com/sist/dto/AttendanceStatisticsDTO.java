@@ -52,6 +52,12 @@ public class AttendanceStatisticsDTO {
 	public void setAttendanceRate(float attendanceRate) {
 		this.attendanceRate = attendanceRate;
 	}
+	@Override
+	public String toString() {
+		return "AttendanceStatisticsDTO [reginum=" + reginum + ", name=" + name + ", attendance=" + attendance
+				+ ", absent=" + absent + ", late=" + late + ", leave=" + leave + ", attendanceRate=" + attendanceRate
+				+ "]";
+	}
 	
 	
 	
