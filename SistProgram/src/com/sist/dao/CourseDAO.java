@@ -62,9 +62,15 @@ public ArrayList<CourseDTO> list(String word) {
 			dto.setPurpose(rs.getString("purpose"));
 							
 			list.add(dto);
+			
 		}
+		rs.close();
+		stat.close();
+		conn.close();
 		
 		return list;
+		
+		
 		
 	} catch (Exception e) {
 		// TODO: handle exception
@@ -123,6 +129,7 @@ public int DeleteCourse(String seq) {
 		System.out.println("CourseDAO.DeleteCourse()");
 		e.printStackTrace();
 	}
+	
 	
 	return 0;
 }

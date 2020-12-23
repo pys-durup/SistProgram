@@ -13,6 +13,7 @@ import com.sist.dao.ScoreListStudentDAO;
 import com.sist.dao.StudentConsultListDAO;
 import com.sist.dao.StudentDAO;
 import com.sist.dao.StudentlistDAO;
+import com.sist.dao.SubjectDAO;
 import com.sist.dao.ScCourseSubjectDAO;
 import com.sist.dao.TalentedStudentDAO;
 import com.sist.dto.AbleTStudentScoreListDTO;
@@ -30,6 +31,7 @@ import com.sist.dto.ScoreListCourseDTO;
 import com.sist.dto.ScoreListStudentDTO;
 import com.sist.dto.StudentConsultListDTO;
 import com.sist.dto.StudentlistDTO;
+import com.sist.dto.SubjectDTO;
 import com.sist.dto.TalentedStudentListDTO;
 import com.sist.view.AdminView;
 
@@ -54,7 +56,7 @@ public class AdminController {
 	private ScoreListStudentDAO slsdao;
 	private ScCourseSubjectDAO scsdao;
 	private DataStatisticsDAO dsdao;
-
+	private SubjectDAO sbdao;
 
 
 
@@ -75,6 +77,7 @@ public class AdminController {
 		this.scsdao = new ScCourseSubjectDAO();
 		this.scldao = new StudentConsultListDAO();
 		this.dsdao = new DataStatisticsDAO();
+		this.sbdao = new SubjectDAO();
 	}
 	
 	public void start() {
@@ -1931,15 +1934,8 @@ private void dataStatisticsManagement() {
 	private void basicinfoManagement() {
 		boolean check = true;
 		while(check) {
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("[기초 정보 관리]");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("1. 과정 관리");
-			System.out.println("2. 과목 관리");
-			System.out.println("3. 교재 관리");
-			System.out.println("4. 강의실 관리");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.print("번호를 입력하세요 : ");
+			aview.BasicInfoMenu();
+			
 			num = scan.nextLine();
 			
 			if(num.equals("1")) {  //과정 관리
@@ -1966,7 +1962,6 @@ private void dataStatisticsManagement() {
 			aview.CourseList(list);		//과정관리 리스트 몸통
 			aview.MenuCourse();			//과정관리 리스트 메뉴
 			num = scan.nextLine();
-
 			
 			switch(num) {
 			
@@ -1999,6 +1994,7 @@ private void dataStatisticsManagement() {
 					System.out.println("수정 실패!");
 				}
 				break;
+					
 			case "3" : // 과정 삭제
 				aview.DeleteNumber();
 				number = scan.nextLine();
@@ -2021,7 +2017,93 @@ private void dataStatisticsManagement() {
 			
 		}//courseManagement() 과정관리
 
-		private void subjectManagement() {
+		private void subjectManagement() { //과목 관리
+			
+			ArrayList<SubjectDTO> list = sbdao.list(null);
+			
+			aview.HeadSubject();
+			aview.SubjectList(list);
+			aview.menuSubject();
+			num = scan.nextLine();
+		
+		switch(num) {
+		case "1" : // 과목 등록
+			aview.Subject();
+			String subject =scan.nextLine();
+			aview.Duration();
+			String duration = scan.nextLine();
+			int resultAdd = sbdao.addSubject(subject, duration);
+			
+			if(resultAdd > 0) {
+				System.out.println("추가 완료");
+			} else {
+				System.out.println("추가X");
+			}
+			break;
+		case "2" : // 과목 수정
+			aview.Number();
+			String seq = scan.nextLine();
+			
+			//seq정보를 주면 그기업의 정보를 반환시켜주는 메서드
+			SubjectDTO dto = sbdao.getSubject(seq);
+			
+			// 수정할 과정의 정보
+			aview.InfoSubject(dto);
+			
+				
+			
+			aview.Subject();
+			String name =scan.nextLine();
+			
+			if (name.equals("")) { //입력 내용이 없을때
+				name = dto.getName();
+			}
+			
+			aview.Duration();
+			duration = scan.nextLine();
+			
+			if (duration.equals("")) { //입력 내용이 없을때
+				duration = dto.getDuration();
+			}
+			
+			SubjectDTO dto2 = new SubjectDTO();
+			
+			
+			dto2.setSeq(seq);
+			dto2.setName(name);
+			dto2.setDuration(duration);
+			
+			
+			int resultUpdate = sbdao.UpdateSubject(dto2);
+														
+			if(resultUpdate > 0) {
+				System.out.println("수정 완료!");
+			} else {
+				System.out.println("수정 실패!");
+			}
+			
+			break;
+			
+				
+		case "3" : // 과목 삭제
+			aview.DeleteNumber();
+			seq = scan.nextLine();
+			
+			int resultDelete = sbdao.DeleteSubject(seq);
+			
+			if(resultDelete > 0) {
+				System.out.println("삭제 완료!");
+			} else {
+				System.out.println("삭제 실패!");
+			}
+			break;
+		
+		default:
+			loop = !loop;
+			System.out.println("잘못된 입력입니다.");
+			break;
+		}
+		
 		}//subjectManagement() 과목관리
 
 		private void bookManagement() {
@@ -2032,6 +2114,9 @@ private void dataStatisticsManagement() {
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.println("[강의실 관리]");
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1.");
+			System.out.println();
+			System.out.println();
 		}//roomManagement() 강의실관리
 
 	private void makecourseManagement() {
@@ -2041,4 +2126,3 @@ private void dataStatisticsManagement() {
 	}//makesubjectManagement() 개설 과목 관리;
 
 }
-
