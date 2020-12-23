@@ -6,6 +6,7 @@ import java.util.Scanner;
 import com.sist.dao.LinkCompanyDAO;
 import com.sist.dao.RecommendDAO;
 import com.sist.dao.TalentedStudentDAO;
+import com.sist.dto.CourseDTO;
 import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.RecommendListDTO;
 import com.sist.dto.TalentedStudentListDTO;
@@ -40,6 +41,37 @@ public class AdminView {
 									, dto.getReason());
 		}
 	}
+
+	public void HeadCourse() {
+	
+	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	System.out.println("[과정관리]");
+	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	System.out.println("[번호]  \t[과정]\t\t\t\t\t[과정목적]");	
+	}
+	public void MenuCourse() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("1. 과정 등록");
+		System.out.println("2. 과정 수정");
+		System.out.println("3. 과정 삭제");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.print("선택(번호) : ");
+	
+}
+	public void Course() {
+		System.out.print("과정 : "); 
+}
+	public void Purpose() {
+		System.out.print("목적 : ");
+}
+	public void Number() {
+		System.out.print("번호 : ");
+	}
+	public void DeleteNumber() {
+		System.out.print("삭제할 번호 : ");
+	}
+
 	
 	/**
 	 * 취업지원 관리 - 기업에 인재 추천 - 추천현황 조회
@@ -58,7 +90,6 @@ public class AdminView {
 		}
 		
 	}
-	
 	
 	
 	public void enterpriseListView() {
@@ -146,6 +177,10 @@ public class AdminView {
 	
 	
 	
-	
-
+	public void CourseList(ArrayList<CourseDTO> list) {
+		for (CourseDTO dto : list) {
+			System.out.printf(" %s\t%-30s\t%60s", dto.getSeq(), dto.getName(), dto.getPurpose());
+			System.out.println();
+	}
+}
 }

@@ -59,7 +59,7 @@ public ArrayList<CourseDTO> list(String word) {
 			
 			dto.setSeq(rs.getString("seq"));
 			dto.setName(rs.getString("name"));
-			dto.setPurpose(rs.getString("Purpose"));
+			dto.setPurpose(rs.getString("purpose"));
 							
 			list.add(dto);
 		}
@@ -74,6 +74,57 @@ public ArrayList<CourseDTO> list(String word) {
 	
 	return null;
 
+}
+
+public int addCourse(String name, String purpose) {
+	try {
+		
+		String sql = String.format(
+				"Insert into tblCourse(seq, name, purpose) values (seqCourse.nextval, '%s', '%s')", name, purpose);
+		
+		int result = stat.executeUpdate(sql);
+		return result;
+		
+	} catch (Exception e) {
+		System.out.println(e);
+		e.printStackTrace();
+	}
+	
+	
+	return 0;
+}
+
+public int UpdateCourse(String seq, String name, String purpose) {
+	try {
+		String sql = String.format(
+				"update tblCourse set name = '%s', purpose = '%s' where seq = %s",
+				name, purpose, seq);
+		int result = stat.executeUpdate(sql);
+		return result;
+		
+
+	} catch (Exception e) {
+		System.out.println("CourseDAO.UpdateCourse()");
+		e.printStackTrace();		
+	}
+	return 0;
+}
+
+public int DeleteCourse(String seq) {
+	try {
+		String sql = String.format(
+				"delete from tblCourse where seq = %s", seq);
+		
+		int result = stat.executeUpdate(sql);
+		
+		return result;
+		
+	} catch (Exception e) {
+		System.out.println("CourseDAO.DeleteCourse()");
+		e.printStackTrace();
+	}
+	
+	return 0;
 }
 
 }
