@@ -3,24 +3,26 @@ package com.sist.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
-import com.sist.dao.StudentConsultListDAO;
 import com.sist.dao.CourseDAO;
+import com.sist.dao.DataStatisticsDAO;
 import com.sist.dao.JobActivitiesDAO;
 import com.sist.dao.LinkCompanyDAO;
 import com.sist.dao.RecommendDAO;
+import com.sist.dao.StudentConsultListDAO;
 import com.sist.dao.StudentDAO;
 import com.sist.dao.StudentlistDAO;
 import com.sist.dao.TalentedStudentDAO;
 import com.sist.dto.AbleTStudentScoreListDTO;
+import com.sist.dto.AttendanceStatisticsDTO;
 import com.sist.dto.CompletStudentListDTO;
 import com.sist.dto.CourseDTO;
+import com.sist.dto.EmploymentRateDTO;
 import com.sist.dto.EndCourseListDTO;
 import com.sist.dto.JobInfoDTO;
 import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.MasterDTO;
-import com.sist.dto.StudentConsultListDTO;
 import com.sist.dto.QualificationDTO;
+import com.sist.dto.StudentConsultListDTO;
 import com.sist.dto.StudentlistDTO;
 import com.sist.dto.TalentedStudentListDTO;
 import com.sist.view.AdminView;
@@ -42,6 +44,7 @@ public class AdminController {
 	private RecommendDAO rdao;
 	private CourseDAO csdao;
 	private JobActivitiesDAO jadao;
+	private DataStatisticsDAO dsdao;
 
 
 
@@ -56,6 +59,7 @@ public class AdminController {
 		this.rdao = new RecommendDAO();
 		this.csdao = new CourseDAO();
 		this.jadao = new JobActivitiesDAO();
+		this.dsdao = new DataStatisticsDAO();
 
 	}
 	
@@ -329,9 +333,6 @@ public class AdminController {
 	}		
 
   
-  private void dataStatisticsManagement() {
-		// 데이터 통계 관리
-	}
 
 	/**
 	 * 취업지원 관리 메뉴
@@ -1487,6 +1488,207 @@ public class AdminController {
 			break;
 		}
 	}
+	
+	/**
+	 * 데이터 통계 관리 메뉴
+	 */
+	private void dataStatisticsManagement() {
+		// 데이터 통계 관리
+		while(true) {
+			
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("데이터 통계 관리");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 과정별 출석률");
+			System.out.println("2. 과정별 수료율");
+			System.out.println("3. 과정별 취업률");
+			System.out.println("4. 과정별 시험점수");
+			System.out.println("5. 뒤로가기");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+			
+			if(num.equals("1")) {
+				attendanceRate();
+			} else if (num.equals("2")) {
+				completionRate();
+			} else if (num.equals("3")) {
+				employmentRate();
+			} else if (num.equals("4")) {
+				ScoreStatistics();
+			} else if (num.equals("5")) {
+				break;
+				
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+			}
+		}
+	}
+	
+	
+	/**
+	 *  과정별 출석률 (미완성 ********************************************)
+	 */
+	private void attendanceRate() {
+		// 데이터 통계 관리 - 과정별 출석률
+		while(true) {
+			
+			aview.endCourseListView();
+			num = scan.nextLine(); // 과정번호 입력
+			
+			if(num.equals("1")) {
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.print("과정 번호를 입력하세요 :");
+				num = scan.nextLine(); // 과정번호 입력
+				
+				// 과정별 출석률 출력
+				System.out.println("과정별 출석률 출력");
+				
+				// 해당 과정의 수료생 리스트
+				ArrayList<CompletStudentListDTO> list = jadao.courseCompletStudentList(num);
+				System.out.println("수료생 리스트 반환 완료");
+				
+				// 수료생의 출결 데이터
+				ArrayList<AttendanceStatisticsDTO> slist = dsdao.attendanceStatisticsList(list);
+				System.out.println("출결데이터 반환 완료");
+				
+				System.out.println("[수강번호]\t[이름]\t[출석횟수]\t[결석횟수]\t[지각횟수]\t[조퇴횟수]\t[출석률]");
+				
+				for(AttendanceStatisticsDTO dto : slist) {
+					System.out.printf("%s\t\t%s\t\t%d\t\t%d\t\t%d\t\t%d\t%f\n"
+													, dto.getReginum()
+													, dto.getName()
+													, dto.getAttendance()
+													, dto.getAbsent()
+													, dto.getLate()
+													, dto.getLeave()
+													, dto.getAttendanceRate());
+
+				}
+				
+				pause();
+				break;
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
+	}
+
+	/**
+	 *  과정별 수료율
+	 */
+	private void completionRate() {
+		// 데이터 통계 관리 - 과정별 수료율
+		while(true) {
+			
+			aview.endCourseListView();
+			num = scan.nextLine(); 
+			
+			if(num.equals("1")) {
+				// 과정별 수료율 출력
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.print("과정 번호를 입력하세요 :");
+				num = scan.nextLine(); // 과정번호 입력
+				
+				ArrayList<String> list = dsdao.completionRateInfo(num);
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━과정 수료율 정보━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.println("총 수강 인원 : " + (Integer.parseInt(list.get(0)) + Integer.parseInt(list.get(1))));
+				System.out.println("수료한 인원 : " + list.get(0));
+				System.out.println("중도 탈락 인원 : " + list.get(1));
+				System.out.println("과정 수료율 : " + list.get(2) + "%");
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━수료자 명단━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				
+				ArrayList<CompletStudentListDTO> slist = jadao.courseCompletStudentList(num);
+				
+				for (CompletStudentListDTO dto : slist) 	{
+					System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+							, dto.getReginum()
+							, dto.getName()
+							, dto.getJumin()
+							, dto.getTel()
+							, dto.getRegdate());
+				}
+				
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				
+				pause();
+				
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
+	}
+
+	/**
+	 *  과정별 취업률 
+	 */
+	private void employmentRate() {
+		// 데이터 통계 관리 - 과정별 취업률
+		while(true) {
+			
+			aview.endCourseListView();
+			num = scan.nextLine(); 
+			
+			if(num.equals("1")) {
+				// 과정별 취업률 출력
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.print("과정 번호를 입력하세요 :");
+				num = scan.nextLine(); // 과정번호 입력
+				
+				ArrayList<EmploymentRateDTO> list = dsdao.employmentRateInfo(num);
+				
+				for(EmploymentRateDTO dto : list) {
+					System.out.printf("%s : %s\n", dto.getColumn(), dto.getValue());
+				}
+				
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				
+				pause();
+				break;
+				
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
+	}
+
+	/**
+	 *  과정별 시험점수
+	 */
+	private void ScoreStatistics() {
+		// 데이터 통계 관리 - 과정별 시험점수
+		while(true) {
+			
+			aview.endCourseListView();
+			num = scan.nextLine(); // 과정번호 입력
+			
+			if(num.equals("1")) {
+				
+			} else if (num.equals("2")) {
+				break;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+			}
+		}
+	}
 
 	/**
 	 * 출결관리 메뉴
@@ -1518,7 +1720,6 @@ public class AdminController {
 				pause();
 			}
 		}
-
 	}
 	
 	private void searchStudentNum() {

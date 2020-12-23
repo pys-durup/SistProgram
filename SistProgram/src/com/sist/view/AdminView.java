@@ -3,10 +3,12 @@ package com.sist.view;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.sist.dao.JobActivitiesDAO;
 import com.sist.dao.LinkCompanyDAO;
 import com.sist.dao.RecommendDAO;
 import com.sist.dao.TalentedStudentDAO;
 import com.sist.dto.CourseDTO;
+import com.sist.dto.EndCourseListDTO;
 import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.RecommendListDTO;
 import com.sist.dto.TalentedStudentListDTO;
@@ -16,6 +18,7 @@ public class AdminView {
 	private TalentedStudentDAO tsdao;
 	private RecommendDAO rdao;
 	private LinkCompanyDAO lcdao;
+	private JobActivitiesDAO  jadao;
 	private Scanner scan = new Scanner(System.in);
 	
 	
@@ -23,6 +26,7 @@ public class AdminView {
 		this.tsdao = new TalentedStudentDAO();
 		this.rdao = new RecommendDAO();
 		this.lcdao = new LinkCompanyDAO();
+		this.jadao = new JobActivitiesDAO();
 	}
 	
 	/**
@@ -181,6 +185,33 @@ public class AdminView {
 		for (CourseDTO dto : list) {
 			System.out.printf(" %s\t%-30s\t%60s", dto.getSeq(), dto.getName(), dto.getPurpose());
 			System.out.println();
+		}
 	}
-}
+		
+	/**
+	 *  종료된 과정의 목록 출력
+	 */
+	public void endCourseListView() {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("종료된 과정 목록");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+		ArrayList<EndCourseListDTO> list = jadao.EndCourseList();
+		
+		for (EndCourseListDTO dto : list ) {
+			System.out.printf("%s\t%s\t%s\t%s\t%s\t\n"
+					, dto.getSeq()
+					, dto.getCourseName()
+					, dto.getStartDate()
+					, dto.getEndDate()
+					, dto.getTeacherName()
+					, dto.getRoom());
+		}
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("1. 과정 번호 선택  2. 뒤로가기");
+		System.out.print("번호를 입력하세요 :");
+		
+	}
 }
