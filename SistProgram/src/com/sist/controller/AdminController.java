@@ -35,6 +35,7 @@ public class AdminController {
 		this.sdao = new StudentDAO();
 		this.lcdao = new LinkCompanyDAO();
 		this.tsdao = new TalentedStudentDAO();
+		this.csdao = new CourseDAO();
 	}
 	
 	public void start() {
@@ -120,27 +121,66 @@ public class AdminController {
 			}
 		}
 	}//basicinfoManagement()
-
+		boolean loop = true;
 		private void courseManagement() {
 			ArrayList<CourseDTO> list = csdao.list(null);
 			
-			//관리자 - 기초정보 관리 - 과목 관리
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("[과정관리]");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			//관리자 - 기초정보 관리 - 과정 관리
+			aview.HeadCourse();			//과정관리 리스트 머리
+			aview.CourseList(list);		//과정관리 리스트 몸통
+			aview.MenuCourse();			//과정관리 리스트 메뉴
+			num = scan.nextLine();
 			
-			for (CourseDTO dto : list) {
-			System.out.println("[번호]\t[과정]\t\t[과정목적]");
-			System.out.printf("%s\t%s\t%s", dto.getSeq(), dto.getName(), dto.getPurpose());
-			System.out.println();
+			switch(num) {
 			
+			case "1" : // 과정 등록
+				aview.Course();
+				String course =scan.nextLine();
+				aview.Purpose();
+				String purpose = scan.nextLine();
+				int resultAdd = csdao.addCourse(course, purpose);
+				
+				if(resultAdd > 0) {
+					System.out.println("추가 완료");
+				} else {
+					System.out.println("추가X");
+				}
+				break;
+			case "2" : // 과정 수정
+				aview.Number();
+				String number = scan.nextLine();
+				aview.Course();
+				course =scan.nextLine();
+				aview.Purpose();
+				purpose = scan.nextLine();
+				
+				int resultUpdate = csdao.UpdateCourse(number, course, purpose);
+				
+				if(resultUpdate > 0) {
+					System.out.println("수정 완료!");
+				} else {
+					System.out.println("수정 실패!");
+				}
+				break;
+			case "3" : // 과정 삭제
+				aview.DeleteNumber();
+				number = scan.nextLine();
+				
+				int resultDelete = csdao.DeleteCourse(number);
+				
+				if(resultDelete > 0) {
+					System.out.println("삭제 완료!");
+				} else {
+					System.out.println("삭제 실패!");
+				}
+				break;
+			
+			default:
+				loop = !loop;
+				System.out.println("잘못된 입력입니다.");
+				break;
 			}
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("1. 과정 등록");
-			System.out.println("2. 과정 수정");
-			System.out.println("3. 과정 삭제");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.print("선택(번호) : ");
+				
 			
 		}//courseManagement() 과정관리
 
@@ -151,6 +191,10 @@ public class AdminController {
 		}//bookManagement() 교재관리
 
 		private void roomManagement() {
+			//관리자 - 기초정보 관리 - 강의실 관리
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("[강의실 관리]");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		}//roomManagement() 강의실관리
 
 	private void makecourseManagement() {
