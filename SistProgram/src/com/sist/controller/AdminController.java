@@ -525,10 +525,6 @@ public class AdminController {
 		pause();
 	}
 
-	
-private void dataStatisticsManagement() {
-		// 데이터 통계 관리
-	}
 
 
 	/**
@@ -2178,139 +2174,109 @@ private void dataStatisticsManagement() {
 				System.out.println("잘못된 입력입니다.");
 				break;
 			}
-			break;
-		case "2": // 과정 수정
-			aview.Number();
-			String number = scan.nextLine();
-			aview.Course();
-			course = scan.nextLine();
-			aview.Purpose();
-			purpose = scan.nextLine();
-
-			int resultUpdate = csdao.UpdateCourse(number, course, purpose);
-
-			if (resultUpdate > 0) {
-				System.out.println("수정 완료!");
-			} else {
-				System.out.println("수정 실패!");
-			}
-			break;
-		case "3": // 과정 삭제
-			aview.DeleteNumber();
-			number = scan.nextLine();
-
-		private void subjectManagement() { //과목 관리
-			
-			ArrayList<SubjectDTO> list = sbdao.list(null);
-			
-			aview.HeadSubject();
-			aview.SubjectList(list);
-			aview.menuSubject();
-			num = scan.nextLine();
-		
-		switch(num) {
-		case "1" : // 과목 등록
-			aview.Subject();
-			String subject =scan.nextLine();
-			aview.Duration();
-			String duration = scan.nextLine();
-			int resultAdd = sbdao.addSubject(subject, duration);
-			
-			if(resultAdd > 0) {
-				System.out.println("추가 완료");
-			} else {
-				System.out.println("추가X");
-			}
-			break;
-		case "2" : // 과목 수정
-			aview.Number();
-			String seq = scan.nextLine();
-			
-			//seq정보를 주면 그기업의 정보를 반환시켜주는 메서드
-			SubjectDTO dto = sbdao.getSubject(seq);
-			
-			// 수정할 과정의 정보
-			aview.InfoSubject(dto);
-			
-				
-			
-			aview.Subject();
-			String name =scan.nextLine();
-			
-			if (name.equals("")) { //입력 내용이 없을때
-				name = dto.getName();
-			}
-			
-			aview.Duration();
-			duration = scan.nextLine();
-			
-			if (duration.equals("")) { //입력 내용이 없을때
-				duration = dto.getDuration();
-			}
-			
-			SubjectDTO dto2 = new SubjectDTO();
-			
-			
-			dto2.setSeq(seq);
-			dto2.setName(name);
-			dto2.setDuration(duration);
-			
-			
-			int resultUpdate = sbdao.UpdateSubject(dto2);
-														
-			if(resultUpdate > 0) {
-				System.out.println("수정 완료!");
-			} else {
-				System.out.println("수정 실패!");
-			}
-			
-			break;
-			
-				
-		case "3" : // 과목 삭제
-			aview.DeleteNumber();
-			seq = scan.nextLine();
-			
-			int resultDelete = sbdao.DeleteSubject(seq);
-			
-			if(resultDelete > 0) {
-				System.out.println("삭제 완료!");
-			} else {
-				System.out.println("삭제 실패!");
-			}
-			break;
-		
-		default:
-			loop = !loop;
-			System.out.println("잘못된 입력입니다.");
-			break;
 		}
-		
-		}//subjectManagement() 과목관리
 
-			if (resultDelete > 0) {
-				System.out.println("삭제 완료!");
-			} else {
-				System.out.println("삭제 실패!");
-			}
-			break;
+			private void subjectManagement() { //과목 관리
 
+				ArrayList<SubjectDTO> list = sbdao.list(null);
 
-		private void roomManagement() {
-			//관리자 - 기초정보 관리 - 강의실 관리
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("[강의실 관리]");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("1.");
-			System.out.println();
-			System.out.println();
-		}//roomManagement() 강의실관리
-      
+				aview.HeadSubject();
+				aview.SubjectList(list);
+				aview.menuSubject();
+				num = scan.nextLine();
 
-	private void makecourseManagement() {
-	}// makecourseManagement() 개설 과정 관리
+				switch (num) {
+				case "1": // 과목 등록
+					aview.Subject();
+					String subject = scan.nextLine();
+					aview.Duration();
+					String duration = scan.nextLine();
+					int resultAdd = sbdao.addSubject(subject, duration);
 
-	private void makesubjectManagement() {
-	}// makesubjectManagement() 개설 과목 관리;
+					if (resultAdd > 0) {
+						System.out.println("추가 완료");
+					} else {
+						System.out.println("추가X");
+					}
+					break;
+				case "2": // 과목 수정
+					aview.Number();
+					String seq = scan.nextLine();
 
-}
+					// seq정보를 주면 그기업의 정보를 반환시켜주는 메서드
+					SubjectDTO dto = sbdao.getSubject(seq);
+
+					// 수정할 과정의 정보
+					aview.InfoSubject(dto);
+
+					aview.Subject();
+					String name = scan.nextLine();
+
+					if (name.equals("")) { // 입력 내용이 없을때
+						name = dto.getName();
+					}
+
+					aview.Duration();
+					duration = scan.nextLine();
+
+					if (duration.equals("")) { // 입력 내용이 없을때
+						duration = dto.getDuration();
+					}
+
+					SubjectDTO dto2 = new SubjectDTO();
+
+					dto2.setSeq(seq);
+					dto2.setName(name);
+					dto2.setDuration(duration);
+
+					int resultUpdate = sbdao.UpdateSubject(dto2);
+
+					if (resultUpdate > 0) {
+						System.out.println("수정 완료!");
+					} else {
+						System.out.println("수정 실패!");
+					}
+
+					break;
+
+				case "3": // 과목 삭제
+					aview.DeleteNumber();
+					seq = scan.nextLine();
+
+					int resultDelete = sbdao.DeleteSubject(seq);
+
+					if (resultDelete > 0) {
+						System.out.println("삭제 완료!");
+					} else {
+						System.out.println("삭제 실패!");
+					}
+					break;
+
+				default:
+					loop = !loop;
+					System.out.println("잘못된 입력입니다.");
+					break;
+				}
+
+			}// 과목관리
+
+			private void bookManagement() {
+			}// bookManagement() 교재관리
+
+			private void roomManagement() {
+				// 관리자 - 기초정보 관리 - 강의실 관리
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.println("[강의실 관리]");
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.println("1.");
+				System.out.println();
+				System.out.println();
+			}// roomManagement() 강의실관리
+
+			private void makecourseManagement() {
+			}// makecourseManagement() 개설 과정 관리
+
+			private void makesubjectManagement() {
+			}// makesubjectManagement() 개설 과목 관리;
+
+	}
