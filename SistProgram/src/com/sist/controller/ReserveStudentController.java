@@ -66,42 +66,49 @@ public class ReserveStudentController {
 		
 		String prstudentNum = this.rsdto.getSeq(); //생성자 rsdto의 get메서드로 매개변수 선언
 	
-		InterviewResultDAO dao = new InterviewResultDAO();
-		ArrayList<InterviewResultDTO> list = dao.list(prstudentNum);
 		
-		for (InterviewResultDTO dto : list) {
+		if (this.idto.getResult() == null) { //면접 신청을 하지 않아 null값인 회원을 예외처리
 			
-			System.out.printf(
-					 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"+
-					"[이름] %s\n[과정번호] %s\n[과정명] %s\n[면접결과] %s\n"
-							 ,dto.getrName()
-							 ,dto.getcSeq()
-							 ,dto.getcName()
-							 ,dto.getResult());
-		}
-		System.out.println();
-		
-		//면접결과 합격일 경우에만 다음 메서드로 넘어가기
-	
-		String result = idto.getResult(); //생성자 idto를 통해 로그인한 예비학생의 면접결과 가져오기
-		
-		if (result.equals("합격")) {
-			 System.out.println();
-			 System.out.println("합격하셨습니다. 예비교육생에서 교육생 계정 전환을 위해 번호 1번을 눌러주세요.");
-			 
-			 String num = scan.nextLine(); 
-				 if (num.equals("1")) {	 
-					 migration();	 
-				 } else {
-					 System.out.println("번호를 잘못 입력하였습니다. 이전 메뉴로 돌아갑니다.");
-					 start();
-				 }
-				
-		} else {
+			System.out.println("**아직 면접에 대한 결과가 없습니다.**");
 			pause();
-		}
+
+		} else {
 		
-		pause();
+			String result = this.idto.getResult(); //면접 결과 변수.
+			
+			InterviewResultDAO dao = new InterviewResultDAO();
+			ArrayList<InterviewResultDTO> list = dao.list(prstudentNum);
+			
+			for (InterviewResultDTO dto : list) {
+				
+				System.out.printf(
+						 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"+
+						"[이름] %s\n[과정번호] %s\n[과정명] %s\n[면접결과] %s\n"
+								 ,dto.getrName()
+								 ,dto.getcSeq()
+								 ,dto.getcName()
+								 ,dto.getResult());
+			}
+			System.out.println();
+			
+			//면접결과 합격일 경우에만 다음 메서드로 넘어가기
+			if (result.equals("합격")) {
+				 System.out.println();
+				 System.out.println("합격하셨습니다. 예비교육생에서 교육생 계정 전환을 위해 번호 1번을 눌러주세요.");
+				 
+				 String num = scan.nextLine(); 
+					 if (num.equals("1")) {	 
+						 migration();	 //계정전환 메서드 호출
+					 } else {
+						 System.out.println("번호를 잘못 입력하였습니다. 이전 메뉴로 돌아갑니다.");
+						 start();
+					 }
+					
+			} else {
+				pause();
+			}
+
+		}
 	}
 
 	
@@ -140,6 +147,21 @@ public class ReserveStudentController {
 	}
 
 	public void addApply() {
+		//예외처리 (이미 면접 합격 결과가 있는 회원, 면접 결과값 null && 신청한 과정번호가 있는 사람)
+		//면접은 불합격한 사람 & 아직 면접을 신청하지 않은 회원에 한해 가능함.
+
+		
+		if (this.idto.getResult() == null && this.idto.getcSeq() != null) {
+			System.out.println("**이전에 면접 신청 내역이 확인되었습니다. 신청한 교육과정 면접 일정을 확인해주세요.**");
+			pause();
+		} 
+		else if ("합격".equals(this.idto.getResult())) {
+			System.out.println("**면접 합격 내역이 있습니다. 확인 후, 교육생 계정으로 전환해주세요.**");
+			pause();
+		} else {
+		
+		
+		
 		//교육생이 신청 가능한 교육과정을 조회하는 메서드
 		view.addApplyView();
 		
@@ -179,6 +201,9 @@ public class ReserveStudentController {
 				 }
 				
 		 pause();
+		 
+		 
+			}
 		 }
 
 	

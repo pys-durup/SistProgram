@@ -85,7 +85,7 @@ public class StudentDAO {
 					+ " from tblStudent a"
 					+ " inner join tblRegiCource b"
 					+ " on a.seq = b.studentNum"
-					+ " inner join tblCourceComplet c"
+					+ " left outer join tblCourceComplet c" //수료번호 null 처리&자바 예외처리를 위해 outerjoin
 					+ " on c.regiNum = b.seq"
 					+ " where a.seq = ?";
 			//sql구문의 띄어쓰기가 제대로 안 되면 sql오류가 일어날 수 있다.
@@ -106,7 +106,7 @@ public class StudentDAO {
 				dto.setCreatedCourceNum(rs.getString("createdCourceNum")); //개설과정번호
 				dto.setRegiStateNum(rs.getString("regiStateNum")); //수강상태번호
 				dto.setRegiState(rs.getString("registate")); //수강상태
-				dto.setCourceCompletNum(rs.getString("courceCompletNum"));
+				dto.setCourceCompletNum(rs.getString("courceCompletNum")); //수료번호
 				
 				return dto;
 			}

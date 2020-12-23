@@ -42,6 +42,7 @@ public class StudentController {
 	
 	public void start() {
 		
+		
 		boolean check = true;
 		while (check) {
 		
@@ -140,6 +141,13 @@ public class StudentController {
 
 
 	private void editJobInfo() {
+		
+		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 취업내역은 수료 이후 작성하실 수 있습니다.**");
+			pause();
+			
+		} else {
+		
 		//취업내역 수정 메서드
 		view.editJobInfoView();
 		
@@ -213,12 +221,19 @@ public class StudentController {
 		}
 		pause(); //취업정보메뉴로 회귀
 		
-		
+		}
 	}
 
 
 	
 	private void listJobInfo() {
+		
+		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 취업내역은 수료 이후 작성하실 수 있습니다.**");
+			pause();
+			
+		} else {
+		
 		
 		view.listJobInfoView();
 		
@@ -239,11 +254,17 @@ public class StudentController {
 			
 		}
 		pause();
-		
+		}
 	}
 
 
 	private void addJobInfo() {
+		
+		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 취업내역은 수료 이후 작성하실 수 있습니다.**");
+			pause();
+			
+		} else {
 		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("취업내역 등록");
@@ -293,9 +314,12 @@ public class StudentController {
 		}
 		
 		pause();
+	
+		}
 	}
 
-
+	
+	
 	private void qualificationMenu() {
 		//구직활동 메뉴
 		view.qualificationMenu();
@@ -497,7 +521,14 @@ public class StudentController {
 			 dto.setGithub(github);
 			 dto.setSalary(salary);
 			 dto.setRegiNum(pregiNum);
-			 
+			 /*
+			 System.out.println(license);
+			 System.out.println(resume);
+			 System.out.println(job);
+			 System.out.println(github);
+			 System.out.println(salary);
+			 System.out.println(pregiNum);
+			 */
 			 int result = dao.addQualification(dto);
 			 
 			 if (result > 0) {
@@ -733,7 +764,14 @@ public class StudentController {
 	
 	
 	private void deleteEvaluation() {
+	
+		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 교사평가는 수료 이후 작성하실 수 있습니다.**");
+			pause();
+			
+		} else {
 		
+		//교사평가 삭제 메서드
 		view.evaluationDelete();
 		String num = scan.nextLine();
 	
@@ -755,12 +793,19 @@ public class StudentController {
 		}
 		
 		pause();
-		
+		}
 	}
 
 	
 	
 	private void listEvaluation() {
+		
+		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 교사평가는 수료 이후 작성하실 수 있습니다.**");
+			pause();
+			
+		} else {
+		
 		//교사평가 조회 메서드
 		view.evaluationListView();
 		
@@ -781,13 +826,20 @@ public class StudentController {
 	
 		 
 		 pause();
-	}
+	
+		}
 
+	}
 	
 	
 	
 	private void editEvaluation() {
 
+		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 교사평가는 수료 이후 작성하실 수 있습니다.**");
+			pause();
+			
+		} else {
 		
 		view.editEvaluationView();
 		
@@ -858,11 +910,18 @@ public class StudentController {
 	
 		 pause();
 			
+		}
 	}
 
 	
 	
 	private void addEvaluation() {
+		
+		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 교사평가는 수료 이후 작성하실 수 있습니다.**");
+			pause();
+			
+		} else {
 		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("교사평가 등록");
@@ -914,7 +973,7 @@ public class StudentController {
 		
 		
 		 pause();
-		
+		}
 	}
 
 	private void pause() {
