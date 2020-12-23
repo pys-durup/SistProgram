@@ -5,8 +5,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.sist.dto.AvailableApplyListDTO;
+import com.sist.dto.InterviewApplyDTO;
 import com.sist.main.DBUtil;
 
 public class InterviewApplyDAO {
@@ -31,9 +34,67 @@ public class InterviewApplyDAO {
 		
 	}
 	
-	
 
 	
+	public int addApply(InterviewApplyDTO dto) {
+		//예비학생의 면접 신청하기
+		try {
+			String sql = "{ call procaddApply(?, ?) }";
+			
+			cstat = conn.prepareCall(sql);
+			
+			cstat.setString(1, dto.getCreatedCourceNum());
+			cstat.setString(2, dto.getReserveStudentNum());
+			
+			return cstat.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("InterviewApplyDAO.addApply()");
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+	
+	
+	
+	
+	public ArrayList<AvailableApplyListDTO> list () {
+		//예비교육생이 신청가능한 면접 리스트를 보는 메서드
+		try {
+		
+			String sql = "select * from vw_listApply";
+			
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<AvailableApplyListDTO> list = new ArrayList<AvailableApplyListDTO>();
+			
+			
+			while (rs.next()) {
+				AvailableApplyListDTO dto = new AvailableApplyListDTO();
+				
+				
+				dto.setCseq(rs.getString("cseq"));
+				dto.setCname(rs.getString("cname"));
+				dto.setCstartdate(rs.getString("cstartdate"));
+				dto.setCenddate(rs.getString("cenddate"));
+				dto.setCpurpose(rs.getString("cpurpose"));
+				dto.setTname(rs.getString("tname"));
+				
+				list.add(dto);
+			}
+			return list;
+			
+			
+		} catch(Exception e) {
+			System.out.println("InterviewApplyDAO.list()");
+			e.printStackTrace();
+		}
+		
+		
+		
+		return null;
+	}
 	
 	
 	

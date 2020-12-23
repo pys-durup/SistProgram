@@ -33,11 +33,11 @@ public class ReserveStudentDAO {
 		} catch (Exception e) {
 			System.out.println("ReserveStudentDAO.ReserveStudentDAO()");
 			e.printStackTrace();
-			
 		}
 		
 	}
 
+	
 	
 	public ReserveStudentDTO getReserveStudent(String seq) {
 		
@@ -70,6 +70,36 @@ public class ReserveStudentDAO {
 				
 		return null;
 	} 
+	
+	
+	
+	
+	public int editReserveStudent(ReserveStudentDTO dto) {
+		//예비학생의 개인정보 수정하기
+		try {
+			String sql = "{ call  procreRinfo(?, ?, ?, ?, ?, ?, ?) }";
+			
+			cstat = conn.prepareCall(sql);
+			
+			cstat.setString(1, dto.getSeq());
+			cstat.setString(2, dto.getName());
+			cstat.setString(3, dto.getJumin());
+			cstat.setString(4, dto.getTel());
+			cstat.setString(5, dto.getAddress());
+			cstat.setString(6, dto.getField());
+			cstat.setString(7, dto.getKnowledge());
+			
+			return cstat.executeUpdate();
+		} catch(Exception e) {
+			System.out.println("ReserveStudentDAO.editReserveStudent()");
+			e.printStackTrace();
+		}
+		
+		
+		return 0;
+	}
+	
+	
 	
 	
 	

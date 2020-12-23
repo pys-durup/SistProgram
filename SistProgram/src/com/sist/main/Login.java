@@ -84,7 +84,7 @@ public class Login {
 									check = false;
 									break;
 								} else {
-									// tblMaster 테이블에 일치하는 아이디와 비밀번호가 없음
+									//테이블에 일치하는 아이디와 비밀번호가 없음
 									check = true;
 								}
 								
@@ -102,7 +102,7 @@ public class Login {
 							} else {
 								// 로그인 실패
 								System.out.println("아이디와 비밀번호를 확인해주세요");
-								loginAdmin();
+								loginReserveStudent();
 								break;
 							}
 							
@@ -186,7 +186,7 @@ public class Login {
 					} else {
 						// 로그인 실패
 						System.out.println("아이디와 비밀번호를 확인해주세요");
-						loginAdmin();
+						loginStudent();
 						break;
 					}
 					
