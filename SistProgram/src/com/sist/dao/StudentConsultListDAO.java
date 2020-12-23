@@ -35,18 +35,17 @@ public class StudentConsultListDAO {
 		
 	}
 
-	public ArrayList<StudentConsultListDTO> StudentConsultList(String word) {
+	public ArrayList<StudentConsultListDTO> StudentConsultList() {
 		try {
 			
-			String sql = "{call procStudentConsultList(?, ?)}";
+			String sql = "{call procStudentConsultList(?)}";
 			
 			cstat = conn.prepareCall(sql);
-			cstat.setString(1, "1"); 
-			cstat.registerOutParameter(2, OracleTypes.CURSOR);
+			cstat.registerOutParameter(1, OracleTypes.CURSOR);
 			
 			cstat.executeQuery();
-			
-			rs = (ResultSet)cstat.getObject(2);
+			 
+			rs = (ResultSet)cstat.getObject(1);
 			
 			ArrayList<StudentConsultListDTO> list = new ArrayList<StudentConsultListDTO>();
 			

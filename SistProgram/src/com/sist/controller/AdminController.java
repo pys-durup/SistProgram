@@ -8,9 +8,12 @@ import com.sist.dao.DataStatisticsDAO;
 import com.sist.dao.JobActivitiesDAO;
 import com.sist.dao.LinkCompanyDAO;
 import com.sist.dao.RecommendDAO;
+import com.sist.dao.ScoreListCourseDAO;
+import com.sist.dao.ScoreListStudentDAO;
 import com.sist.dao.StudentConsultListDAO;
 import com.sist.dao.StudentDAO;
 import com.sist.dao.StudentlistDAO;
+import com.sist.dao.ScCourseSubjectDAO;
 import com.sist.dao.TalentedStudentDAO;
 import com.sist.dto.AbleTStudentScoreListDTO;
 import com.sist.dto.AttendanceStatisticsDTO;
@@ -22,6 +25,9 @@ import com.sist.dto.JobInfoDTO;
 import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.MasterDTO;
 import com.sist.dto.QualificationDTO;
+import com.sist.dto.ScCourseSubjectDTO;
+import com.sist.dto.ScoreListCourseDTO;
+import com.sist.dto.ScoreListStudentDTO;
 import com.sist.dto.StudentConsultListDTO;
 import com.sist.dto.StudentlistDTO;
 import com.sist.dto.TalentedStudentListDTO;
@@ -44,11 +50,16 @@ public class AdminController {
 	private RecommendDAO rdao;
 	private CourseDAO csdao;
 	private JobActivitiesDAO jadao;
+	private ScoreListCourseDAO slcdao;
+	private ScoreListStudentDAO slsdao;
+	private ScCourseSubjectDAO scsdao;
 	private DataStatisticsDAO dsdao;
 
 
 
+
 	public AdminController(MasterDTO mdto) {
+		
 		this.mdto = mdto; // 로그인한 관리자의 계정 정보를 담는다
 		this.aview = new AdminView();
 		this.sdao = new StudentDAO();
@@ -58,9 +69,12 @@ public class AdminController {
 		this.sldao = new StudentlistDAO();
 		this.rdao = new RecommendDAO();
 		this.csdao = new CourseDAO();
-		this.jadao = new JobActivitiesDAO();
+		this.jadao = new JobActivitiesDAO();	
+		this.slcdao = new ScoreListCourseDAO();
+		this.slsdao = new ScoreListStudentDAO();
+		this.scsdao = new ScCourseSubjectDAO();
+		this.scldao = new StudentConsultListDAO();
 		this.dsdao = new DataStatisticsDAO();
-
 	}
 	
 	public void start() {
@@ -94,7 +108,7 @@ public class AdminController {
 			} else if (num.equals("4")) { 
 				attendanceManagement(); // 출결 관리 - 박영수
 			} else if (num.equals("5")) { 
-				scoreManagement();
+				scoreManagement();	// 성적 관리 - 윤지현
 			} else if (num.equals("6")) { 
 				jobactivitiesManagement(); // 취업현황 조회 - 박영수
 			} else if (num.equals("7")) {
@@ -102,7 +116,7 @@ public class AdminController {
 			} else if (num.equals("8")) { 
 				dataStatisticsManagement(); // 데이터 통계 관리 - 박영수
 			} else if (num.equals("9")) { 
-				CourseconsultationManagement();
+				CourseconsultationManagement();	// 상담 관리 - 윤지현
 
 			} else if (num.equals("0")) {
 				// 로그아웃
@@ -127,6 +141,7 @@ public class AdminController {
 			System.out.println("2. 상담 추가");
 			System.out.println("3. 상담 수정");
 			System.out.println("4. 상담 삭제");
+			System.out.println("5. 뒤로가기");
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.print("번호를 입력하세요 :");
 			num = scan.nextLine();
@@ -139,7 +154,9 @@ public class AdminController {
 				}else if(num.equals("3")) {
 					CourseconsultationEdit();
 				}else if(num.equals("4")) {
-					CourseconsultationDelete();					
+					CourseconsultationDelete();	
+				} else if (num.equals("5")) {
+					break;
 				}else {
 					System.out.println("잘못된 입력입니다");
 					pause();
@@ -151,7 +168,9 @@ public class AdminController {
 	private void CourseconsultationList() {
 		// 관리자 - 상담 관리 - 상담 조회 
 		//교육생 리스트 출력 (교육생이름, 주민번호뒷자리, 수강상태)
-			
+		
+		boolean check = true;
+		while (check) {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[상담 조회]");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -165,37 +184,34 @@ public class AdminController {
 								, dto.getSname()
 								, dto.getJumin()
 								, dto.getRegiState());
-
+		}
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");	
 		System.out.println("상담조회를 원하는 교육생의 번호를 입력해주세요.");
 		System.out.print("번호입력 : ");
-		num = scan.nextLine();
+		num = scan.nextLine(); //seq
 		
-		if (num.equals(dto.getSeq())) {
-			StudentConsultList();
-		}else {
-			System.out.println("잘못된 값을 입력하셨습니다.");
-			pause();
+		StudentConsultList(num);						
+		
 		}
-		//pause();
-
-    }
 	}
 //수정중***********************************************************************  
-  	private void StudentConsultList() {
+  	private void StudentConsultList(String num) {
   		// 관리자 - 상담 관리 - 상담 조회 
   		// 교육생 번호 선택
-  		// 전 과목 상담 일지 리스트 (상담번호, 작성날짜, 교육생이름, 과목번호, 과목명, 과정기간, 수료여부, 상담사유, 상담내용 )
- 		  		
+  		// 전 과목 상담 일지 리스트 (상담번호, 작성날짜, 교육생이름, 과목번호, 과목명, 과정기간, 상담사유, 상담내용 )
+  		
+  		boolean check = true;
+		while (check) {
+  		
   		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[상담 조회]");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");	
 		
-		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList(null);
+		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList();
 		
 		for(StudentConsultListDTO dto : list) {
 			System.out.printf("%s\t%s\t%s\t\t%s\n"
-								, dto.getSeq()
+								//, dto.getSeq()
 								, dto.getConsultDate()
 								, dto.getSname()
 								, dto.getSubjectSeq()
@@ -203,8 +219,10 @@ public class AdminController {
 								, dto.getCourseDate()
 								, dto.getConsultReason()
 								, dto.getConsultContent());
+			}
 			pause();
 			break;
+		
 			
 		}
 	}
@@ -275,7 +293,7 @@ public class AdminController {
 		System.out.println("[상담 삭제]");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		
-		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList(null); 
+		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList(); 
 		
 		for (StudentConsultListDTO dto : list) {
 			System.out.printf("%s\t%s\t%s\t%s\n", dto.getSeq(), dto.getSname(), dto.getSubjectName(), dto.getConsultContent());
@@ -292,12 +310,9 @@ public class AdminController {
 		}else {
 			System.out.println("상담 삭제 실패입니다.");
 		}
-		
-		
-		
+				
 		pause();
-		
-		
+				
 	}
 
 	private void scoreManagement() {
@@ -312,18 +327,21 @@ public class AdminController {
 			System.out.println("2. 성적 추가");
 			System.out.println("3. 성적 수정");
 			System.out.println("4. 성적 삭제");
+			System.out.println("5. 뒤로가기");
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.print("번호를 입력하세요 :");
 			num = scan.nextLine();
 					
 				if(num.equals("1")) {
-															
+					ScoreList();
 				}else if(num.equals("2")) {
-					
+					ScoreAdd();
 				}else if(num.equals("3")) {
-						
+					ScoreEdit();	
 				}else if(num.equals("4")) {					
-					
+					ScoreDelete();	
+				} else if (num.equals("5")) {
+					break;	
 				}else {
 					System.out.println("잘못된 입력입니다");
 					pause();
@@ -332,7 +350,176 @@ public class AdminController {
 		}
 	}		
 
-  
+
+ 
+	private void ScoreList() {
+		// 성적 관리 - 성적 조회
+		
+		boolean check = true;
+		while (check) {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[성적 조회]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("1. 과정별");
+		System.out.println("2. 교육생별");
+		System.out.println("3. 뒤로가기");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.print("번호를 입력하세요 :");
+		num = scan.nextLine();
+		
+		if(num.equals("1")) {
+			ScoreListCourse();
+		}else if(num.equals("2")) {
+			ScoreListStudent();
+		}else if(num.equals("3")) {
+			break;
+		}else {
+			System.out.println("잘못된 입력입니다");
+			pause();
+			break;
+		}
+		
+		
+		}
+	}
+
+	private void ScoreListCourse() {
+		// 성적 관리 - 성적 조회 - 과정별
+		
+
+		boolean check = true;
+		while (check) {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[성적 조회 - 과정별]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("번호\t과정명\t과정시작일\t과정종료일");
+		
+		System.out.println(slcdao == null);
+		ArrayList<ScoreListCourseDTO> list = slcdao.list();
+		
+		for(ScoreListCourseDTO dto : list) {
+			System.out.printf("%s\t%s\t%s\t%s\n"
+								, dto.getSeq()
+								, dto.getCname()
+								, dto.getStartDate()
+								, dto.getEndDate());
+		}
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");	
+		System.out.println("성적조회를 원하는 과정의 번호를 입력해주세요.");
+		System.out.print("번호입력 : ");
+		num = scan.nextLine();
+		
+		ScCourseSubject(num);
+		
+			pause();
+			break;
+		}
+			
+	}
+
+	private void ScCourseSubject(String num) {
+		// 성적 관리 - 성적 조회 - 과정별
+		// 과정선택- 과목리스트(과목명, 개설 과목기간, 강의실명, 개설 과목명, 교사명, 교재명 등)을 출력
+		
+		boolean check = true;
+		while (check) {
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[성적 조회 - 과정별]");
+		System.out.print("과목리스트");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("번호\t과목명\t과목기간\t강사명\t교재명");
+		
+		ArrayList<ScCourseSubjectDTO> list = scsdao.list();
+		
+		for(ScCourseSubjectDTO dto : list) {
+			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+								, dto.getSeq()
+								, dto.getSjname()
+								, dto.getDuration()
+								, dto.getTname()
+								, dto.getBook());
+		}
+		
+		}
+	}
+
+	private void ScoreListStudent() {
+		// 성적 관리 - 성적 조회 - 교육생별
+		
+		boolean check = true;
+		while (check) {
+			
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[성적 조회 - 교육생별]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("번호\t교육생이름\t주민번호\t과정명\t과정기간");
+		
+		ArrayList<ScoreListStudentDTO> list = slsdao.list();
+		
+		for(ScoreListStudentDTO dto : list) {
+			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+								, dto.getSeq()
+								, dto.getSname()
+								, dto.getJumin()
+								, dto.getCname()
+								, dto.getCourseterm());
+		}
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");	
+		System.out.println("성적조회를 원하는 교육생의 번호를 입력해주세요.");
+		System.out.print("번호입력 : ");
+		num = scan.nextLine();
+			
+			pause();
+			break;
+		}
+	}
+
+	private void ScoreAdd() {
+		// 성적 관리 - 성적 추가
+		
+	}
+
+	private void ScoreEdit() {
+		// 성적 관리 - 성적 수정
+		
+	}
+
+	private void ScoreDelete() {
+		// 성적 관리 - 성적 삭제
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[성적 삭제]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList(); 
+		
+		for (StudentConsultListDTO dto : list) {
+			System.out.printf("%s\t%s\t%s\t%s\n", dto.getSeq(), dto.getSname(), dto.getSubjectName(), dto.getConsultContent());
+		}
+		System.out.println();
+		
+		System.out.print("삭제할 상담 번호 : ");
+		String seq = scan.nextLine();
+		
+		int result = scldao.delete(seq);
+		
+		if(result>0) {
+			System.out.println("상담 삭제 성공입니다.");
+		}else {
+			System.out.println("상담 삭제 실패입니다.");
+		}
+				
+		pause();
+	}
+
+	
+private void dataStatisticsManagement() {
+		// 데이터 통계 관리
+	}
+
 
 	/**
 	 * 취업지원 관리 메뉴
@@ -1779,6 +1966,7 @@ public class AdminController {
 			aview.CourseList(list);		//과정관리 리스트 몸통
 			aview.MenuCourse();			//과정관리 리스트 메뉴
 			num = scan.nextLine();
+
 			
 			switch(num) {
 			
