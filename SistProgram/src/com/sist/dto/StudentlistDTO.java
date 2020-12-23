@@ -3,7 +3,7 @@ package com.sist.dto;
 public class StudentlistDTO {
 
 	private String seq; //번호
-	private String name; //학생이름
+	private String sname; //학생이름
 	private String jumin; // 주민번호
 	private String regiState; //수강상태
 	
@@ -13,11 +13,11 @@ public class StudentlistDTO {
 	public void setSeq(String seq) {
 		this.seq = seq;
 	}
-	public String getName() {
-		return name;
+	public String getSname() {
+		return sname;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setSname(String sname) {
+		this.sname = sname;
 	}
 	public String getJumin() {
 		return jumin;
@@ -31,6 +31,9 @@ public class StudentlistDTO {
 	public void setRegiState(String regiState) {
 		this.regiState = regiState;
 	}
+	
+	
+	
 	
 	
 	

@@ -9,9 +9,15 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.sist.dto.AbleTStudentScoreListDTO;
+import com.sist.dto.RecommendListDTO;
 import com.sist.dto.TalentedStudentListDTO;
 import com.sist.main.DBUtil;
 
+/**
+ * 추천 인재 관리 탭의 모든 기능을 담당하는 메서드
+ * @author YSPark
+ *
+ */
 public class TalentedStudentDAO {
 	
 	private static Scanner scan = new Scanner(System.in);
@@ -229,17 +235,6 @@ public class TalentedStudentDAO {
 		
 		return 0;
 	}
-	
-	
-	
-	
 
-
-	
-	
-	
-	
-	
-	
 	
 }

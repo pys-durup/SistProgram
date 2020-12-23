@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.CallableStatement;
 
+import com.sist.dto.StudentConsultListDTO;
 import com.sist.dto.StudentlistDTO;
 import com.sist.main.DBUtil;
 
@@ -36,24 +37,25 @@ public class StudentlistDAO {
 		
 	}
 
-	public ArrayList<StudentlistDTO> list(String word) {
+	public ArrayList<StudentlistDTO> Studentlist(String word) {
 		try {
 			
-			String where = "";
+//			String where = "";
+//			
+//			if(word != null) {
+//				where = String.format("where name like '%%%s%%'", word);	
+//				
+//			}
 			
-			if(word != null) {
-				where = String.format("where name like '%%%s%%'", word);	
+			String sql = "{call procStudentList(?, ?)}";
 				
-			}
-			
-			String sql = "{call procStudentList(?)}";
-					
 			cstat = conn.prepareCall(sql);
-			cstat.registerOutParameter(1, OracleTypes.CURSOR);
+			cstat.setString(1, "1"); //popseq IN NUMBER,
+			cstat.registerOutParameter(2, OracleTypes.CURSOR);
 			
 			cstat.executeQuery();
 			
-			rs = (ResultSet)cstat.getObject(1);
+			rs = (ResultSet)cstat.getObject(2);
 			
 			ArrayList<StudentlistDTO> list = new ArrayList<StudentlistDTO>();
 			
@@ -61,7 +63,7 @@ public class StudentlistDAO {
 				StudentlistDTO dto = new StudentlistDTO();
 				
 				dto.setSeq(rs.getString("seq"));
-				dto.setName(rs.getString("name"));
+				dto.setSname(rs.getString("sname"));
 				dto.setJumin(rs.getString("jumin"));
 				dto.setRegiState(rs.getString("regiState"));
 				
@@ -77,4 +79,5 @@ public class StudentlistDAO {
 		}
 		return null;
 	}
+
 }
