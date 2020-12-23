@@ -85,6 +85,7 @@ public class ReserveStudentController {
 			 System.out.println("합격하셨습니다. 예비교육생에서 교육생 계정 전환을 위해 번호 1번을 눌러주세요.");
 			 
 			 
+			 
 			 String num = scan.nextLine(); 
 				 if (num.equals("1")) {	 
 					 //migration();	 
