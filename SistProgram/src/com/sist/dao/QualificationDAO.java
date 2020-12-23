@@ -117,6 +117,7 @@ public class QualificationDAO {
 			cstat.setString(3, dto.getJob());
 			cstat.setString(4, dto.getGithub());
 			cstat.setString(5, dto.getSalary());
+			cstat.setString(6, dto.getRegiNum());
 			
 			return cstat.executeUpdate();
 			
@@ -129,6 +130,26 @@ public class QualificationDAO {
 		return 0;		
 	}
 	
+	
+	
+	public int deleteQualification(String regiNum) { 
+		//글삭제는 수강번호 1개를 받으므로 dto로 매개변수 받지 않고, 수강번호(fk)를 받는다.
+		
+		try {
+			String sql = "{ call procdeleteQ(?) }";
+			cstat = conn.prepareCall(sql);
+			cstat.setString(1, regiNum);
+			
+			return cstat.executeUpdate();
+			
+			
+		} catch(Exception e) {
+			System.out.println("QualificationDAO.deleteQualification()");
+			e.printStackTrace();	
+		}
+		
+		return 0;
+	}
 	
 	
 	
