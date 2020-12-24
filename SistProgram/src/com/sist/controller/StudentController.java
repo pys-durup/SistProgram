@@ -36,7 +36,7 @@ public class StudentController {
 		this.sdto = sdto; // 로그인한 교육생의 계정 정보를 담는다
 		this.srdto = srdto; //로그인한 교육생의 교육생테이블, 교육생-수강-수료테이블 정보 담기 (수강번호, 수료번호 필요)
 		this.tdao = new TeacherEvaluationDAO();
-		this.view = new StudentView(sdto);  //각 메서드마다 뷰 객체 찍어내지 않고 바로 호출
+		this.view = new StudentView(sdto, srdto);  //각 메서드마다 뷰 객체 찍어내지 않고 바로 호출
 	}
 	
 	

@@ -81,12 +81,17 @@ public class StudentDAO {
 					+ "b.createdCourceNum,"
 					+ "b.regiStateNum,"
 					+ "(select tblRegistate.regiState from tblRegistate where b.regiStateNum = tblRegistate.seq) as registate,"
-					+ "c.seq as courceCompletNum"
-					+ " from tblStudent a"
+					+ "c.seq as courceCompletNum,"
+					+ "d. startdate,"
+					+ "d. enddate,"
+					+ "(select tblCourse.name from tblCourse where tblCourse.seq = d.courceNum) as cName"
+					+ " from tblStudent a" //과정명은 상관쿼리로 얻어온다.
 					+ " inner join tblRegiCource b"
 					+ " on a.seq = b.studentNum"
 					+ " left outer join tblCourceComplet c" //수료번호 null 처리&자바 예외처리를 위해 outerjoin
 					+ " on c.regiNum = b.seq"
+					+ " inner join tblMakeCource d"
+					+ " on d.seq = b.createdCourceNum"
 					+ " where a.seq = ?";
 			//sql구문의 띄어쓰기가 제대로 안 되면 sql오류가 일어날 수 있다.
 			
@@ -107,6 +112,9 @@ public class StudentDAO {
 				dto.setRegiStateNum(rs.getString("regiStateNum")); //수강상태번호
 				dto.setRegiState(rs.getString("registate")); //수강상태
 				dto.setCourceCompletNum(rs.getString("courceCompletNum")); //수료번호
+				dto.setStartDate(rs.getString("startDate")); //과정시작일
+				dto.setEndDate(rs.getString("endDate")); //과정종료일
+				dto.setcName(rs.getString("cName")); //과정명
 				
 				return dto;
 			}
