@@ -1,6 +1,9 @@
 package com.sist.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 import com.sist.dao.AttendanceDAO;
@@ -593,35 +596,62 @@ public class StudentController {
 
 
 	
-	private void checkAttendance() {
-		view.addAttendance();
+	private void checkAttendance() throws ParseException{
 		
-		String num = scan.nextLine();
+		SimpleDateFormat df= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//2020-07-24 00:00:00 -->> 시작시간
 		
-		if (num.equals("1")) { //출석체크 진행
-			AttendanceDTO dto = new AttendanceDTO();
-			AttendanceDAO dao = new AttendanceDAO();
+		
+		Date date = new Date();
+		String today = df.format(date); //현재시간 찍기
+		
+		Date day = df.parse(today); 
+		Date startDate = df.parse(this.srdto.getStartDate());
+		Date endDate = df.parse(this.srdto.getEndDate());
+		
+		
+		if (day.compareTo(startDate) > 0 && day.compareTo(endDate) < 0) {
+			//현재시간이 과정시작일보다 미래 && 현재시간이 과정종료일보다 과거라면
+			//출결체크하기
+		
+			view.addAttendance();
 			
-			String pregiNum = srdto.getrSeq(); //프로시저 호출시 필요한 매개변수인 수강번호를 srdto(생성자로 만듦)를 통해 가져오기.
+			String num = scan.nextLine();
 			
-			dto.setRegiNum(pregiNum);
-			
-			int result = dao.addAttendance(dto); //매개변수를 담은 dto를 dao의 메서드로 넘기며 호출
-			
-			if (result > 0) {
-				System.out.println("출석체크를 하셨습니다.");
+			if (num.equals("1")) { //출석체크 진행
+				AttendanceDTO dto = new AttendanceDTO();
+				AttendanceDAO dao = new AttendanceDAO();
+				
+				String pregiNum = srdto.getrSeq(); //프로시저 호출시 필요한 매개변수인 수강번호를 srdto(생성자로 만듦)를 통해 가져오기.
+				
+				dto.setRegiNum(pregiNum);
+				
+				int result = dao.addAttendance(dto); //매개변수를 담은 dto를 dao의 메서드로 넘기며 호출
+				
+				if (result > 0) {
+					System.out.println("출석체크를 하셨습니다.");
+				} else {
+					System.out.println("출석체크가 정상적으로 되지 않았습니다.");
+				}
+				
+			} else if (num.equals("0")) { // //출석메뉴 뒤로 가기
+				studentAttendance();
 			} else {
-				System.out.println("출석체크가 정상적으로 되지 않았습니다.");
+				System.out.println("번호를 잘못 입력하셨습니다.");
+				pause();
 			}
 			
-		} else if (num.equals("0")) { // //출석메뉴 뒤로 가기
-			studentAttendance();
+			pause();
+		
+			
+		
 		} else {
-			System.out.println("번호를 잘못 입력하셨습니다.");
+			System.out.println("현재는 교육과정 기간이 아니기 때문에 출석 체크를 할 수 없습니다.");
 			pause();
 		}
 		
-		pause();
+		//
+		
 	}
 
 
