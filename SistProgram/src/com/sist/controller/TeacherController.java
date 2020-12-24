@@ -6,7 +6,9 @@ import java.util.Scanner;
 import com.sist.dao.CompletionStudentDAO;
 import com.sist.dao.CourseStudentListDAO;
 import com.sist.dao.JobConsultationListDAO;
+import com.sist.dao.ScoreListDAO;
 import com.sist.dao.SetScoreDAO;
+import com.sist.dao.StudentScoreListDAO;
 import com.sist.dao.TeacherEvaluationListDAO;
 import com.sist.dao.TeacherScheduleDAO;
 import com.sist.dao.setScoreListDAO;
@@ -14,7 +16,9 @@ import com.sist.dao.InterviewDataDAO;
 import com.sist.dto.CompletionStudentDTO;
 import com.sist.dto.CourseStudentListDTO;
 import com.sist.dto.JobConsultationListDTO;
+import com.sist.dto.ScoreListDTO;
 import com.sist.dto.SetScoreDTO;
+import com.sist.dto.StudentScoreListDTO;
 import com.sist.dto.StudentlistDTO;
 import com.sist.dto.TeacherDTO;
 import com.sist.dto.TeacherEvaluationListDTO;
@@ -36,8 +40,10 @@ public class TeacherController {
 	private static CompletionStudentDAO cdao;
 	private static SetScoreDAO ssdao;
 	private static setScoreListDAO ssldao;
+	private static ScoreListDAO sldao; 	
+	private static StudentScoreListDAO stldao;
 	private static InterviewDataDAO ivdao;
-	
+
 	static {
 		tsdao = new TeacherScheduleDAO(); //강의계획조회		
 		csdao = new CourseStudentListDAO();//과정학생조회
@@ -46,7 +52,10 @@ public class TeacherController {
 		cdao = new CompletionStudentDAO();  //수료자 리스트(취업상담조회 가능자)
 		ssdao = new SetScoreDAO(); // 과목배점관리
 		ssldao = new setScoreListDAO();
+		sldao = new ScoreListDAO(); //성적리스트
+		stldao = new StudentScoreListDAO(); //학생별 성적리스트
 		ivdao = new InterviewDataDAO(); //모의면접데이터
+
 		
 	}
 
@@ -85,7 +94,7 @@ public class TeacherController {
 			} else if (num.equals("2")) { 
 				setScoreList();
 			} else if (num.equals("3")) { 
-				
+				scoreList();
 			} else if (num.equals("4")) { 
 				
 			} else if (num.equals("5")) { 
@@ -363,10 +372,9 @@ public class TeacherController {
 	private void setScoreList() {
 		
 		ArrayList<setScoreListDTO> list = ssldao.list(this.tdto.getSeq());
-		System.out.println("[번호][개강과목번호]  [과목명]        [책이름][출석배점][필기배점][실기배점][과목개강일][과목종강일][과정명][과정개강일][과정종강일][강의실번호]");
+		System.out.println("[개강과목번호]\t[과목명]        [책이름]\t\t\t[출석배점][필기배점][실기배점][과목개강일][과목종강일][과정명]\t\t\t[과정개강일]\t[과정종강일]\t[강의실번호]");
 		for (setScoreListDTO ssldto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n"
-					,ssldto.getSeq()
+			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n"					
 					,ssldto.getSubjectNum()
 					,ssldto.getSubjectName()
 					,ssldto.getBookName()
@@ -410,7 +418,7 @@ public class TeacherController {
 		}
 	}
 	
-	
+	//배점과목 추가
 	private void addSetScore() {
 		
 		System.out.println("배점 과목추가하기");
@@ -445,7 +453,7 @@ public class TeacherController {
 		pause();
 		start();
 	}
-		
+	//배점과목삭제	
 	private void deleteSetScore() {
 		
 		System.out.println("삭제할 번호: ");
@@ -463,6 +471,7 @@ public class TeacherController {
 		pause();
 		start();
 	}
+	//배점수정
 	private void editSetScore()	{
 		
 		System.out.println("수정할 번호 입력: ");
@@ -505,16 +514,151 @@ public class TeacherController {
 		int result = ssdao.editSetScore(dto2);
 		
 		if (result > 0) {
-			System.out.println("상담내역 수정 완료");
+			System.out.println("배점 수정 완료");
 		} else {
-			System.out.println("상담내역 수정 실패");
+			System.out.println("배점 수정 실패");
 		}
 		pause();
 		
 		
 		
 	}
+	//성적리스트
+	private void scoreList() {
+		
+		ArrayList<setScoreListDTO> list = sldao.list(this.tdto.getSeq());
+		System.out.println("[개강과목번호]\t[과목명]        [책이름]\t\t\t[출석배점][필기배점][실기배점][과목개강일][과목종강일][과정명]\t\t\t[과정개강일]\t[과정종강일]\t[강의실번호]");
+		for (setScoreListDTO sldto : list) {
+			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n"					
+					,sldto.getSubjectNum()
+					,sldto.getSubjectName()
+					,sldto.getBookName()
+					,sldto.getAttendance()
+					,sldto.getWrite()
+					,sldto.getPractice()
+					,sldto.getSubjectStartdate()
+					,sldto.getSubjectEnddate()
+					,sldto.getCourseName()
+					,sldto.getCourseStartdate()
+					,sldto.getCourseEnddate()
+					,sldto.getRoomName());
+			
+			
+			
+		}
+		System.out.println();
+		
+		boolean check = true;
+		System.out.println();
+		System.out.println("1.성적관리");
+		System.out.println("2.뒤로가기");
+		num = scan.nextLine();
+		
+		while (check) {
+		if (num.equals("1")) {			
+			studentScoreList();
+		} else if (num.equals("2")) {
+			start();//메인화면
+		} else {
+			System.out.println("잘못된 입력입니다.");
+			check = false;
+		}
+		
+		}
+			System.out.println();
+		
+		
+		
+		
+	}
+	private void studentScoreList() {
+		System.out.println("개강과목번호 선택");
+		String pseq = scan.nextLine();
+		
+		ArrayList<StudentScoreListDTO> list = stldao.list(pseq, this.tdto.getSeq());
+		System.out.println("[성적번호]\t\t[학생명][출석점수][실기점수][필기점수][수강상태]");
+		for (StudentScoreListDTO stldto : list) {
+			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\n"
+					,stldto.getScoreSeq()
+					,stldto.getStudentName()					
+					,stldto.getAttendance()
+					,stldto.getPractice()
+					,stldto.getWriter()
+					,stldto.getRegistate());			
+		}
+		System.out.println();
+		
+		boolean check = true;
+		System.out.println();
+		System.out.println("1.성적입력");
+		System.out.println("2.뒤로가기");
+		num = scan.nextLine();
+		
+		while (check) {
+		if (num.equals("1")) {			
+			editStudentScore();
+		} else if (num.equals("2")) {
+			start();//메인화면
+		} else {
+			System.out.println("잘못된 입력입니다.");
+			check = false;
+		}
+		
+		}
+		
+		
+	}
 	
+
+private void editStudentScore()	{
+		
+		System.out.println("수정할 성적번호 입력: ");
+		String seq = scan.nextLine();
+		
+				
+		System.out.println("출석배점 수정: ");
+		String attendance = scan.nextLine();
+		
+		StudentScoreListDTO dto = new StudentScoreListDTO();
+		
+		if(attendance.equals("")) {
+			attendance = dto.getAttendance();
+		}
+		
+		
+		System.out.println("필기배점 수정: ");
+		String write = scan.nextLine();
+		
+		if(write.equals("")) {
+			write = dto.getWriter();		
+		}
+		
+		System.out.println("실기배점 수정: ");
+		String practice = scan.nextLine();
+		
+		if(practice.equals("")) {
+			practice = dto.getPractice();		
+		}
+		
+		
+		StudentScoreListDTO dto2 = new StudentScoreListDTO();				
+		dto2.setSeq(seq);
+		dto2.setAttendance(attendance);
+		dto2.setPractice(practice);
+		dto2.setWriter(write);
+		
+		
+		int result = stldao.editStudentScore(dto2);
+		
+		if (result > 0) {
+			System.out.println("성적입력 완료");
+		} else {
+			System.out.println("성적입력 실패");
+		}
+		pause();
+		start();
+		
+
 	private void Interview() {
 		// 모의 면접 관리
 		boolean check = true;
@@ -724,6 +868,7 @@ public class TeacherController {
 		
 		
 		pause();
+
 		
 	}
 }   
