@@ -82,10 +82,10 @@ public class StudentDAO {
 					+ "b.regiStateNum,"
 					+ "(select tblRegistate.regiState from tblRegistate where b.regiStateNum = tblRegistate.seq) as registate,"
 					+ "c.seq as courceCompletNum,"
-					+ "d. startdate,"
-					+ "d. enddate,"
-					+ "(select tblCourse.name from tblCourse where tblCourse.seq = d.courceNum) as cName"
-					+ " from tblStudent a" //과정명은 상관쿼리로 얻어온다.
+					+ " d. startdate,"
+					+ " d. enddate,"
+					+ " (select tblCourse.name from tblCourse where tblCourse.seq = d.courceNum) as cName"
+					+ " from tblStudent a" //과정명은 상관서브쿼리를 통해 불러온다.
 					+ " inner join tblRegiCource b"
 					+ " on a.seq = b.studentNum"
 					+ " left outer join tblCourceComplet c" //수료번호 null 처리&자바 예외처리를 위해 outerjoin

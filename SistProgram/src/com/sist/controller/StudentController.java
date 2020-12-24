@@ -24,6 +24,7 @@ import com.sist.dto.StudentDTO;
 import com.sist.dto.StudentsAttendanceDTO;
 import com.sist.dto.StudentsRegiCourceDTO;
 import com.sist.dto.TeacherEvaluationDTO;
+import com.sist.main.Login;
 import com.sist.view.StudentView;
 
 public class StudentController {
@@ -69,8 +70,8 @@ public class StudentController {
 				jobMenu();
 				break;
 			} else {
-				System.out.println("잘못된 입력입니다");
-				pause();
+				 Login lg = new Login();
+				 lg.loginStudent(); //6. 로그아웃(교육생 로그인 메서드 호출)
 				
 			}
 		}
@@ -248,6 +249,7 @@ public class StudentController {
  		
 		
 		for (JobInfoDTO dto : list) {
+			System.out.println("----------------------------------------------");
 			System.out.printf("[취업일자] %s\n[4대보험 가입여부] %s\n[고용형태] %s\n[직무] %s\n[연봉]%s\n"
 								,dto.getStartDate()
 								,dto.getInsurance()
@@ -477,6 +479,7 @@ public class StudentController {
 		ArrayList<QualificationDTO> list = dao.list(pregiNum);
 		
 		for (QualificationDTO dto : list) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.printf("[보유자격증] %s\n[이력서] %s\n[희망 직무] %s\n[깃허브 주소] %s\n[희망 연봉] %s\n"
 								, dto.getLicense()
 								, dto.getResume()
@@ -556,6 +559,8 @@ public class StudentController {
 			} else if (num.equals("2")) {
 				listStudentAttendance(); //출결 전체조회하기
 				break;
+			} else if (num.equals("3")) {
+				choiceRangeAttendance(); //출결 선택조회하기
 			} else if (num.equals("0")) {
 				start(); //학생 메인메뉴로 회귀
 				break;
@@ -566,6 +571,40 @@ public class StudentController {
 			}
 		}
 		
+		
+	}
+
+	
+
+	private void choiceRangeAttendance() {
+		view.choiceRangeAttendanceView();
+		
+		System.out.println("조회할 기간의 시작일을 입력해주세요.");
+		System.out.println("   ex) 20201020");
+		String pstartDate = scan.nextLine();
+		
+		System.out.println("조회할 기간의 종료일을 입력해주세요.");
+		System.out.println("   ex) 20201120");
+		String pendDate = scan.nextLine();
+		
+		String pstudentNum = this.sdto.getSeq();
+		//생성자로 만든 sdto의 학생번호를 프로시저 매개변수로 사용.
+		
+		AttendanceDAO dao = new AttendanceDAO();
+		
+		ArrayList<StudentsAttendanceDTO> listChoice = dao.listChoice(pstudentNum, pstartDate, pendDate); 
+		
+		System.out.printf("[날짜]\t\t[입실시간]\t\t[퇴실시간]\t\t[출결상태]\n");
+		System.out.println();
+		for (StudentsAttendanceDTO dto : listChoice) {
+			
+			System.out.printf("%s\t%s\t%s\t%s\t\n"
+								,dto.getDays()
+								,dto.getInTime()
+								,dto.getOutTime()
+								,dto.getDayState());
+		}
+		pause();
 		
 	}
 
@@ -596,24 +635,28 @@ public class StudentController {
 
 
 	
-	private void checkAttendance() throws ParseException{
-		
+	private void checkAttendance() {
+		//유효성 검사
 		SimpleDateFormat df= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		//2020-07-24 00:00:00 -->> 시작시간
-		
 		
 		Date date = new Date();
-		String today = df.format(date); //현재시간 찍기
+		String today = df.format(date); //현재시간 문자열 만들기
 		
-		Date day = df.parse(today); 
-		Date startDate = df.parse(this.srdto.getStartDate());
-		Date endDate = df.parse(this.srdto.getEndDate());
-		
+		Date day = null; //날짜 비교를 위한 변수 초기화
+		Date startDate = null;
+		Date endDate = null;
+		//날짜 변환 parse를 사용하기 위해서 try catch 로 예외처리
+		try {
+			day = df.parse(today); 
+			startDate = df.parse(this.srdto.getStartDate());
+			endDate = df.parse(this.srdto.getEndDate());			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		
 		if (day.compareTo(startDate) > 0 && day.compareTo(endDate) < 0) {
 			//현재시간이 과정시작일보다 미래 && 현재시간이 과정종료일보다 과거라면
 			//출결체크하기
-		
 			view.addAttendance();
 			
 			String num = scan.nextLine();
@@ -649,11 +692,10 @@ public class StudentController {
 			System.out.println("현재는 교육과정 기간이 아니기 때문에 출석 체크를 할 수 없습니다.");
 			pause();
 		}
-		
-		//
-		
+
 	}
 
+	
 
 	private void studentConsultation() {
 		//상담일지 메뉴
@@ -693,7 +735,7 @@ public class StudentController {
 		ArrayList<JobConsultationDTO> list = dao.list(pstudentNum);
 		
 		System.out.printf("[상담일]\t\t\t[상담 내용]\n");
-		for (JobConsultationDTO dto : list) {
+		for (JobConsultationDTO dto : list) {			
 			System.out.printf("%s\t\t%s\n"
 								,dto.getConsDate()
 								,dto.getContent());

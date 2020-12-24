@@ -128,6 +128,8 @@ public class ReserveStudentController {
 			if (result > 0) {
 				
 				System.out.println("교육생 계정전환이 성공적으로 완료되었습니다. 로그아웃 후 교육생계정으로 다시 로그인해주세요.");
+				view.migrationCelebration();
+				
 				Login lg = new Login(); 
 				lg.loginStudent(); //로그인 객체 생성하여 교육생 로그인 메서드 호출하기
 			} else {
@@ -152,7 +154,7 @@ public class ReserveStudentController {
 
 		
 		if (this.idto.getResult() == null && this.idto.getcSeq() != null) {
-			System.out.println("**이전에 면접 신청 내역이 확인되었습니다. 신청한 교육과정 면접 일정을 확인해주세요.**");
+			System.out.println("**이전 면접 신청 내역이 확인되었습니다. 신청한 교육과정 면접 일정을 확인해주세요.**");
 			pause();
 		} 
 		else if ("합격".equals(this.idto.getResult())) {

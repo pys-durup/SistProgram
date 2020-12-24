@@ -27,7 +27,6 @@ public class StudentView {
 		System.out.printf("교육생 %s님 접속을 환영합니다\n", this.sdto.getName() );
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.printf("[교육과정] *%s*\n", this.srdto.getcName());
-		System.out.printf("[과정 기간] *%s ~ %s*\n", this.srdto.getStartDate(), this.srdto.getEndDate());
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("1. 출결체크 및 조회");
 		System.out.println("2. 성적 조회");
@@ -135,7 +134,6 @@ public class StudentView {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println();		
 		System.out.printf(" **%s님의 취업상담 일지**\n", this.sdto.getName());
-		System.out.println();
 		
 	}
 
@@ -146,6 +144,7 @@ public class StudentView {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("1. 출석 체크하기");
 		System.out.println("2. 전체출결 확인하기");
+		System.out.println("3. 검색하여 출결 확인하기");
 		System.out.println();
 		System.out.println("0. 뒤로 가기");
 		
@@ -160,7 +159,6 @@ public class StudentView {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println();		
 		System.out.printf(" **%s님 출석체크하시겠습니까?**\n", this.sdto.getName());
-		System.out.println();
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("1. 출석 체크하기");
 		System.out.println("0. 이전으로");
@@ -216,7 +214,6 @@ public class StudentView {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println();		
 		System.out.printf(" **%s님의 구직활동정보**\n", this.sdto.getName());
-		System.out.println();
 	}
 
 
@@ -269,7 +266,6 @@ public class StudentView {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println();		
 		System.out.printf(" **%s님의 취업내역**\n", this.sdto.getName());
-		System.out.println();
 	}
 
 
@@ -282,6 +278,21 @@ public class StudentView {
 		System.out.println("**수정을 원하지 않는 항목은 enter키를 입력해주세요.");
 		System.out.println();
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+	}
+
+
+
+	public void choiceRangeAttendanceView() {
+	
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.printf(" **%s님의 기간 내 출결 현황**\n", this.sdto.getName());
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.printf("[교육과정] *%s*\n", this.srdto.getcName());
+		System.out.printf("[과정 기간] *%s ~ %s*\n", this.srdto.getStartDate(), this.srdto.getEndDate());
+		System.out.println();
+		
+		
 		
 	}
 	
