@@ -11,6 +11,7 @@ import com.sist.dao.DataStatisticsDAO;
 import com.sist.dao.JobActivitiesDAO;
 import com.sist.dao.LinkCompanyDAO;
 import com.sist.dao.RecommendDAO;
+import com.sist.dao.RoomDAO;
 import com.sist.dao.ScCourseSubjectDAO;
 import com.sist.dao.ScCourseSubjectScoreDAO;
 import com.sist.dao.ScoreListCourseDAO;
@@ -33,6 +34,7 @@ import com.sist.dto.JobInfoDTO;
 import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.MasterDTO;
 import com.sist.dto.QualificationDTO;
+import com.sist.dto.RoomDTO;
 import com.sist.dto.ScCourseSubjectDTO;
 import com.sist.dto.ScCourseSubjectScoreDTO;
 import com.sist.dto.ScoreListCourseDTO;
@@ -69,7 +71,7 @@ public class AdminController {
 	private AttendanceDAO adao;
 	private SubjectDAO sbdao;
 	private BookDAO bodao;
-
+	private RoomDAO rodao;
 
 	public AdminController(MasterDTO mdto) {
 		
@@ -92,6 +94,7 @@ public class AdminController {
 		this.adao = new AttendanceDAO();
 		this.sbdao = new SubjectDAO();
 		this.bodao = new BookDAO();
+		this.rodao = new RoomDAO();
 	}
 
 	public void start() {
@@ -2333,8 +2336,7 @@ public class AdminController {
 				break;
 			}
 		}
-
-
+		//관리자-기초 정보 관리-교재 관리
 		private void bookManagement() {	//교재관리
 		    
 			
@@ -2367,14 +2369,14 @@ public class AdminController {
 				System.out.println("추가X");
 			}
 			break;
-		case "2" : // 과목 수정
+		case "2" : // 교재 수정
 			aview.Number();
 			String seq = scan.nextLine();
 			
 			//seq정보를 주면 그기업의 정보를 반환시켜주는 메서드
 			BookDTO dto = bodao.getBook(seq);
 			
-			// 수정할 과정의 정보
+			// 수정할 교제의 정보
 			aview.InfoBook(dto);
 			
 			aview.Book();
@@ -2433,7 +2435,7 @@ public class AdminController {
 			break;
 			
 				
-		case "3" : // 과목 삭제
+		case "3" : // 교재 삭제
 			aview.DeleteNumber();
 			seq = scan.nextLine();
 			
@@ -2517,7 +2519,7 @@ public class AdminController {
 
 					break;
 
-				case "3": // 과목 삭제
+				case "3": // 교제 삭
 					aview.DeleteNumber();
 					seq = scan.nextLine();
 
@@ -2541,12 +2543,88 @@ public class AdminController {
 
 			private void roomManagement() {
 				// 관리자 - 기초정보 관리 - 강의실 관리
-				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-				System.out.println("[강의실 관리]");
-				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-				System.out.println("1.");
-				System.out.println();
-				System.out.println();
+			    	ArrayList<RoomDTO> list = rodao.list();
+			    								
+				aview.HeadRoom();	// 머릿말
+				aview.RoomList(list);	// 강의실 리스트
+				aview.menuRoom();	// 메뉴 
+				num = scan.nextLine();	//번호 입력
+				
+				switch (num) {
+				case "1": // 강의실 이름 변경
+				    aview.Number();
+					String seq = scan.nextLine();
+
+					// seq정보를 주면 그기업의 정보를 반환시켜주는 메서드
+					RoomDTO dto = rodao.getRoom(seq);
+
+					// 수정할 강의실정보 
+					aview.InfoRoom(dto);
+
+					aview.Room();
+					String roomnum = scan.nextLine();
+
+					if (roomnum.equals("")) { // 입력 내용이 없을때
+						roomnum = dto.getName();
+					}
+
+					RoomDTO dto2 = new RoomDTO();
+
+					dto2.setSeq(seq);
+					dto2.setRoomnum(roomnum);
+					dto2.setCapacity(dto.getCapacity());
+					dto2.setName(dto.getName());
+
+					int resultUpdate = rodao.UpdateRoom(dto2);
+
+					if (resultUpdate > 0) {
+						System.out.println("수정 완료!");
+					} else {
+						System.out.println("수정 실패!");
+					}
+					
+					break;
+				case "2": // 강의실 정원 변경
+				    	aview.Caustion();
+				    	aview.Number();
+				    	seq = scan.nextLine();
+
+					// seq정보를 주면 그기업의 정보를 반환시켜주는 메서드
+					dto = rodao.getRoom(seq);
+
+					// 수정할 강의실정보 
+					aview.InfoRoom(dto);
+
+					aview.Capacity();
+					String capacity = scan.nextLine();
+
+					if (capacity.equals("")) { // 입력 내용이 없을때
+						capacity = dto.getCapacity();
+					}
+
+					dto2 = new RoomDTO();
+
+					dto2.setSeq(seq);
+					dto2.setRoomnum(dto.getRoomnum());
+					dto2.setCapacity(capacity);
+					dto2.setName(dto.getName());
+
+					resultUpdate = rodao.UpdateCapacity(dto2);
+
+					if (resultUpdate > 0) {
+						System.out.println("수정 완료!");
+					} else {
+						System.out.println("수정 실패!");
+					}
+					
+					break;
+				default:
+					loop = !loop;
+					System.out.println("잘못된 입력입니다.");
+					break;
+				}
+						 			
+
 			}// roomManagement() 강의실관리
 
 			private void makecourseManagement() {
