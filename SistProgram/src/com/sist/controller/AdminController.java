@@ -318,68 +318,68 @@ public class AdminController {
 		System.out.print("수정할 상담 번호 : ");
 		String seq = scan.nextLine();
 		
-//		StudentConsultListDTO dto = scldao;
-//		
-//		System.out.println();
-//		//System.out.println("번호 : " + dto.getSeq());
-//		System.out.println("교육생이름 : " + dto.getSname());
-//		System.out.println("상담날짜 : " + dto.getConsultDate());
-//		System.out.println("상담사유 : " + dto.getConsultReason());
-//		System.out.println("상담내용 : " + dto.getConsultContent());
-//		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-//		System.out.println("수정을 하지 않는 컬럼은 그냥 엔터를 입력하세오.");
-//		
-//		
-//		System.out.print("수정할 교육생이름 : ");
-//		String sname = scan.nextLine();
-//		
-//		if(sname.equals("")) {
-//			sname = dto.getSname();
-//		}
-//				
-//		
-//		System.out.print("수정할 상담날짜 : ");
-//		String ConsultDate = scan.nextLine();
-//		
-//		if(ConsultDate.equals("")) {
-//			ConsultDate = dto.getConsultDate();
-//		}
-//		
-//		
-//		System.out.print("수정할 상담사유: ");
-//		String ConsultReason = scan.nextLine();
-//		
-//		if(ConsultReason.equals("")) {
-//			ConsultReason = dto.getConsultDate();
-//		}
-//		
-//		
-//		System.out.print("수정할 상담내용: ");
-//		String ConsultContent = scan.nextLine();
-//		
-//		if(ConsultContent.equals("")) {
-//			ConsultContent = dto.getConsultContent();
-//		}
-//		
-//		
-//		StudentConsultListDTO dto2 = new StudentConsultListDTO();
-//		
-//		dto2.setSname(sname);
-//		dto2.setConsultDate(ConsultDate);
-//		dto2.setConsultReason(ConsultReason);
-//		dto2.setConsultContent(ConsultContent);
-//		
-//		int result = scldao.edit(dto2);
-//		
-//		if(result>0) {
-//			System.out.println("주소록 수정 성공");
-//		}else {
-//			System.out.println("주소록 수정 실패");
-//		}
-//		
-//		
-//		pause();
-//		
+		StudentConsultListDTO dto = new StudentConsultListDTO();
+		
+		System.out.println();
+		//System.out.println("번호 : " + dto.getSeq());
+		System.out.println("교육생이름 : " + dto.getSname());
+		System.out.println("상담날짜 : " + dto.getConsultDate());
+		System.out.println("상담사유 : " + dto.getConsultReason());
+		System.out.println("상담내용 : " + dto.getConsultContent());
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("수정을 하지 않는 컬럼은 그냥 엔터를 입력하세오.");
+		
+		
+		System.out.print("수정할 교육생이름 : ");
+		String sname = scan.nextLine();
+		
+		if(sname.equals("")) {
+			sname = dto.getSname();
+		}
+				
+		
+		System.out.print("수정할 상담날짜 : ");
+		String ConsultDate = scan.nextLine();
+		
+		if(ConsultDate.equals("")) {
+			ConsultDate = dto.getConsultDate();
+		}
+		
+		
+		System.out.print("수정할 상담사유: ");
+		String ConsultReason = scan.nextLine();
+		
+		if(ConsultReason.equals("")) {
+			ConsultReason = dto.getConsultDate();
+		}
+		
+		
+		System.out.print("수정할 상담내용: ");
+		String ConsultContent = scan.nextLine();
+		
+		if(ConsultContent.equals("")) {
+			ConsultContent = dto.getConsultContent();
+		}
+		
+		
+		StudentConsultListDTO dto2 = new StudentConsultListDTO();
+		
+		dto2.setSname(sname);
+		dto2.setConsultDate(ConsultDate);
+		dto2.setConsultReason(ConsultReason);
+		dto2.setConsultContent(ConsultContent);
+		
+		int result = scldao.edit(dto2);
+		
+		if(result>0) {
+			System.out.println("주소록 수정 성공");
+		}else {
+			System.out.println("주소록 수정 실패");
+		}
+		
+		
+		pause();
+		
 
 
 	}
