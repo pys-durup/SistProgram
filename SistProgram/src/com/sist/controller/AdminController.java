@@ -2538,8 +2538,6 @@ public class AdminController {
 
 			}// 과목관리
 
-			private void bookManagement() {
-			}// bookManagement() 교재관리
 
 			private void roomManagement() {
 				// 관리자 - 기초정보 관리 - 강의실 관리
