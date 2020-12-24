@@ -60,6 +60,7 @@ public ArrayList<BookDTO> list(String word) {
 		list.add(dto);
 	}
 	
+	rs.close();
 	return list;
 	
 
@@ -80,6 +81,9 @@ public int addBook(String name, String writer, String publisher, String price, S
 		+ "(seqBook.nextval, '%s', '%s', '%s', '%s', %s)", name, writer, publisher, price, count);
 
 	int result = stat.executeUpdate(sql);
+	
+	
+	rs.close();
 	return result;
 
     } catch (Exception e) {
@@ -134,6 +138,8 @@ public int UpdateBook(BookDTO dto2) {
 	cstat.setString(5, dto2.getPrice());
 	cstat.setString(6, dto2.getCount());
 	
+	
+	rs.close();
 	return pstat.executeUpdate();
 
     } catch (Exception e) {
@@ -152,7 +158,9 @@ public int DeleteBook(String seq) {
 		"delete from tblBook where seq = %s", seq);
 
 	int result = stat.executeUpdate(sql);
-
+	
+	
+	rs.close();
 	return result;
 	
 

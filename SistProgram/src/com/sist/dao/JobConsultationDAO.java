@@ -59,6 +59,8 @@ public ArrayList<JobConsultationDTO> list(String pstudentNum) {
 			
 			list.add(dto);
 		}
+		
+		
 		return list;
 		
 	} catch(Exception e) {
