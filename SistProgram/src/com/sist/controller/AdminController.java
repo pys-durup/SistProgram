@@ -9,6 +9,8 @@ import com.sist.dao.DataStatisticsDAO;
 import com.sist.dao.JobActivitiesDAO;
 import com.sist.dao.LinkCompanyDAO;
 import com.sist.dao.RecommendDAO;
+import com.sist.dao.ScCourseSubjectDAO;
+import com.sist.dao.ScCourseSubjectScoreDAO;
 import com.sist.dao.ScoreListCourseDAO;
 import com.sist.dao.ScoreListStudentDAO;
 import com.sist.dao.StudentConsultListDAO;
@@ -29,6 +31,7 @@ import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.MasterDTO;
 import com.sist.dto.QualificationDTO;
 import com.sist.dto.ScCourseSubjectDTO;
+import com.sist.dto.ScCourseSubjectScoreDTO;
 import com.sist.dto.ScoreListCourseDTO;
 import com.sist.dto.ScoreListStudentDTO;
 import com.sist.dto.StudentConsultListDTO;
@@ -59,8 +62,10 @@ public class AdminController {
 	private ScoreListStudentDAO slsdao;
 	private ScCourseSubjectDAO scsdao;
 	private DataStatisticsDAO dsdao;
+	private ScCourseSubjectScoreDAO scssdao;
 	private AttendanceDAO adao;
 	private SubjectDAO sbdao;
+
 
 
 	public AdminController(MasterDTO mdto) {
@@ -80,9 +85,9 @@ public class AdminController {
 		this.scsdao = new ScCourseSubjectDAO();
 		this.scldao = new StudentConsultListDAO();
 		this.dsdao = new DataStatisticsDAO();
+		this.scssdao = new ScCourseSubjectScoreDAO();
 		this.adao = new AttendanceDAO();
 		this.sbdao = new SubjectDAO();
-
 	}
 
 	public void start() {
@@ -292,6 +297,86 @@ public class AdminController {
 
 	private void CourseconsultationEdit() {
 		// 관리자 - 상담 관리 - 상담 수정
+		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList();
+		
+		for(StudentConsultListDTO dto : list) {
+			System.out.printf("%s\t%s\t%s\t\t%s\n"
+								//, dto.getSeq()
+								, dto.getConsultDate()
+								, dto.getSname()
+								, dto.getSubjectSeq()
+								, dto.getSubjectName()
+								, dto.getCourseDate()
+								, dto.getConsultReason()
+								, dto.getConsultContent());
+		}
+		System.out.println();
+		System.out.print("수정할 상담 번호 : ");
+		String seq = scan.nextLine();
+		
+//		StudentConsultListDTO dto = scldao;
+//		
+//		System.out.println();
+//		//System.out.println("번호 : " + dto.getSeq());
+//		System.out.println("교육생이름 : " + dto.getSname());
+//		System.out.println("상담날짜 : " + dto.getConsultDate());
+//		System.out.println("상담사유 : " + dto.getConsultReason());
+//		System.out.println("상담내용 : " + dto.getConsultContent());
+//		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+//		System.out.println("수정을 하지 않는 컬럼은 그냥 엔터를 입력하세오.");
+//		
+//		
+//		System.out.print("수정할 교육생이름 : ");
+//		String sname = scan.nextLine();
+//		
+//		if(sname.equals("")) {
+//			sname = dto.getSname();
+//		}
+//				
+//		
+//		System.out.print("수정할 상담날짜 : ");
+//		String ConsultDate = scan.nextLine();
+//		
+//		if(ConsultDate.equals("")) {
+//			ConsultDate = dto.getConsultDate();
+//		}
+//		
+//		
+//		System.out.print("수정할 상담사유: ");
+//		String ConsultReason = scan.nextLine();
+//		
+//		if(ConsultReason.equals("")) {
+//			ConsultReason = dto.getConsultDate();
+//		}
+//		
+//		
+//		System.out.print("수정할 상담내용: ");
+//		String ConsultContent = scan.nextLine();
+//		
+//		if(ConsultContent.equals("")) {
+//			ConsultContent = dto.getConsultContent();
+//		}
+//		
+//		
+//		StudentConsultListDTO dto2 = new StudentConsultListDTO();
+//		
+//		dto2.setSname(sname);
+//		dto2.setConsultDate(ConsultDate);
+//		dto2.setConsultReason(ConsultReason);
+//		dto2.setConsultContent(ConsultContent);
+//		
+//		int result = scldao.edit(dto2);
+//		
+//		if(result>0) {
+//			System.out.println("주소록 수정 성공");
+//		}else {
+//			System.out.println("주소록 수정 실패");
+//		}
+//		
+//		
+//		pause();
+//		
+
 
 	}
 
@@ -430,15 +515,15 @@ public class AdminController {
 	}
 
 	private void ScCourseSubject(String num) {
-		// 성적 관리 - 성적 조회 - 과정별
-		// 과정선택- 과목리스트(과목명, 개설 과목기간, 강의실명, 개설 과목명, 교사명, 교재명 등)을 출력
+		// 성적 관리 - 성적 조회 - 과정별- 과정선택
+		// 과목리스트(과목명, 개설 과목기간, 강의실명, 개설 과목명, 교사명, 교재명 등)을 출력
 		
 		boolean check = true;
 		while (check) {
 		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[성적 조회 - 과정별]");
-		System.out.print("과목리스트");
+		System.out.println("과목리스트");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("번호\t과목명\t과목기간\t강사명\t교재명");
 		
@@ -452,8 +537,43 @@ public class AdminController {
 								, dto.getTname()
 								, dto.getBook());
 		}
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");	
+		System.out.println("성적조회를 원하는 과목의 번호를 입력해주세요.");
+		System.out.print("번호입력 : ");
+		num = scan.nextLine();
+		
+		//과목번호를 받아서 성적출력하는 메서드
+		ScCourseSubjectScore(num);
+		
+			pause();
+			break;
 		
 		}
+	}
+
+	//과목번호를 받아서 성적출력하는 메서드
+	private void ScCourseSubjectScore(String num2) {
+		// 성적 관리 - 성적 조회 - 과정별- 과정선택- 과목선택 
+		// 교육생 성적 정보(교육생 이름, 주민번호 뒷자리, 필기, 실기) 출력
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[성적 조회 - 과정별 - 과목]");
+		System.out.println("교육생 성적 리스트");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("교육생이름\t주민번호\t필기점수\t실기점수");
+		
+		ArrayList<ScCourseSubjectScoreDTO> list = scssdao.list();
+		
+		for(ScCourseSubjectScoreDTO dto : list) {
+			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+								, dto.getSname()
+								, dto.getJumin()
+								, dto.getWrite()
+								, dto.getPratice());
+			pause();
+			break;
+		
+		}
+		
 	}
 
 	private void ScoreListStudent() {
@@ -465,7 +585,7 @@ public class AdminController {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[성적 조회 - 교육생별]");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("번호\t교육생이름\t주민번호\t과정명\t과정기간");
+		System.out.println("번호\t교육생이름\t주민번호\t과정명\t\t\t\t\t과정기간");
 		
 		ArrayList<ScoreListStudentDTO> list = slsdao.list();
 		
@@ -489,6 +609,40 @@ public class AdminController {
 
 	private void ScoreAdd() {
 		// 성적 관리 - 성적 추가
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[성적 추가]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+		System.out.print("교육생이름 : ");
+		String sname = scan.nextLine();
+		
+		System.out.print("과목번호 : ");
+		String sjnum = scan.nextLine();
+		
+		System.out.print("필기점수 : ");
+		String write = scan.nextLine();
+		
+		System.out.print("실기점수 : ");
+		String practice = scan.nextLine();
+		
+//		AddressDTO dto = new AddressDTO();
+//		dto.setName(name);
+//		dto.setAge(age);
+//		dto.setGender(gender);
+//		dto.setTel(tel);
+//		dto.setAddress(address); //포장
+//		
+//		int result = dao.add(dto);
+//		
+//		if(result == 1) {
+//			System.out.println("주소록 추가 성공");
+//		}else {
+//			System.out.println("주소록 추가 실패");
+//		}
+//		
+//		pause();
+		
 		
 	}
 
