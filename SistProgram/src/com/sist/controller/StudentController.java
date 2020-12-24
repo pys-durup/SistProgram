@@ -521,14 +521,7 @@ public class StudentController {
 			 dto.setGithub(github);
 			 dto.setSalary(salary);
 			 dto.setRegiNum(pregiNum);
-			 /*
-			 System.out.println(license);
-			 System.out.println(resume);
-			 System.out.println(job);
-			 System.out.println(github);
-			 System.out.println(salary);
-			 System.out.println(pregiNum);
-			 */
+			 
 			 int result = dao.addQualification(dto);
 			 
 			 if (result > 0) {
@@ -545,6 +538,7 @@ public class StudentController {
 	}
 
 
+	
 	private void studentAttendance() {
 		view.studentAttendanceMenu();
 		
@@ -627,7 +621,7 @@ public class StudentController {
 			pause();
 		}
 		
-		
+		pause();
 	}
 
 
