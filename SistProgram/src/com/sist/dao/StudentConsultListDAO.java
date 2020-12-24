@@ -119,5 +119,28 @@ public class StudentConsultListDAO {
 		return 0;
 	}
 
+	public int edit(StudentConsultListDTO dto2) {
+
+		try {
+			
+			String sql = "update tblCourseConsultation set name=?, ConsultDate=?, ConsultReason=?, ConsultContent=?";
+			
+			pstat= conn.prepareStatement(sql);
+			
+			pstat.setString(1, dto2.getSname());
+			pstat.setString(2, dto2.getConsultDate());
+			pstat.setString(3, dto2.getConsultReason());
+			pstat.setString(4, dto2.getConsultContent());
+
+			return pstat.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("StudentConsultListDAO.edit()");
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+
 	
 }

@@ -39,15 +39,14 @@ public class ScoreListStudentDAO {
 
 		try {
 			
-			String sql = "{call procStudentCourseList(?, ?)}";
+			String sql = "{call procStudentCourseList(?)}";
 			
 			cstat = conn.prepareCall(sql);
-			cstat.setString(1, "1"); 
-			cstat.registerOutParameter(2, OracleTypes.CURSOR);
+			cstat.registerOutParameter(1, OracleTypes.CURSOR);
 			
 			cstat.executeQuery();
 			 
-			rs = (ResultSet)cstat.getObject(2);
+			rs = (ResultSet)cstat.getObject(1);
 			
 			ArrayList<ScoreListStudentDTO> list = new ArrayList<ScoreListStudentDTO>();
 			
