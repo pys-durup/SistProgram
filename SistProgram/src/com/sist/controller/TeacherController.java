@@ -12,17 +12,19 @@ import com.sist.dao.StudentScoreListDAO;
 import com.sist.dao.TeacherEvaluationListDAO;
 import com.sist.dao.TeacherScheduleDAO;
 import com.sist.dao.setScoreListDAO;
+import com.sist.dao.InterviewDataDAO;
 import com.sist.dto.CompletionStudentDTO;
 import com.sist.dto.CourseStudentListDTO;
 import com.sist.dto.JobConsultationListDTO;
 import com.sist.dto.ScoreListDTO;
 import com.sist.dto.SetScoreDTO;
 import com.sist.dto.StudentScoreListDTO;
+import com.sist.dto.StudentlistDTO;
 import com.sist.dto.TeacherDTO;
 import com.sist.dto.TeacherEvaluationListDTO;
 import com.sist.dto.TeacherScheduleDTO;
 import com.sist.dto.setScoreListDTO;
-
+import com.sist.dto.InterviewDataDTO;
 
 
 
@@ -40,7 +42,8 @@ public class TeacherController {
 	private static setScoreListDAO ssldao;
 	private static ScoreListDAO sldao; 	
 	private static StudentScoreListDAO stldao;
-	
+	private static InterviewDataDAO ivdao;
+
 	static {
 		tsdao = new TeacherScheduleDAO(); //강의계획조회		
 		csdao = new CourseStudentListDAO();//과정학생조회
@@ -51,6 +54,8 @@ public class TeacherController {
 		ssldao = new setScoreListDAO();
 		sldao = new ScoreListDAO(); //성적리스트
 		stldao = new StudentScoreListDAO(); //학생별 성적리스트
+		ivdao = new InterviewDataDAO(); //모의면접데이터
+
 		
 	}
 
@@ -75,9 +80,10 @@ public class TeacherController {
 			System.out.println("4. 출결 관리");
 			System.out.println("5. 교사 평가 조회");
 			System.out.println("6. 상담 일지 관리");
-			System.out.println("7. 사후처리 조회");
-			System.out.println("8. 데이터 통계");
-			System.out.println("9. 로그아웃");
+			System.out.println("7. 취업 상담 관리");
+			System.out.println("8. 모의 면접 관리");
+			System.out.println("9. 데이터 통계");
+			System.out.println("10. 로그아웃");
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.print("번호를 입력하세요 :");
 			num = scan.nextLine();
@@ -100,8 +106,10 @@ public class TeacherController {
 			} else if (num.equals("7")) { 
 				
 			} else if (num.equals("8")) { 
+				Interview();
+			} else if (num.equals("9")) { 	
 				
-			} else if (num.equals("9")) { 
+			} else if (num.equals("10")) { 
 				// 로그아웃
 				break;
 			} else {
@@ -113,6 +121,7 @@ public class TeacherController {
 		
 	}
 	
+
 	private void pause() {
 		System.out.print("엔터를 누르면 이전화면으로 돌아갑니다");
 		String num = scan.nextLine();
@@ -600,6 +609,7 @@ public class TeacherController {
 		
 	}
 	
+
 private void editStudentScore()	{
 		
 		System.out.println("수정할 성적번호 입력: ");
@@ -648,6 +658,217 @@ private void editStudentScore()	{
 		pause();
 		start();
 		
+
+	private void Interview() {
+		// 모의 면접 관리
+		boolean check = true;
+		while (check) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("[모의 면접 관리]");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 모의 면접 평가");
+			System.out.println("2. 모의 면접 데이터");
+			System.out.println("3. 뒤로가기");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+			
+			if(num.equals("1")) {				
+				InterviewEvaluation();
+			} else if (num.equals("2")) { 
+				InterviewData();
+			} else if (num.equals("3")) { 
+				break;
+			
+			}else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+		}
+		}
+	}
+
+	private void InterviewEvaluation() {
+		// 모의 면접 평가
+		
+	}
+
+	private void InterviewData() {
+		// 모의 면접 데이터 관리
+		boolean check = true;
+		while (check) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("[모의 면접 데이터]");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 모의 면접 데이터 조회");
+			System.out.println("2. 모의 면접 데이터 추가");
+			System.out.println("3. 모의 면접 데이터 수정");
+			System.out.println("4. 모의 면접 데이터 삭제");
+			System.out.println("5. 뒤로가기");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+			
+			if(num.equals("1")) {				
+				InterviewDataList();
+			} else if (num.equals("2")) { 
+				InterviewDataAdd();
+			} else if (num.equals("3")) { 
+				InterviewDataEdit();
+			} else if (num.equals("4")) { 
+				InterviewDataDelete();
+			} else if (num.equals("5")) { 
+				break;
+			
+			}else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+		}
+		}
+	}
+
+	private void InterviewDataList() {
+		// 모의 면접 데이터 조회
+		
+		boolean check = true;
+		while (check) {
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[모의 면접 데이터 조회]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("번호\t면접질문\t\t\t\t점수기준");
+
+		ArrayList<InterviewDataDTO> list = ivdao.list();
+		
+		for(InterviewDataDTO dto : list) {
+			System.out.printf("%s\t%-25s\t%s\n"
+								, dto.getSeq()
+								, dto.getQuestion()
+								, dto.getStandard());
+				
+		}
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		pause();
+		break;
+		}
+		
+	}
+
+	private void InterviewDataAdd() {
+		// 모의 면접 데이터 추가
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[모의 면접 데이터 추가]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+		System.out.print("질문 : ");
+		String question = scan.nextLine();
+
+		System.out.print("점수기준 : ");
+		String standard = scan.nextLine();
+		
+		InterviewDataDTO dto = new InterviewDataDTO();
+		dto.setQuestion(question);
+		dto.setStandard(standard);
+		
+		int result = ivdao.add(dto);
+		
+		if(result == 1) {
+			System.out.println("주소록 추가 성공");
+		}else {
+			System.out.println("주소록 추가 실패");
+		}
+				
+		pause();
+		
+	}
+
+	private void InterviewDataEdit() {
+		// 모의 면접 데이터 수정
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[모의 면접 데이터 수정]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+		ArrayList<InterviewDataDTO> list = ivdao.list();
+		
+		for(InterviewDataDTO dto : list) {
+			System.out.printf("%s\t%-25s\t%s\n"
+								, dto.getSeq()
+								, dto.getQuestion()
+								, dto.getStandard());
+		}
+		System.out.println();
+		System.out.print("수정할 면접 데이터 번호 : ");
+		String seq = scan.nextLine();
+		
+		InterviewDataDTO dto = ivdao.get(seq);
+		
+		System.out.println();
+		System.out.println("질문 : " + dto.getQuestion());
+		System.out.println("점수기준 : " + dto.getStandard());
+		System.out.println();
+		
+		System.out.println("━━━━수정을 하지 않는 컬럼은 그냥 엔터를 입력하세요━━━━");
+		
+		System.out.print("수정할 질문 : ");
+		String question = scan.nextLine();
+		
+		if(question.equals("")) {
+			question = dto.getQuestion();
+		}
+						
+		System.out.print("수정할 점수기준 : ");
+		String standard = scan.nextLine();
+		
+		if(standard.equals("")) {
+			standard = dto.getStandard();
+		}
+		
+		InterviewDataDTO dto2 = new InterviewDataDTO();
+		
+		dto2.setQuestion(question);
+		dto2.setStandard(standard);
+				
+		int result = ivdao.edit(dto2);
+		
+		if(result>0) {
+			System.out.println("모의 면접 데이터 수정 성공");
+		}else {
+			System.out.println("모의 면접 데이터 수정 실패");
+		}
+				
+		pause();
+	}
+
+	private void InterviewDataDelete() {
+		// 모의 면접 데이터 삭제
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[모의 면접 데이터 삭제]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("번호\t면접질문\t\t\t\t점수기준");
+		
+		ArrayList<InterviewDataDTO> list = ivdao.list(); 
+
+		for (InterviewDataDTO dto : list) {
+			System.out.printf("%s\t%-25s\t%s\n", dto.getSeq(), dto.getQuestion(), dto.getStandard());
+		}
+		System.out.println();
+		
+		System.out.print("삭제할 모의 면접 데이터 번호 : ");
+		String seq = scan.nextLine();
+		
+		int result = ivdao.delete(seq);
+		
+		if(result>0) {
+			System.out.println("모의 면접 데이터 삭제 성공");
+		}else {
+			System.out.println("모의 면접 데이터 삭제 실패");
+		}
+		
+		
+		
+		pause();
+
 		
 	}
 }   
