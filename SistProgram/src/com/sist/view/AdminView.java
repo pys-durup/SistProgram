@@ -53,7 +53,6 @@ public class AdminView {
 	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 	System.out.println("[과정관리]");
 	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-	System.out.println("[번호]  \t[과정]\t\t\t\t\t[과정목적]");	
 	}
 	public void MenuCourse() {
 		
@@ -242,8 +241,8 @@ public class AdminView {
 
 	public void SubjectList(ArrayList<SubjectDTO> list) {
 	for (SubjectDTO dto : list) {
-		System.out.println("[번호]  \t[과목]\t\t\t\t\t[소요일]");	
-		System.out.printf("%s%s%s", dto.getSeq(), dto.getName(), dto.getDuration());
+		System.out.println("[번호]  \t[과목]\t\t\t\t\t\t\t[소요일]");	
+		System.out.printf("%s %s\t\t%s", dto.getSeq(), dto.getName(), dto.getDuration());
 		System.out.println();
 	}
 	}
@@ -294,7 +293,57 @@ public class AdminView {
         }
         
         public void BookList(ArrayList<BookDTO> list) {
+    	for (BookDTO dto : list) {
+			System.out.println("[번호] \t[책이름]\t\t\t[글쓴이]");	
+			System.out.printf(" %s\t%s\t\t\t%s\n", dto.getSeq(), dto.getName(), dto.getWriter());
+			System.out.println("[출판사]\\t[가격]\\t[재고]");
+			System.out.printf("%s\t%s\t\t%s\n",dto.getPublisher(), dto.getPrice(), dto.getCount());
+			
+            
         }
-        
+        }
+
+	public void menuBook() {
+	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	System.out.println("1. 교재 등록");
+	System.out.println("2. 교재 수정");
+	System.out.println("3. 교재 삭제");
+	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	System.out.print("선택(번호) : ");
+	}
+
+	public void Book() {
+	    System.out.println("교재 : ");
+	}
+
+	public void Writer() {
+	    System.out.println("글쓴이 :");
+	}
+
+	public void Publisher() {
+	    System.out.println("출판사 : ");
+	}
+
+	public void Price() {
+	    System.out.println("가격 : ");
+	}
+
+	public void Count() {
+	    System.out.println("재고 : ");
+	}
+
+	public void InfoBook(BookDTO dto) {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    	System.out.println("수정할 교재 정보");
+	    	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    	System.out.println("제목       : " + dto.getName());
+	    	System.out.println("글쓴이     : " + dto.getWriter());
+	    	System.out.println("출판사     : " + dto.getPublisher());
+	    	System.out.println("가격       : " + dto.getPrice());
+	    	System.out.println("재고       : " + dto.getCount());
+	    	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    	System.out.println("━━━━━━━━━━━━━━ 수정을 하지 않는 컬럼은 엔터를 입력하시오 ━━━━━━━━━━━━━━━━━━━");	
+	        }
+	
 
 }

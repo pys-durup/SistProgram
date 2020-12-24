@@ -3,6 +3,8 @@ package com.sist.controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+import com.sist.dao.BookDAO;
 import com.sist.dao.AttendanceDAO;
 import com.sist.dao.CourseDAO;
 import com.sist.dao.DataStatisticsDAO;
@@ -22,6 +24,7 @@ import com.sist.dao.TalentedStudentDAO;
 import com.sist.dto.AbleTStudentScoreListDTO;
 import com.sist.dto.AttendanceInfoDTO;
 import com.sist.dto.AttendanceStatisticsDTO;
+import com.sist.dto.BookDTO;
 import com.sist.dto.CompletStudentListDTO;
 import com.sist.dto.CourseDTO;
 import com.sist.dto.EmploymentRateDTO;
@@ -65,7 +68,7 @@ public class AdminController {
 	private ScCourseSubjectScoreDAO scssdao;
 	private AttendanceDAO adao;
 	private SubjectDAO sbdao;
-
+	private BookDAO bodao;
 
 
 	public AdminController(MasterDTO mdto) {
@@ -88,6 +91,7 @@ public class AdminController {
 		this.scssdao = new ScCourseSubjectScoreDAO();
 		this.adao = new AttendanceDAO();
 		this.sbdao = new SubjectDAO();
+		this.bodao = new BookDAO();
 	}
 
 	public void start() {
@@ -2330,7 +2334,127 @@ public class AdminController {
 			}
 		}
 
+
+		private void bookManagement() {	//교재관리
+		    
+			
+			ArrayList<BookDTO> list = bodao.list(null);
+			
+			aview.HeadBook();
+			aview.BookList(list);
+			aview.menuBook();
+			num = scan.nextLine();
+		
+		switch(num) {
+		case "1" : // 교재 등록
+			aview.Book();
+			String book =scan.nextLine();
+			aview.Writer();
+			String writer = scan.nextLine();
+			aview.Publisher();
+			String publisher = scan.nextLine();
+			aview.Price();
+			String price = scan.nextLine();
+			aview.Count();
+			String count = scan.nextLine();
+						
+			
+			int resultAdd = bodao.addBook(book, writer, publisher, price, count);
+			
+			if(resultAdd > 0) {
+				System.out.println("추가 완료");
+			} else {
+				System.out.println("추가X");
+			}
+			break;
+		case "2" : // 과목 수정
+			aview.Number();
+			String seq = scan.nextLine();
+			
+			//seq정보를 주면 그기업의 정보를 반환시켜주는 메서드
+			BookDTO dto = bodao.getBook(seq);
+			
+			// 수정할 과정의 정보
+			aview.InfoBook(dto);
+			
+			aview.Book();
+			String name =scan.nextLine();
+			
+			if (name.equals("")) { //입력 내용이 없을때
+				name = dto.getName();
+			}
+			
+			aview.Writer();
+			writer = scan.nextLine();
+			
+			if (writer.equals("")) { //입력 내용이 없을때
+			writer = dto.getWriter();
+			}
+			
+			aview.Publisher();
+			publisher = scan.nextLine();
+			
+			if (publisher.equals("")) { //입력 내용이 없을때
+			publisher = dto.getPublisher();
+			}
+			
+			aview.Price();
+			price = scan.nextLine();
+			
+			if (price.equals("")) { //입력 내용이 없을때
+			price = dto.getPrice();
+			}
+			
+			aview.Count();
+			count = scan.nextLine();
+			
+			if (count.equals("")) { //입력 내용이 없을때
+			count = dto.getCount();
+			}
+			
+			BookDTO dto2 = new BookDTO();
+			
+			
+			dto2.setSeq(seq);
+			dto2.setName(name);
+			dto2.setWriter(writer);
+			dto2.setPublisher(publisher);
+			dto2.setPrice(price);
+			dto2.setCount(count);
+			
+			int resultUpdate = bodao.UpdateBook(dto2);
+														
+			if(resultUpdate > 0) {
+				System.out.println("수정 완료!");
+			} else {
+				System.out.println("수정 실패!");
+			}
+			
+			break;
+			
+				
+		case "3" : // 과목 삭제
+			aview.DeleteNumber();
+			seq = scan.nextLine();
+			
+			int resultDelete = bodao.DeleteBook(seq);
+			
+			if(resultDelete > 0) {
+				System.out.println("삭제 완료!");
+			} else {
+				System.out.println("삭제 실패!");
+			}
+			break;
+		
+		default:
+			loop = !loop;
+			System.out.println("잘못된 입력입니다.");
+			break;
+		}
+		}//bookManagement() 교재관리
+
 			private void subjectManagement() { //과목 관리
+
 
 				ArrayList<SubjectDTO> list = sbdao.list(null);
 
