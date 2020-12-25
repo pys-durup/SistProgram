@@ -84,7 +84,6 @@ public class ReserveStudentView {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println();		
 		System.out.printf(" **%s님의 면접결과**\n", this.rsdto.getName());
-		System.out.println();
 		
 	}
 
@@ -101,6 +100,12 @@ public class ReserveStudentView {
 		System.out.printf(" (1) 계정전환    (0) 뒤로 가기 ");
 		
 		
+	}
+
+
+	public void migrationCelebration() {
+		 System.out.println();
+		 System.out.println("*̥❄︎‧˚₊✧*｡*̥❄︎‧˚₊✧*｡*̥❄︎‧˚₊✧*｡*̥❄︎‧˚₊✧*｡*̥❄︎‧˚₊✧*｡*̥❄︎‧˚₊✧*｡");                                                                                 
 	}
 	
 	

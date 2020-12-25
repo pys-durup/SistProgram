@@ -100,6 +100,7 @@ public class Login {
 								ReserveStudentDAO rsdao = new ReserveStudentDAO();
 								ReserveStudentController ReserveStudent = new ReserveStudentController(rsdao.getReserveStudent(seq),rsdao.getInterviewResult(seq));
 								ReserveStudent.start();
+								break;
 							} else {
 								// 로그인 실패
 								System.out.println("아이디와 비밀번호를 확인해주세요");
@@ -184,6 +185,7 @@ public class Login {
 						StudentDAO sdao = new StudentDAO();
 						StudentController Student = new StudentController(sdao.getStudent(seq), sdao.getStudentsRegiCource(seq));
 						Student.start();
+						break;
 					} else {
 						// 로그인 실패
 						System.out.println("아이디와 비밀번호를 확인해주세요");
