@@ -768,11 +768,7 @@ public class AdminController {
 		int endNum = page;
 
 		while (true) {
-			System.out.println(
-					"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("                                                     연계 기업 목록");
-			System.out.println(
-					"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeTitle("연계 기업 목록", 123);
 
 			System.out.println("[번호]\t  [회사이름]\t\t\t\t  [주소]\t\t\t\t  [부서]\t\t[제시연봉]");
 
@@ -847,25 +843,30 @@ public class AdminController {
 		// 취업지원 관리 - 연계기업 관리 - 연계기업 검색
 		while (true) {
 
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("연계 기업명으로 검색");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.print("검색어를 입력하세요 :");
+			aview.makeTitle("연계 기업명으로 검색", 63);
+			System.out.print("검색어를 입력하세요 : ");
 			num = scan.nextLine();
 
+			aview.makeTitle("'" + num + "' 으로검색한 결과", 123);
 			ArrayList<LinkCompanyDTO> list = lcdao.linkCompanyList(num);
 			if (list.size() != 0) {
-				System.out.println("번호\t회사이름\t\t\t주소\t\t\t\t\t\t부서\t\t\t제시연봉");
+				aview.makeLine(123);
+				
+				System.out.println("[번호]\t[회사이름]\t\t\t[주소]\t\t\t\t\t\t[부서]\t\t\t[제시연봉]");
 				for (LinkCompanyDTO dto : list) {
 					System.out.printf("%2s\t%-15s\t\t%-30s\t%-15s\t%7s\n", dto.getSeq(), dto.getName(),
 							dto.getAddress(), dto.getDepartment(), dto.getSalary());
 				}
 
 			} else {
+
+				aview.makeLine(123);
 				System.out.println("해당 검색어로 검색된 결과가 없습니다");
 			}
-
+			
+			aview.makeLine(123);
 			System.out.println("1. 다시 검색하기 2. 뒤로가기");
+			System.out.print("번호를 입력하세요 : ");
 			num = scan.nextLine();
 
 			if (num.equals("1")) {
@@ -885,18 +886,22 @@ public class AdminController {
 	 */
 	private void enterpriseAdd() {
 		// 취업지원 관리 - 연계기업 관리 - 연계기업 추가
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("연계기업 추가");
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		aview.makeTitle("연계기업 추가", 76);
 		System.out.print("기업이름 : ");
 		String name = scan.nextLine();
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		if(name.length() < 0 || name.length() >= 20) {
+			aview.makeLine(76);
+			System.out.println("기업 이름은 20자 이내여야 합니다.");
+			pause();
+			return;
+		}
+		aview.makeLine(76);
 		System.out.print("주소 : ");
 		String address = scan.nextLine();
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		aview.makeLine(76);
 		System.out.print("부서 : ");
 		String departmemt = scan.nextLine();
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		aview.makeLine(76);
 		System.out.print("제시연봉 : ");
 		String salary = scan.nextLine();
 
@@ -929,14 +934,10 @@ public class AdminController {
 		int startNum = 0;
 		int endNum = page;
 
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("연계기업 수정");
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+		aview.makeTitle("연계기업 수정", 123);
 
 		while (true) {
-//			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-//			System.out.println("연계 기업 목록");
-//			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.println("[번호]\t  [회사이름]\t\t\t\t  [주소]\t\t\t\t  [부서]\t\t[제시연봉]");
 
 			ArrayList<LinkCompanyDTO> list = lcdao.linkCompanyList(null);
@@ -952,10 +953,10 @@ public class AdminController {
 						list.get(i).getAddress(), list.get(i).getDepartment(), list.get(i).getSalary());
 			}
 
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeLine(123);
 
 			System.out.println("1. 이전 페이지로 2. 다음 페이지로 3. 수정하기 4. 뒤로가기");
-			System.out.print("번호를 입력하세요 :");
+			System.out.print("번호를 입력하세요 : ");
 			num = scan.nextLine();
 
 			if (num.equals("1")) {
@@ -990,62 +991,76 @@ public class AdminController {
 				// seq정보를 주면 그기업의 정보를 반환시켜주는 메서드
 				LinkCompanyDTO dto = lcdao.getLinkCompany(num);
 
-				// 수정할 기업의 정보
-				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-				System.out.println("수정할 기업의 정보");
-				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-				System.out.println("이름 : " + dto.getName());
-				System.out.println("주소 : " + dto.getAddress());
-				System.out.println("부서 : " + dto.getDepartment());
-				System.out.println("연봉 : " + dto.getSalary());
-				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-				System.out.println("━━━━━━━━━━━━━━ 수정을 하지 않는 컬럼은 엔터를 입력하시오 ━━━━━━━━━━━━━━━━━━━");
-				System.out.println("수정할 이름 : ");
-				String name = scan.nextLine();
-
-				if (name.equals("")) {
-					name = dto.getName();
-				}
-
-				System.out.println("수정할 주소 : ");
-				String address = scan.nextLine();
-
-				if (address.equals("")) {
-					address = dto.getAddress();
-				}
-
-				System.out.println("수정할 부서 : ");
-				String department = scan.nextLine();
-
-				if (department.equals("")) {
-					department = dto.getDepartment();
-				}
-
-				System.out.println("수정할 연봉 : ");
-				String salary = scan.nextLine();
-
-				if (salary.equals("")) {
-					salary = dto.getSalary();
-				}
-
-				// editdto객체에는 수정된 레코드 값을 넣는다
-				LinkCompanyDTO editdto = new LinkCompanyDTO();
-				editdto.setSeq(dto.getSeq());
-				editdto.setName(name);
-				editdto.setAddress(address);
-				editdto.setDepartment(department);
-				editdto.setSalary(salary);
-
-				int result = lcdao.linkCompanyEdit(editdto);
-
-				if (result > 0) {
-					System.out.println("기업 수정 성공");
+				if(dto != null) {
+					// 기업 정보가 있다
+					// 수정할 기업의 정보
+					aview.makeTitle("수정할 기업의 정보", 76);
+					System.out.println("이름 : " + dto.getName());
+					System.out.println("주소 : " + dto.getAddress());
+					System.out.println("부서 : " + dto.getDepartment());
+					System.out.println("연봉 : " + dto.getSalary());
+					aview.makeLine(76);
+					System.out.println("━━━━━━━━━━━━━━ 수정을 하지 않는 컬럼은 엔터를 입력하시오 ━━━━━━━━━━━━━━━━━━━");
+					System.out.print("수정할 이름 : ");
+					String name = scan.nextLine();
+					
+					if (name.equals("")) {
+						name = dto.getName();
+					}
+					
+					if(name.length() < 0 || name.length() >= 20) {
+						aview.makeLine(76);
+						System.out.println("기업 이름은 20자 이내여야 합니다.");
+						pause();
+						return;
+					}
+					
+					System.out.print("수정할 주소 : ");
+					String address = scan.nextLine();
+					
+					if (address.equals("")) {
+						address = dto.getAddress();
+					}
+					
+					System.out.print("수정할 부서 : ");
+					String department = scan.nextLine();
+					
+					if (department.equals("")) {
+						department = dto.getDepartment();
+					}
+					
+					System.out.print("수정할 연봉 : ");
+					String salary = scan.nextLine();
+					
+					if (salary.equals("")) {
+						salary = dto.getSalary();
+					}
+					
+					// editdto객체에는 수정된 레코드 값을 넣는다
+					LinkCompanyDTO editdto = new LinkCompanyDTO();
+					editdto.setSeq(dto.getSeq());
+					editdto.setName(name);
+					editdto.setAddress(address);
+					editdto.setDepartment(department);
+					editdto.setSalary(salary);
+					
+					int result = lcdao.linkCompanyEdit(editdto);
+					
+					if (result > 0) {
+						System.out.println("기업 수정 성공");
+					} else {
+						System.out.println("기업 수정 실패");
+					}
+					
+					pause();
+					break;
 				} else {
-					System.out.println("기업 수정 실패");
+					// 잘못된 기업 번호를 입력했을때
+					System.out.println("잘못된 기업의 번호입니다");
+					System.out.println("수정할 데이터가 존재하지 않습니다");
+					pause();
+					break;
 				}
-
-				pause();
-				break;
 
 			} else if (num.equals("4")) {
 				break;
@@ -1071,14 +1086,8 @@ public class AdminController {
 		int startNum = 0;
 		int endNum = page;
 
-//		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-//		System.out.println("연계기업 삭제");
-//		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-
 		while (true) {
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("연계 기업 목록");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeTitle("연계기업 삭제", 123);
 			System.out.println("[번호]\t  [회사이름]\t\t\t\t  [주소]\t\t\t\t  [부서]\t\t[제시연봉]");
 
 			ArrayList<LinkCompanyDTO> list = lcdao.linkCompanyList(null);
@@ -1094,10 +1103,10 @@ public class AdminController {
 						list.get(i).getAddress(), list.get(i).getDepartment(), list.get(i).getSalary());
 			}
 
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeLine(123);
 
 			System.out.println("1. 이전 페이지로 2. 다음 페이지로 3. 삭제하기 4. 뒤로가기");
-			System.out.print("번호를 입력하세요 :");
+			System.out.print("번호를 입력하세요 : ");
 			num = scan.nextLine();
 
 			if (num.equals("1")) {
@@ -1126,7 +1135,7 @@ public class AdminController {
 
 			} else if (num.equals("3")) {
 				// 삭제 진행
-				System.out.print("삭제할 기업의 번호를 입력하세요 :");
+				System.out.print("삭제할 기업의 번호를 입력하세요 : ");
 				num = scan.nextLine();
 
 				// 기업을 삭제하는 메서드
@@ -1224,7 +1233,7 @@ public class AdminController {
 		System.out.print("검색할 번호를 입력하세요 :");
 		num = scan.nextLine();
 
-		aview.TalentedStudentListView();
+		aview.TalentedStudentListView(num);
 
 		pause();
 
@@ -1299,7 +1308,7 @@ public class AdminController {
 	private void talentedStudenEdit() {
 		// 취업지원 관리 - 추천인재 관리 - 추천 인재 수정
 		while (true) {
-			aview.TalentedStudentListView();
+			aview.TalentedStudentListView(null);
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.println("1. 수정하기 2. 뒤로가기");
 			System.out.print("번호를 선택하세요 : ");
@@ -1378,7 +1387,7 @@ public class AdminController {
 		// 취업지원 관리 - 추천인재 관리 - 추천 인재 삭제
 
 		while (true) {
-			aview.TalentedStudentListView();
+			aview.TalentedStudentListView(null);
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.println("1. 삭제하기 2. 뒤로가기");
 			System.out.print("번호를 선택하세요 : ");
@@ -1470,7 +1479,7 @@ public class AdminController {
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
 			// 추천 할 인재 선택
-			aview.TalentedStudentListView();
+			aview.TalentedStudentListView(null);
 
 			System.out.println("1. 인재 추천하기 2. 뒤로가기");
 			System.out.print("번호를 선택하세요 : ");

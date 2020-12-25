@@ -34,9 +34,15 @@ public class AdminView {
 	/**
 	 * 취업지원 관리 - 추천인재 관리 - 인재목록
 	 */
-	public void TalentedStudentListView() {
+	public void TalentedStudentListView(String word) {
 		
-		ArrayList<TalentedStudentListDTO> list = tsdao.talentedStudenList(null);
+		ArrayList<TalentedStudentListDTO> list = new ArrayList<TalentedStudentListDTO>();
+		
+		if(word == null) {
+			list = tsdao.talentedStudenList(null);
+		} else {
+			list = tsdao.talentedStudenList(word);
+		}
 		
 		for (TalentedStudentListDTO dto : list) {
 			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
@@ -345,5 +351,32 @@ public class AdminView {
 	    	System.out.println("━━━━━━━━━━━━━━ 수정을 하지 않는 컬럼은 엔터를 입력하시오 ━━━━━━━━━━━━━━━━━━━");	
 	        }
 	
+	public void makeTitle(String title, int count) {
+		
+		String line = "";
 
+		for(int i=0 ; i<count ; i++) {
+			line += "━";
+		}
+		
+		String space = "";
+		for(int i=0 ; i<line.length() / 2 - title.length() ; i++) {
+			space += " ";
+		}
+		
+		title = space + title;
+		
+		System.out.println(line);
+		System.out.println(title);
+		System.out.println(line);
+	}
+	
+	public void makeLine (int count) {
+		String line = "";
+		for(int i=0 ; i<count ; i++) {
+			line += "━";
+		}
+		
+		System.out.println(line);
+	}
 }
