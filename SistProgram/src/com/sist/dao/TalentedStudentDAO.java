@@ -50,7 +50,7 @@ public class TalentedStudentDAO {
 			
 			// 검색어가 있으면 where절 생성
 			if (word != null) {
-				where = String.format("where reginum like '%%%s%%'", word);
+				where = String.format("where seq = %s ", word);
 			}
 			
 			String sql = String.format("select * from vwtalentedStudentList %s", where);

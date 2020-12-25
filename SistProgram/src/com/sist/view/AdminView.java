@@ -37,21 +37,33 @@ public class AdminView {
 	public void TalentedStudentListView(String word) {
 		
 		ArrayList<TalentedStudentListDTO> list = new ArrayList<TalentedStudentListDTO>();
-		
+
 		if(word == null) {
 			list = tsdao.talentedStudenList(null);
 		} else {
 			list = tsdao.talentedStudenList(word);
 		}
 		
-		for (TalentedStudentListDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
-									, dto.getSeq()
-									, dto.getName()
-									, dto.getTel()
-									, dto.getPortfolio()
-									, dto.getReason());
+		if(list.size() > 0) {
+			// 검색된 값 결과가 있을때
+			makeLine(100);
+			System.out.println("[번호]\t[이름]\t[전화번호]\t[포트폴리오]\t[추천이유]");
+			for (TalentedStudentListDTO dto : list) {
+				System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+						, dto.getSeq()
+						, dto.getName()
+						, dto.getTel()
+						, dto.getPortfolio()
+						, dto.getReason());
+			
+			}
+		} else {
+			makeLine(100);
+			System.out.println("검색된 결과가 없습니다");
+			
 		}
+		
+		
 	}
 
 	public void HeadCourse() {
@@ -92,13 +104,16 @@ public class AdminView {
 		
 		ArrayList<RecommendListDTO> list = rdao.recommendStudentList();
 		
+		System.out.println("[번호]\t  [이름]\t    [연계기업명]\t\t[추천날짜]");
 		for (RecommendListDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\n"
+			System.out.printf("%4s\t  %s   \t%-22s\t%s\n"
 									, dto.getSeq()
 									, dto.getStudentName()
 									, dto.getCompanyName()
 									, dto.getRecoDate());
 		}
+		
+		makeLine(67);
 		
 	}
 	
@@ -150,7 +165,7 @@ public class AdminView {
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			
 			System.out.println("1. 이전 페이지로 2. 다음 페이지로 3. 선택하러가기");
-			System.out.print("번호를 입력하세요 :");
+			System.out.print("번호를 입력하세요 : ");
 			num = scan.nextLine();
 			
 			if (num.equals("1")) {
