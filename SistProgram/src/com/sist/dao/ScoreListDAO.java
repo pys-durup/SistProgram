@@ -65,6 +65,7 @@ public class ScoreListDAO {
 				   dto.setCourseStartdate(rs.getString("courseStartdate"));
 				   dto.setCourseEnddate(rs.getString("courseEnddate"));
 				   dto.setRoomName(rs.getString("roomName"));
+				   dto.setScoreStatus(rs.getString("scoreStatus"));
 				   
 				   list.add(dto);
 			   }

@@ -101,10 +101,10 @@ public class TeacherController {
 				TeacherEvaluation();
 				pause();
 			} else if (num.equals("6")) { 
+				
+			} else if (num.equals("7")) { 
 				JobConsultation();
 				pause();
-			} else if (num.equals("7")) { 
-				
 			} else if (num.equals("8")) { 
 				Interview();
 			} else if (num.equals("9")) { 	
@@ -133,10 +133,11 @@ public class TeacherController {
 		
 		
 		ArrayList<TeacherScheduleDTO> list = tsdao.selectList(this.tdto.getSeq());
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("[과정번호][교사명]\t\t\t[과정명]\t\t      \t  [과목번호]\t\t\t[과목명]\t\t\t    [책이름]\t\t    [강의실][개강일] [종강일] [과정인원수][상태]");
+		
+		
 		for (TeacherScheduleDTO dto : list) {
-			System.out.printf("%s    \t  %s \t%s \t%s \t%s \t\t       %s      \t%s %s %s %s %s\n"
+			System.out.printf("_________________________________________________________\n"
+					+ "[과정번호] %s\n[교사명] %s\n[과정명] %s\n[과목번호] %s\n[과목명] %s\n[책이름] %s\n[강의실] %s\n[개강일] %s\n[종강일] %s\n[과정인원수] %s\n[상태] %s\n"
 					,dto.getCourseNum()
 					,dto.getTeacherName()
 					,dto.getCourseName()
@@ -166,7 +167,7 @@ public class TeacherController {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[번호][학생명][주민번호]      [전화번호]     [등록일]  [수료상태]");
 		for (CourseStudentListDTO csdto : list) {
-			System.out.printf("%s, %s, %s, %s, %s, %s\n"
+			System.out.printf("%s %s %s %s %s %s\n"
 					,csdto.getSeq()
 					,csdto.getName()
 					,csdto.getJumin()
@@ -372,9 +373,10 @@ public class TeacherController {
 	private void setScoreList() {
 		
 		ArrayList<setScoreListDTO> list = ssldao.list(this.tdto.getSeq());
-		System.out.println("[개강과목번호]\t[과목명]        [책이름]\t\t\t[출석배점][필기배점][실기배점][과목개강일][과목종강일][과정명]\t\t\t[과정개강일]\t[과정종강일]\t[강의실번호]");
+		
 		for (setScoreListDTO ssldto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n"					
+			System.out.printf("_______________________________________________________________________________________________________________________________________________\n"
+					+"[개강과목번호] %s\n[과목명] %s\n[책이름] %s\n[출석배점] %s\n[필기배점] %s\n[실기배점] %s\n[과목개강일] %s\n[과목종강일] %s\n[과정명] %s\n[과정개강일] %s\n[과정종강일] %s\n[강의실번호]%s\n"					
 					,ssldto.getSubjectNum()
 					,ssldto.getSubjectName()
 					,ssldto.getBookName()
@@ -527,9 +529,10 @@ public class TeacherController {
 	private void scoreList() {
 		
 		ArrayList<setScoreListDTO> list = sldao.list(this.tdto.getSeq());
-		System.out.println("[개강과목번호]\t[과목명]        [책이름]\t\t\t[출석배점][필기배점][실기배점][과목개강일][과목종강일][과정명]\t\t\t[과정개강일]\t[과정종강일]\t[강의실번호]");
+		
 		for (setScoreListDTO sldto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n"					
+			System.out.printf("_____________________________________\n"
+					+ "[개강과목번호]%s\n[과목명]%s\n[책이름]%s\n[출석배점]%s\n[필기배점]%s\n[실기배점]%s\n[과목개강일]%s\n[과목종강일]%s\n[과정명]%s\n[과정개강일]%s\n[과정종강일]%s\n[강의실번호]%s\n[성적등록여부]%s\n"					
 					,sldto.getSubjectNum()
 					,sldto.getSubjectName()
 					,sldto.getBookName()
@@ -541,7 +544,8 @@ public class TeacherController {
 					,sldto.getCourseName()
 					,sldto.getCourseStartdate()
 					,sldto.getCourseEnddate()
-					,sldto.getRoomName());
+					,sldto.getRoomName()
+					,sldto.getScoreStatus());
 			
 			
 			
@@ -570,15 +574,15 @@ public class TeacherController {
 		
 		
 		
-	}
+	}//학생 성적리스트
 	private void studentScoreList() {
 		System.out.println("개강과목번호 선택");
 		String pseq = scan.nextLine();
 		
 		ArrayList<StudentScoreListDTO> list = stldao.list(pseq, this.tdto.getSeq());
-		System.out.println("[성적번호]\t\t[학생명][출석점수][실기점수][필기점수][수강상태]");
+		System.out.println("[성적번호][학생명][출석점수][실기점수][필기점수][수강상태]");
 		for (StudentScoreListDTO stldto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\n"
+			System.out.printf("%s\t   %s\t%s\t%s\t%s \t%s\n"
 					,stldto.getScoreSeq()
 					,stldto.getStudentName()					
 					,stldto.getAttendance()
@@ -616,7 +620,7 @@ private void editStudentScore()	{
 		String seq = scan.nextLine();
 		
 				
-		System.out.println("출석배점 수정: ");
+		System.out.println("출석점수 입력: ");
 		String attendance = scan.nextLine();
 		
 		StudentScoreListDTO dto = new StudentScoreListDTO();
@@ -626,14 +630,14 @@ private void editStudentScore()	{
 		}
 		
 		
-		System.out.println("필기배점 수정: ");
+		System.out.println("필기점수 입력: ");
 		String write = scan.nextLine();
 		
 		if(write.equals("")) {
 			write = dto.getWriter();		
 		}
 		
-		System.out.println("실기배점 수정: ");
+		System.out.println("실기점수 입력: ");
 		String practice = scan.nextLine();
 		
 		if(practice.equals("")) {
@@ -657,7 +661,7 @@ private void editStudentScore()	{
 		}
 		pause();
 		start();
-		
+}
 
 	private void Interview() {
 		// 모의 면접 관리
