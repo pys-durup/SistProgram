@@ -84,8 +84,10 @@ public class StudentDAO {
 					+ "c.seq as courceCompletNum,"
 					+ " d. startdate,"
 					+ " d. enddate,"
-					+ " (select tblCourse.name from tblCourse where tblCourse.seq = d.courceNum) as cName"
-					+ " from tblStudent a" //과정명은 상관서브쿼리를 통해 불러온다.
+					+ " (select tblCourse.name from tblCourse where tblCourse.seq = d.courceNum) as cName,"//과정명
+					+ " (select count(tblTeacherEvaluation.completNum) from tblTeacherEvaluation where tblTeacherEvaluation.completNum = c.seq) as evalNum," //평가 개수(1개만 가능하게끔 유효청 처리에 사용)
+					+ " (select count(tblQualification.regiNum) from tblQualification where tblQualification.regiNum = b.seq) as qNum" //구직활동글 개수 (1개만 가능하게 유효성 처리에 사용)
+					+ " from tblStudent a" 
 					+ " inner join tblRegiCource b"
 					+ " on a.seq = b.studentNum"
 					+ " left outer join tblCourceComplet c" //수료번호 null 처리&자바 예외처리를 위해 outerjoin
@@ -115,6 +117,9 @@ public class StudentDAO {
 				dto.setStartDate(rs.getString("startDate")); //과정시작일
 				dto.setEndDate(rs.getString("endDate")); //과정종료일
 				dto.setcName(rs.getString("cName")); //과정명
+				dto.setEvalNum(rs.getString("evalNum")); //교사평가 글 개수
+				dto.setqNum(rs.getString("qNum")); //구직활동 글 개수
+				
 				
 				return dto;
 			}

@@ -233,7 +233,7 @@ public class StudentController {
 	private void listJobInfo() {
 		
 		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
-			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 취업내역은 수료 이후 작성하실 수 있습니다.**");
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 취업내역 기능은 수료 이후 이용하실 수 있습니다.**");
 			pause();
 			
 		} else {
@@ -494,6 +494,12 @@ public class StudentController {
 
 	private void addqualification() {
 		
+		
+		if (this.srdto.getqNum() != "0") {
+			System.out.println("이미 구직활동정보를 등록하셨습니다. 등록 이후 수정 혹은 삭제만 가능하십니다.");
+			pause();
+		} {
+		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("구직활동정보 등록");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -541,8 +547,10 @@ public class StudentController {
 		}
 		
 		pause();
-	}
+	
+		}
 
+	}
 
 	
 	private void studentAttendance() {
@@ -613,20 +621,20 @@ public class StudentController {
 	private void listStudentAttendance() {
 		view.listAttendance();
 	
-		String pregiNum = this.srdto.getrSeq(); 
-		//생성자로 만들어놓은 srdto의 수강번호를 프로시저에 필요한 매개변수로 쓸 것임.
-		String pcreatedCourceNum = this.srdto.getCreatedCourceNum();
-		//생성자로 만들어놓은 srdto의 개설과정번호를 프로시저에 필요한 매개변수로 쓸 것임.
+		String pstudentNum = this.sdto.getSeq();
+
 		AttendanceDAO dao = new AttendanceDAO();
 		
-		ArrayList<StudentsAttendanceDTO> list = dao.list(pregiNum, pcreatedCourceNum);
+		ArrayList<StudentsAttendanceDTO> list = dao.list(pstudentNum);
 		
-		System.out.printf("[날짜]\t\t[근태상황]\n");
+		System.out.printf("[날짜]\t\t[입실시간]\t\t[퇴실시간]\t\t[출결상태]\n");
 		System.out.println();
 		for (StudentsAttendanceDTO dto : list) {
 		
-			System.out.printf("%s\t\t%s\n",
+			System.out.printf("%s\t%s\t%s\t%s\t\n",
 								dto.getAlldates(),
+								dto.getInTime(),
+								dto.getOutTime(),
 								dto.getAttstate());
 		}
 		
@@ -779,14 +787,14 @@ public class StudentController {
 		 
 		 ArrayList<ScoreAndSubjectDTO> list = dao.list(pstudentNum);
 		 
-		 System.out.printf("[과목명]\t\t\t\t\t\t\t[출석점수]\t\t[실기점수]\t\t[필기점수]\t\n");
 		 for (ScoreAndSubjectDTO dto : list) {
-			 System.out.printf("%s\t\t\t\t\t\t %s\t\t%s\t\t%s\n"
+			 System.out.printf("[과목명] %s\n[출석점수] %s\n[실기점수] %s\n[필기점수] %s\n"
 					 			,dto.getName()
 					 			,dto.getAttendance()
 					 			,dto.getPractice()
 					 			,dto.getWrite());
-			 
+
+			 System.out.println("----------------------------------------------\n");
 		 }
 		 
 		 System.out.println("");
@@ -987,6 +995,9 @@ public class StudentController {
 			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 교사평가는 수료 이후 작성하실 수 있습니다.**");
 			pause();
 			
+		} else if (this.srdto.getEvalNum() != "0") {
+			System.out.println("이미 교사평가를 등록하셨습니다. 등록 이후에는 삭제 혹은 수정만 가능하십니다.");
+			pause();
 		} else {
 		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");

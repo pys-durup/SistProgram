@@ -60,20 +60,17 @@ public class AttendanceDAO {
 	
 	
 	
-	public ArrayList<StudentsAttendanceDTO> list(String pregiNum, String pcreatedCourceNum) { 
-		//매개변수로 수강번호, 개설과정번호를 받아와야 함
-		//출석 전체조회 프로시저 호출 -> 보여줄 컬럼이 순수테이블 DTO가아닌 join된 테이블 DTO 필요.
+	public ArrayList<StudentsAttendanceDTO> list(String pstudentNum) { 
+		//매개변수로 학생번호 받아오는 것(수정함. 프로시저 변경)
 		try {
-			String sql = "{ call proclistAttendance(?, ?, ?) }";
+			String sql = "{ call procWholeAttendance(?, ?) }";
 			cstat = conn.prepareCall(sql);
 			
-			cstat.setString(1, pregiNum);
-			cstat.setString(2, pcreatedCourceNum);
-			cstat.registerOutParameter(3, OracleTypes.CURSOR);
+			cstat.setString(1, pstudentNum);
+			cstat.registerOutParameter(2, OracleTypes.CURSOR);
 			cstat.executeUpdate();
 			
-			
-			rs = (ResultSet)cstat.getObject(3); //ResultSet으로 커서가 반환한 값을 형변환
+			rs = (ResultSet)cstat.getObject(2); //ResultSet으로 커서가 반환한 값을 형변환
 			
 			ArrayList<StudentsAttendanceDTO> list = new ArrayList<StudentsAttendanceDTO>();
 			
@@ -82,6 +79,8 @@ public class AttendanceDAO {
 				StudentsAttendanceDTO dto = new StudentsAttendanceDTO(); 
 				
 				dto.setAlldates(rs.getString("ALLDATE"));
+				dto.setInTime(rs.getString("inTime"));
+				dto.setOutTime(rs.getString("outTime"));
 				dto.setAttstate(rs.getString("attstate"));
 				
 				list.add(dto);
