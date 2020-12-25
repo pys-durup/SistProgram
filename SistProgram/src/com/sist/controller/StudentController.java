@@ -70,8 +70,10 @@ public class StudentController {
 				jobMenu();
 				break;
 			} else {
-				 Login lg = new Login();
-				 lg.loginStudent(); //6. 로그아웃(교육생 로그인 메서드 호출)
+				
+				break;
+				 //Login lg = new Login();
+				 //lg.loginStudent(); //6. 로그아웃(교육생 로그인 메서드 호출)
 				
 			}
 		}

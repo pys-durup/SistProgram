@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.sist.dto.InterviewResultDTO;
@@ -147,8 +148,9 @@ public class ReserveStudentDAO {
 	}
 	
 	
+	
 	public int addMigration(String seq) {
-		
+		//면접 합격한 예비교육생이 교육생으로 계정전환하는 메서드
 		try {
 			String sql = "{ call procMigration(?) }";
 			
@@ -168,7 +170,7 @@ public class ReserveStudentDAO {
 	
 	
 	public int addNewReserve(ReserveStudentDTO dto) {
-		
+		//예비교육생이 회원가입하는 메서드
 		try {
 			String sql = "{ call procaddReserve(?, ?, ?, ?, ?, ?) }";
 			
@@ -188,10 +190,45 @@ public class ReserveStudentDAO {
 			e.printStackTrace();
 		}
 		
-		
-		
 		return 0;
 	}
+	
+	
+	
+	public ArrayList<ReserveStudentDTO> list() {
+		//관리자가 전체 예비교육생(계정전환X) 조회하는 메서드 
+		
+		try {
+			String sql = "select * from vw_rStudentList";
+			
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<ReserveStudentDTO> list = new ArrayList<ReserveStudentDTO>();
+			
+			while (rs.next()) {
+				
+				ReserveStudentDTO dto = new ReserveStudentDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setName(rs.getString("name"));
+				dto.setJumin(rs.getString("jumin"));
+				dto.setTel(rs.getString("tel"));
+				dto.setAddress(rs.getString("address"));
+				dto.setField(rs.getString("field"));
+				dto.setKnowledge(rs.getString("knowledge"));
+				
+				list.add(dto);
+			}
+			return list;
+			
+		} catch(Exception e) {
+			System.out.println("ReserveStudentDAO.list()");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	
 	
 	
