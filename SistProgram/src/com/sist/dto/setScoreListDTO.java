@@ -16,7 +16,7 @@ public class setScoreListDTO {
 	private String courseStartdate;//과정개강일
 	private String courseEnddate;//과정종강일
 	private String roomName;//강의실명
-	
+	private String scoreStatus; //성적등록여부 
 	
 		
 	public String getSubjectNum() {
@@ -90,6 +90,12 @@ public class setScoreListDTO {
 	}
 	public void setRoomName(String roomName) {
 		this.roomName = roomName;
+	}
+	public String getScoreStatus() {
+		return scoreStatus;
+	}
+	public void setScoreStatus(String scoreStatus) {
+		this.scoreStatus = scoreStatus;
 	}
 	
 	
