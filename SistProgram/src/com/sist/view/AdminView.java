@@ -7,10 +7,13 @@ import com.sist.dao.JobActivitiesDAO;
 import com.sist.dao.LinkCompanyDAO;
 import com.sist.dao.RecommendDAO;
 import com.sist.dao.TalentedStudentDAO;
+import com.sist.dto.BookDTO;
 import com.sist.dto.CourseDTO;
 import com.sist.dto.EndCourseListDTO;
 import com.sist.dto.LinkCompanyDTO;
 import com.sist.dto.RecommendListDTO;
+import com.sist.dto.RoomDTO;
+import com.sist.dto.SubjectDTO;
 import com.sist.dto.TalentedStudentListDTO;
 
 public class AdminView {
@@ -51,7 +54,6 @@ public class AdminView {
 	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 	System.out.println("[과정관리]");
 	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-	System.out.println("[번호]  \t[과정]\t\t\t\t\t[과정목적]");	
 	}
 	public void MenuCourse() {
 		
@@ -183,9 +185,10 @@ public class AdminView {
 	
 	public void CourseList(ArrayList<CourseDTO> list) {
 		for (CourseDTO dto : list) {
+			System.out.println("[번호]  \t[과정]\t\t\t\t\t[과정목적]");	
 			System.out.printf(" %s\t%-30s\t%60s", dto.getSeq(), dto.getName(), dto.getPurpose());
 			System.out.println();
-		}
+	}
 	}
 		
 	/**
@@ -229,4 +232,176 @@ public class AdminView {
 		System.out.println("강의실 : " + dto.getRoom());
 		
 	}
-}
+
+
+	public void HeadSubject() {
+	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	System.out.println("[과정관리]");
+	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	}
+
+	public void SubjectList(ArrayList<SubjectDTO> list) {
+	for (SubjectDTO dto : list) {
+		System.out.println("[번호]  \t[과목]\t\t\t\t\t\t\t[소요일]");	
+		System.out.printf("%s %s\t\t%s", dto.getSeq(), dto.getName(), dto.getDuration());
+		System.out.println();
+	}
+	}
+	public void BasicInfoMenu() {
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.println("[기초 정보 관리]");
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.println("1. 과정 관리");
+        System.out.println("2. 과목 관리");
+        System.out.println("3. 교재 관리");
+        System.out.println("4. 강의실 관리");
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.print("선택(번호) : ");
+	}
+
+        public void menuSubject() {
+        	
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    	System.out.println("1. 과목 등록");
+    	System.out.println("2. 과목 수정");
+    	System.out.println("3. 과목 삭제");
+    	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    	System.out.print("선택(번호) : ");
+        }
+        
+        public void Subject() {
+        	System.out.print("과목 : ");
+        }
+        
+        public void Duration() {
+        	System.out.print("소요일 : ");
+        }
+        public void InfoSubject(SubjectDTO dto) {
+    	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    	System.out.println("수정할 과목 정보");
+    	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    	System.out.println("과정       : " + dto.getName());
+    	System.out.println("소요일     : " + dto.getDuration());
+    	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    	System.out.println("━━━━━━━━━━━━━━ 수정을 하지 않는 컬럼은 엔터를 입력하시오 ━━━━━━━━━━━━━━━━━━━");	
+        }
+        
+        public void HeadBook() {
+        	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        	System.out.println("[교재 관리]");
+        	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        	
+        }
+        
+        public void BookList(ArrayList<BookDTO> list) {
+    	for (BookDTO dto : list) {
+    	    		System.out.printf(
+    	    				    "[번호] %s [책이름] %s [글쓴이] %s [출판사] %s [가격] %s [재고] %s\n"
+    	    					  		,dto.getSeq()
+    	    					  		,dto.getName()
+    	    					  		,dto.getWriter()
+    	    					  		,dto.getPublisher()
+    	    					  		,dto.getPrice()
+    	    					  		,dto.getCount());
+//			System.out.println("[번호] \t[책이름]\t\t\t[글쓴이]");	
+//			System.out.printf(" %s\t%s\t\t\t%s\n", dto.getSeq(), dto.getName(), dto.getWriter());
+//			System.out.println("[출판사]\\t[가격]\\t[재고]");
+//			System.out.printf("%s\t%s\t\t%s\n",dto.getPublisher(), dto.getPrice(), dto.getCount());
+			
+            
+        }
+        }
+
+	public void menuBook() {
+	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	System.out.println("1. 교재 등록");
+	System.out.println("2. 교재 수정");
+	System.out.println("3. 교재 삭제");
+	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	System.out.print("선택(번호) : ");
+	}
+
+	public void Book() {
+	    System.out.println("교재 : ");
+	}
+
+	public void Writer() {
+	    System.out.println("글쓴이 :");
+	}
+
+	public void Publisher() {
+	    System.out.println("출판사 : ");
+	}
+
+	public void Price() {
+	    System.out.println("가격 : ");
+	}
+
+	public void Count() {
+	    System.out.println("재고 : ");
+	}
+
+	public void InfoBook(BookDTO dto) {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    	System.out.println("수정할 교재 정보");
+	    	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    	System.out.println("제목       : " + dto.getName());
+	    	System.out.println("글쓴이     : " + dto.getWriter());
+	    	System.out.println("출판사     : " + dto.getPublisher());
+	    	System.out.println("가격       : " + dto.getPrice());
+	    	System.out.println("재고       : " + dto.getCount());
+	    	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    	System.out.println("━━━━━━━━━━━━━━ 수정을 하지 않는 컬럼은 엔터를 입력하시오 ━━━━━━━━━━━━━━━━━━━");	
+	        }
+
+	public void HeadRoom() {
+	 	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[강의실 관리]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	}
+
+	public void RoomList(ArrayList<RoomDTO> list) {
+	    for(RoomDTO dto : list) {
+		System.out.printf(
+				  "[번호] %s [교실명] %s [수용인원] %s [과정명] %s \n"
+				 			,dto.getSeq()
+				 			,dto.getRoomnum()
+				 			,dto.getCapacity()
+				 			,dto.getName());
+	    
+	}
+
+	}
+
+	public void menuRoom() {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    System.out.println("1.강의실 이름 변경");
+	    System.out.println("2.강의실 정원 변경");
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    System.out.print("선택(번호) : ");
+	}
+
+	public void Room() {
+	    System.out.println("강의실명 : ");
+	}
+
+	public void InfoRoom(RoomDTO dto) {
+	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	System.out.println("수정할 교재 정보");
+	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	System.out.println("강의실이름        : " + dto.getRoomnum());
+	System.out.println("강의실정원        : " + dto.getCapacity());
+	System.out.println("진행중인 과정     : " + dto.getName());
+	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	System.out.println("━━━━━━━━━━━━━━ 수정을 하지 않는 컬럼은 엔터를 입력하시오 ━━━━━━━━━━━━━━━━━━━");
+	}
+
+	public void Capacity() {
+	    System.out.println("강의실 정원 : ");
+	}
+
+	public void Caustion() {
+	    System.out.println("1,2,3 강의실은 최대 정원 30명, 2,3,4 강의실은 정원 최대 정원 26명 입니다.");
+	    System.out.println("그 이상으로 입력되지 않습니다.");
+	}
+	}

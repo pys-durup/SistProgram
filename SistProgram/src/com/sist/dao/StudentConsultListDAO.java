@@ -35,18 +35,17 @@ public class StudentConsultListDAO {
 		
 	}
 
-	public ArrayList<StudentConsultListDTO> StudentConsultList(String word) {
+	public ArrayList<StudentConsultListDTO> StudentConsultList() {
 		try {
 			
-			String sql = "{call procStudentConsultList(?, ?)}";
+			String sql = "{call procStudentConsultList(?)}";
 			
 			cstat = conn.prepareCall(sql);
-			cstat.setString(1, "1"); 
-			cstat.registerOutParameter(2, OracleTypes.CURSOR);
+			cstat.registerOutParameter(1, OracleTypes.CURSOR);
 			
 			cstat.executeQuery();
-			
-			rs = (ResultSet)cstat.getObject(2);
+			 
+			rs = (ResultSet)cstat.getObject(1);
 			
 			ArrayList<StudentConsultListDTO> list = new ArrayList<StudentConsultListDTO>();
 			
@@ -114,6 +113,29 @@ public class StudentConsultListDAO {
 			
 		} catch (Exception e) {
 			System.out.println("AddressDAO.delete()");
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+
+	public int edit(StudentConsultListDTO dto2) {
+
+		try {
+			
+			String sql = "update tblCourseConsultation set name=?, ConsultDate=?, ConsultReason=?, ConsultContent=?";
+			
+			pstat= conn.prepareStatement(sql);
+			
+			pstat.setString(1, dto2.getSname());
+			pstat.setString(2, dto2.getConsultDate());
+			pstat.setString(3, dto2.getConsultReason());
+			pstat.setString(4, dto2.getConsultContent());
+
+			return pstat.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("StudentConsultListDAO.edit()");
 			e.printStackTrace();
 		}
 		

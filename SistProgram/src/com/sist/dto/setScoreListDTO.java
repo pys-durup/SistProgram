@@ -3,7 +3,7 @@ package com.sist.dto;
 public class setScoreListDTO {
 	//담당과목별 배점리스트 조회
 	
-	private String seq; // 번호
+	
 	private String subjectNum;//과목번호
 	private String subjectName;//과목명
 	private String bookName;//책이름
@@ -18,12 +18,7 @@ public class setScoreListDTO {
 	private String roomName;//강의실명
 	
 	
-	public String getSeq() {
-		return seq;
-	}
-	public void setSeq(String seq) {
-		this.seq = seq;
-	}
+		
 	public String getSubjectNum() {
 		return subjectNum;
 	}

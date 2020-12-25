@@ -53,16 +53,15 @@ public ArrayList<setScoreListDTO> list(String pseq){
 		   ArrayList<setScoreListDTO> list = new ArrayList<setScoreListDTO>();
 		   
 		   while(rs.next()) {
-			   setScoreListDTO dto = new setScoreListDTO ();
-			   dto.setSeq(rs.getString("seq"));
+			   setScoreListDTO dto = new setScoreListDTO ();			  
 			   dto.setSubjectNum(rs.getString("subjectNum"));
 			   dto.setSubjectName(rs.getString("subjectName"));
 			   dto.setBookName(rs.getString("bookname"));
 			   dto.setAttendance(rs.getString("attendance"));
 			   dto.setWrite(rs.getString("write"));
 			   dto.setPractice(rs.getString("practice"));
-			   dto.setSubjectStartdate(rs.getString("subjectStartdate"));
-			   dto.setSubjectEnddate(rs.getString("subjectEnddate"));
+			   dto.setSubjectStartdate(rs.getString("subjectStartDate"));
+			   dto.setSubjectEnddate(rs.getString("subjectEndDate"));
 			   dto.setCourseName(rs.getString("courseName"));
 			   dto.setCourseStartdate(rs.getString("courseStartdate"));
 			   dto.setCourseEnddate(rs.getString("courseEnddate"));
