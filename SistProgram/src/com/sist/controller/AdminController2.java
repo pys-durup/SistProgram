@@ -96,7 +96,7 @@ public class AdminController2 {
 				checkDate();
 				break;
 			} else if (num.equals("2")) { //2. 면접결과 관리
-				//addPassOrFail();
+				addPassOrFail();
 				break;
 			} else if (num.equals("0")) { //이전으로
 				AdminController ac = new  AdminController(mdto);	 
@@ -119,9 +119,105 @@ public class AdminController2 {
 
 
 
-	public void checkDate() {
-		// TODO Auto-generated method stub
+	private void addPassOrFail() {
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println(" 면접결과 등록이 필요한 예비교육생 목록");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println();	
 		
+		ReserveStudentDAO dao = new ReserveStudentDAO();
+		
+		ArrayList<ReserveStudentDTO> list = dao.finisheInterviewList();
+		
+		for (ReserveStudentDTO dto : list) {
+			System.out.printf(
+					"---------------------------------------------------\n"+
+					"[신청 교육과정명] %s\n[면접일] %s\n[예비교육생 번호] %s\n[예비교육생 이름] %s\n[주민등록번호] %s\n[연락처] %s\n[주소] %s\n"
+							, dto.getcName()
+							, dto.getInterviewDate()
+							, dto.getSeq()
+							, dto.getName()
+							, dto.getJumin()
+							, dto.getTel()
+							, dto.getAddress());
+		
+		}
+		
+		System.out.println("면접 결과를 입력할 예비교육생 번호: ");
+		String studentNum = scan.nextLine(); //입력한 개설과정번호(매개변수1)
+		
+		System.out.println("면접 결과 입력: ");
+		System.out.println(" * [합격]은 1, [불합격]은 2를 입력하세요 * ");
+		String resultNum = scan.nextLine(); //입력한 면접결과(매개변수2)
+		
+		if (resultNum.equals("1") || resultNum.equals("2")) {
+		
+		
+			int result = dao.addPassFail(studentNum, resultNum);
+			
+			if (result > 0) {
+				System.out.println("면접 결과가 성공적으로 등록되었습니다.");
+			} else {
+				System.out.println("면접 결과 등록이 정상적으로 진행되지 않았습니다.");
+			}
+
+		} else {
+			System.out.println("번호를 잘못 입력하였습니다.");
+		}
+		
+		
+		
+		pause();
+		
+	}
+
+
+
+
+
+
+	public void checkDate() {
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println(" 면접 일정 등록이 필요한 목록");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println();	
+		
+		ReserveStudentDAO dao = new ReserveStudentDAO();
+		
+		ArrayList<ReserveStudentDTO> list = dao.noDateList();
+		
+		
+		for (ReserveStudentDTO dto : list) {
+			System.out.printf(
+					"---------------------------------------------------\n"+
+					"[신청 교육과정명] %s\n[교육과정 번호] %s\n[예비교육생 이름] %s\n[주민등록번호] %s\n[연락처] %s\n[주소] %s\n"
+								, dto.getcName()
+								, dto.getCreatedCourceNum()
+								, dto.getName()
+								, dto.getJumin()
+								, dto.getTel()
+								, dto.getAddress());
+		}
+		
+		System.out.println();
+		 
+		System.out.println("면접 날짜를 지정할 교육과정 번호 입력: ");
+		String createdCourceNum = scan.nextLine(); //입력한 개설과정번호(매개변수1)
+		 
+		System.out.println("면접 날짜 입력: ");
+		System.out.println(" * ex) 20201228");
+		String choicedDate = scan.nextLine(); //입력한 면접날짜(매개변수2)
+		
+		int result = dao.addChoicedDate(createdCourceNum, choicedDate);
+		
+		
+			if (result > 0) {
+				System.out.println(" **면접 날짜 지정을 완료했습니다.");
+			} else {
+				System.out.println(" **면접 날짜 지정에 실패하였습니다.");
+			}
+		
+		pause();
 	}
 
 
