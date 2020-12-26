@@ -154,7 +154,7 @@ public class TeacherController {
 		ArrayList<CourseStudentListDTO> list = csdao.cslist(pseq);
 		System.out.println();
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("[번호][학생명][주민번호]      [전화번호]     [등록일]  [수료상태]");
+		System.out.println("[번호][학생명][주민번호]  [전화번호]    [등록일] [수료상태]");
 		for (CourseStudentListDTO csdto : list) {
 			System.out.printf("%s %s %s %s %s %s\n"
 					,csdto.getSeq()
