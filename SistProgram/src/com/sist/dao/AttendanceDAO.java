@@ -130,11 +130,11 @@ public class AttendanceDAO {
 				String outtime = rs.getString("outtime");
 				
 				if(intime == null) {
-					intime = "-";
+					intime = "    -    ";
 				}
 				
 				if(outtime == null) {
-					outtime = "-";
+					outtime = "    -    ";
 				}
 				
 				dto.setAlldate(rs.getString("alldate"));

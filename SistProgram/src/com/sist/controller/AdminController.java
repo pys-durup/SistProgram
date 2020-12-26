@@ -1859,7 +1859,7 @@ public class AdminController {
 			num = scan.nextLine(); // 과정번호 입력
 
 			if (num.equals("1")) {
-				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				aview.makeLine(105);
 				System.out.print("과정 번호를 입력하세요 :");
 				num = scan.nextLine(); // 과정번호 입력
 
@@ -1931,9 +1931,9 @@ public class AdminController {
 				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━수료자 명단━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
 				ArrayList<CompletStudentListDTO> slist = jadao.courseCompletStudentList(num);
-
+				System.out.println("[번호]\t[이름]\t  [주민번호]  \t [전화번호]\t [등록일]");
 				for (CompletStudentListDTO dto : slist) {
-					System.out.printf("%s\t%s\t%s\t%s\t%s\n", dto.getReginum(), dto.getName(), dto.getJumin(),
+					System.out.printf("%4s\t%s\t%s\t%s\t%s\n", dto.getReginum(), dto.getName(), dto.getJumin(),
 							dto.getTel(), dto.getRegdate());
 				}
 
@@ -1983,8 +1983,9 @@ public class AdminController {
 
 				ArrayList<CompletStudentListDTO> list2 = jadao.gotJobCompletStudentList(num);
 
+				System.out.println("[번호]\t[이름]\t  [주민번호]  \t [전화번호]\t [등록일]");
 				for (CompletStudentListDTO dto : list2) {
-					System.out.printf("%s\t%s\t%s\t%s\t%s\n", dto.getReginum(), dto.getName(), dto.getJumin(),
+					System.out.printf("%4s\t%s\t%s\t%s\t%s\n", dto.getReginum(), dto.getName(), dto.getJumin(),
 							dto.getTel(), dto.getRegdate());
 				}
 
@@ -2011,18 +2012,16 @@ public class AdminController {
 		// 출결관리
 		while (true) {
 
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("출결 관리");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeTitle("출결 관리", 54);
 			System.out.println("1. 교육생 번호로 검색");
 			System.out.println("2. 과정별");
 			System.out.println("3. 뒤로가기");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeLine(54);
 			System.out.print("번호를 입력하세요 :");
 			num = scan.nextLine();
 
 			if (num.equals("1")) {
-				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				aview.makeLine(54);
 				System.out.print("교육생 번호 입력 :");
 				String stnum = scan.nextLine();
 				searchStudentNum(stnum);
@@ -2048,12 +2047,12 @@ public class AdminController {
 		while (true) {
 			
 			StudentDTO dto = sdao.getStudent(stnum);
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeLine(54);
 			System.out.println("이름 : " + dto.getName());
 			System.out.println("주민번호 : " + dto.getJumin());
 			System.out.println("전화번호 : " + dto.getTel());
 			System.out.println("등록일 : " + dto.getRegdate());
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeLine(54);
 			System.out.println("1. 과정출결 보기 , 2. 과목별 출결 보기 3. 뒤로가기");
 			System.out.print("번호를 입력하세요 :");
 			num = scan.nextLine();
@@ -2086,9 +2085,10 @@ public class AdminController {
 		ArrayList<AttendanceInfoDTO> list = adao.courseAttList(stnum);
 
 		if (list != null) {
-			System.out.println("[날짜]\t[입실시간]\t[퇴실시간]\t[출결상태]");
+			aview.makeTitle("수강 과정 출결 정보", 76);
+			System.out.println(" [날짜]\t\t[입실시간]\t\t[퇴실시간]\t [출결상태]");
 			for (AttendanceInfoDTO dto : list) {
-				System.out.printf("%s\t%s\t%s\t%s\n", dto.getAlldate(), dto.getIntime(), dto.getOuttime(),
+				System.out.printf("%s\t %s\t\t%s\t   %s\n", dto.getAlldate(), dto.getIntime(), dto.getOuttime(),
 						dto.getAttstate());
 
 			}
@@ -2109,16 +2109,17 @@ public class AdminController {
 
 		while (true) {
 			ArrayList<SubjectListDTO> list = adao.subjectList(stnum);
-
+			
+			aview.makeTitle("수강 과목 목록", 100);
 			if (list != null) { // 과목 정보 출결 내용이 있을떄
-				System.out.println("[과목번호]\t[과목명]\t[시작일]\t[종료일]\t[교재명]\t[강사명]");
+				System.out.println("[과목번호]\t[과목명]\t\t[시작일]\t[종료일]\t[교재명]\t[강사명]");
 				for (SubjectListDTO dto : list) {
-					System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\n", dto.getSubjectseq(), dto.getSubjectname(),
+					System.out.printf("%4s\t%-20s\t%s\t%s\t%s\t%s\n", dto.getSubjectseq(), dto.getSubjectname(),
 							dto.getStartdate(), dto.getEnddate(), dto.getBookname(), dto.getTeachername());
 
 				}
 
-				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				aview.makeLine(100);
 				System.out.println("1. 과목 번호 입력  2. 뒤로가기");
 				System.out.print("번호를 입력하세요 :");
 				num = scan.nextLine();
