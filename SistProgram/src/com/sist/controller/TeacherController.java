@@ -24,6 +24,7 @@ import com.sist.dto.TeacherDTO;
 import com.sist.dto.TeacherEvaluationListDTO;
 import com.sist.dto.TeacherScheduleDTO;
 import com.sist.dto.setScoreListDTO;
+import com.sist.view.TeacherView;
 import com.sist.dto.InterviewDataDTO;
 
 
@@ -62,30 +63,18 @@ public class TeacherController {
 	private String num = ""; // 사용자가 입력하는 번호
 	private static Scanner scan = new Scanner(System.in);;
 	private TeacherDTO tdto; // 로그인한 계정의 정보를 담을 객체
+	private TeacherView view;
 	
 	public TeacherController(TeacherDTO tdto) {
 		this.tdto = tdto; // 로그인한 강사의 계정 정보를 담는다
+		this.view = new TeacherView(tdto);
 	}
 	
 	public void start() {
 		boolean check = true;
 		
 		while (check) {
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.printf("강사 %s님 접속을 환영합니다\n", this.tdto.getName());
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("1. 강의 스케줄 조회");
-			System.out.println("2. 배점 입출력");
-			System.out.println("3. 성적 입출력");
-			System.out.println("4. 출결 관리");
-			System.out.println("5. 교사 평가 조회");
-			System.out.println("6. 상담 일지 관리");
-			System.out.println("7. 취업 상담 관리");
-			System.out.println("8. 모의 면접 관리");
-			System.out.println("9. 데이터 통계");
-			System.out.println("10. 로그아웃");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.print("번호를 입력하세요 :");
+			view.teacherMenu();
 			num = scan.nextLine();
 			
 			if(num.equals("1")) {
@@ -226,11 +215,7 @@ public class TeacherController {
 		}
 		
 		boolean check = true;
-		System.out.println();
-		System.out.println("1.상담내역 작성");
-		System.out.println("2.상담내역 수정");
-		System.out.println("3.상담내역 삭제");
-		System.out.println("4.뒤로가기");
+		view.JobConsultationMenu();
 		num = scan.nextLine();
 		
 		while (check) {
@@ -396,11 +381,7 @@ public class TeacherController {
 		System.out.println();
 		
 		boolean check = true;
-		System.out.println();
-		System.out.println("1.과목배점 작성");
-		System.out.println("2.과목배점 수정");
-		System.out.println("3.과목배점 삭제");
-		System.out.println("4.뒤로가기");
+		view.setScoreMenu();
 		num = scan.nextLine();
 		
 		while (check) {
@@ -521,7 +502,7 @@ public class TeacherController {
 			System.out.println("배점 수정 실패");
 		}
 		pause();
-		
+		start();
 		
 		
 	}
