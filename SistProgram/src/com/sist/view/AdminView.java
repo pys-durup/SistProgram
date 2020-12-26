@@ -35,18 +35,36 @@ public class AdminView {
 	/**
 	 * 취업지원 관리 - 추천인재 관리 - 인재목록
 	 */
-	public void TalentedStudentListView() {
+	public void TalentedStudentListView(String word) {
 		
-		ArrayList<TalentedStudentListDTO> list = tsdao.talentedStudenList(null);
-		
-		for (TalentedStudentListDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
-									, dto.getSeq()
-									, dto.getName()
-									, dto.getTel()
-									, dto.getPortfolio()
-									, dto.getReason());
+		ArrayList<TalentedStudentListDTO> list = new ArrayList<TalentedStudentListDTO>();
+
+		if(word == null) {
+			list = tsdao.talentedStudenList(null);
+		} else {
+			list = tsdao.talentedStudenList(word);
 		}
+		
+		if(list.size() > 0) {
+			// 검색된 값 결과가 있을때
+			makeLine(100);
+			System.out.println("[번호]\t[이름]\t [전화번호]\t\t\t[포트폴리오]\t\t\t[추천이유]");
+			for (TalentedStudentListDTO dto : list) {
+				System.out.printf("%4s\t%s\t%s\t%-37s\t  %s\n"
+						, dto.getSeq()
+						, dto.getName()
+						, dto.getTel()
+						, dto.getPortfolio()
+						, dto.getReason());
+			
+			}
+		} else {
+			makeLine(100);
+			System.out.println("검색된 결과가 없습니다");
+			
+		}
+		
+		
 	}
 
 	public void HeadCourse() {
@@ -87,13 +105,15 @@ public class AdminView {
 		
 		ArrayList<RecommendListDTO> list = rdao.recommendStudentList();
 		
+		System.out.println("[번호]\t  [이름]\t    [연계기업명]\t\t[추천날짜]");
 		for (RecommendListDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\n"
+			System.out.printf("%4s\t  %s   \t%-22s\t%s\n"
 									, dto.getSeq()
 									, dto.getStudentName()
 									, dto.getCompanyName()
 									, dto.getRecoDate());
 		}
+		
 		
 	}
 	
@@ -145,7 +165,7 @@ public class AdminView {
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			
 			System.out.println("1. 이전 페이지로 2. 다음 페이지로 3. 선택하러가기");
-			System.out.print("번호를 입력하세요 :");
+			System.out.print("번호를 입력하세요 : ");
 			num = scan.nextLine();
 			
 			if (num.equals("1")) {
@@ -196,14 +216,13 @@ public class AdminView {
 	 */
 	public void endCourseListView() {
 		
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("종료된 과정 목록");
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		makeTitle("종료된 과정 목록", 105);
 		
 		ArrayList<EndCourseListDTO> list = jadao.EndCourseList();
 		
+		System.out.println("[번호]\t\t\t[과정명]\t\t\t[시작일자]  [종료일]  [교사명]   [강의실]");
 		for (EndCourseListDTO dto : list ) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\t\n"
+			System.out.printf("%4s\t%-35s\t%10s  %10s  %s  %s\n"
 					, dto.getSeq()
 					, dto.getCourseName()
 					, dto.getStartDate()
@@ -212,7 +231,7 @@ public class AdminView {
 					, dto.getRoom());
 		}
 		
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		makeLine(105);
 		System.out.println("1. 과정 번호 선택  2. 뒤로가기");
 		System.out.print("번호를 입력하세요 :");
 		
@@ -354,6 +373,37 @@ public class AdminView {
 	    	System.out.println("━━━━━━━━━━━━━━ 수정을 하지 않는 컬럼은 엔터를 입력하시오 ━━━━━━━━━━━━━━━━━━━");	
 	        }
 
+	
+	public void makeTitle(String title, int count) {
+		
+		String line = "";
+
+		for(int i=0 ; i<count ; i++) {
+			line += "━";
+		}
+		
+		String space = "";
+		for(int i=0 ; i<line.length() / 2 - title.length() ; i++) {
+			space += " ";
+		}
+		
+		title = space + title;
+		
+		System.out.println(line);
+		System.out.println(title);
+		System.out.println(line);
+	}
+	
+	public void makeLine (int count) {
+		String line = "";
+		for(int i=0 ; i<count ; i++) {
+			line += "━";
+		}
+		
+		System.out.println(line);
+	}
+}
+
 	public void HeadRoom() {
 	 	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[강의실 관리]");
@@ -405,3 +455,4 @@ public class AdminView {
 	    System.out.println("그 이상으로 입력되지 않습니다.");
 	}
 	}
+
