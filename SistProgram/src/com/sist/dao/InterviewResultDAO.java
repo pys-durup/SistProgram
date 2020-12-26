@@ -36,7 +36,7 @@ public class InterviewResultDAO {
 
 	
 	public ArrayList<InterviewResultDTO> list(String prstudentNum) {
-		
+		//예비교육생이 본인의 면접 결과를 조회하는 메서드
 		try {
 			String sql = "{ call procResult(?, ?) }";
 			
@@ -70,6 +70,62 @@ public class InterviewResultDAO {
 		
 		
 		return null;
+	}
+	
+	
+	
+	public ArrayList<InterviewResultDTO> enrollmentList() {
+		
+		//관리자가 아직 '수강전' 인 교육생 리스트를 조회하는 메서드
+		try {
+			String sql = "select * from vw_previous";
+			
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<InterviewResultDTO> list = new ArrayList<InterviewResultDTO>();
+			
+			while (rs.next()) {
+				
+				InterviewResultDTO dto = new InterviewResultDTO();
+				
+				dto.setStudentNum(rs.getString("StudentNum"));
+				dto.setrName(rs.getString("studentName"));
+				dto.setState(rs.getString("state"));
+				dto.setStart(rs.getString("start"));
+				dto.setcName(rs.getString("course"));
+				
+				list.add(dto);
+			}
+			return list;
+			
+		} catch(Exception e) {
+			
+			System.out.println("InterviewResultDAO.enrollmentList()");
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
+	
+	
+	public int editEnrollment(String pstudentNum) {
+		//관리자가 학생번호를 지정하여 수강상태를 수강전 -> 수강중으로 변경하는 메서드
+		try {
+			String sql = "{ call procsignUp(?) }";
+			
+			cstat = conn.prepareCall(sql);
+			
+			cstat.setString(1, pstudentNum);
+			
+			return cstat.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("InterviewResultDAO.editEnrollment()");
+			e.printStackTrace();
+		}
+		
+		return 0;
 	}
 	
 	

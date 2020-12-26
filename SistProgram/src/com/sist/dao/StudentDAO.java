@@ -81,12 +81,19 @@ public class StudentDAO {
 					+ "b.createdCourceNum,"
 					+ "b.regiStateNum,"
 					+ "(select tblRegistate.regiState from tblRegistate where b.regiStateNum = tblRegistate.seq) as registate,"
-					+ "c.seq as courceCompletNum"
-					+ " from tblStudent a"
+					+ "c.seq as courceCompletNum,"
+					+ " d. startdate,"
+					+ " d. enddate,"
+					+ " (select tblCourse.name from tblCourse where tblCourse.seq = d.courceNum) as cName,"//과정명
+					+ " (select count(tblTeacherEvaluation.completNum) from tblTeacherEvaluation where tblTeacherEvaluation.completNum = c.seq) as evalNum," //평가 개수(1개만 가능하게끔 유효청 처리에 사용)
+					+ " (select count(tblQualification.regiNum) from tblQualification where tblQualification.regiNum = b.seq) as qNum" //구직활동글 개수 (1개만 가능하게 유효성 처리에 사용)
+					+ " from tblStudent a" 
 					+ " inner join tblRegiCource b"
 					+ " on a.seq = b.studentNum"
-					+ " inner join tblCourceComplet c"
+					+ " left outer join tblCourceComplet c" //수료번호 null 처리&자바 예외처리를 위해 outerjoin
 					+ " on c.regiNum = b.seq"
+					+ " inner join tblMakeCource d"
+					+ " on d.seq = b.createdCourceNum"
 					+ " where a.seq = ?";
 			//sql구문의 띄어쓰기가 제대로 안 되면 sql오류가 일어날 수 있다.
 			
@@ -106,7 +113,13 @@ public class StudentDAO {
 				dto.setCreatedCourceNum(rs.getString("createdCourceNum")); //개설과정번호
 				dto.setRegiStateNum(rs.getString("regiStateNum")); //수강상태번호
 				dto.setRegiState(rs.getString("registate")); //수강상태
-				dto.setCourceCompletNum(rs.getString("courceCompletNum"));
+				dto.setCourceCompletNum(rs.getString("courceCompletNum")); //수료번호
+				dto.setStartDate(rs.getString("startDate")); //과정시작일
+				dto.setEndDate(rs.getString("endDate")); //과정종료일
+				dto.setcName(rs.getString("cName")); //과정명
+				dto.setEvalNum(rs.getString("evalNum")); //교사평가 글 개수
+				dto.setqNum(rs.getString("qNum")); //구직활동 글 개수
+				
 				
 				return dto;
 			}

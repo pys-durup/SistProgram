@@ -10,6 +10,11 @@ public class ReserveStudentDTO {
 	private String address;
 	private String field;
 	private String knowledge;
+	//추가된 필드
+	private String cName; //수강면접신청한 과정명
+	private String createdCourceNum; //수강면접신청한 과정번호
+	private String interviewDate; // 면접일자
+	
 	public String getSeq() {
 		return seq;
 	}
@@ -51,6 +56,24 @@ public class ReserveStudentDTO {
 	}
 	public void setKnowledge(String knowledge) {
 		this.knowledge = knowledge;
+	}
+	public String getcName() {
+		return cName;
+	}
+	public void setcName(String cName) {
+		this.cName = cName;
+	}
+	public String getCreatedCourceNum() {
+		return createdCourceNum;
+	}
+	public void setCreatedCourceNum(String createdCourceNum) {
+		this.createdCourceNum = createdCourceNum;
+	}
+	public String getInterviewDate() {
+		return interviewDate;
+	}
+	public void setInterviewDate(String interviewDate) {
+		this.interviewDate = interviewDate;
 	}
 	
 }
