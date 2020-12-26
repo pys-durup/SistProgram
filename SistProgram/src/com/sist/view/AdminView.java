@@ -215,14 +215,13 @@ public class AdminView {
 	 */
 	public void endCourseListView() {
 		
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("종료된 과정 목록");
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		makeTitle("종료된 과정 목록", 105);
 		
 		ArrayList<EndCourseListDTO> list = jadao.EndCourseList();
 		
+		System.out.println("[번호]\t\t\t[과정명]\t\t\t[시작일자]  [종료일]  [교사명]   [강의실]");
 		for (EndCourseListDTO dto : list ) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\t\n"
+			System.out.printf("%4s\t%-35s\t%10s  %10s  %s  %s\n"
 					, dto.getSeq()
 					, dto.getCourseName()
 					, dto.getStartDate()
@@ -231,7 +230,7 @@ public class AdminView {
 					, dto.getRoom());
 		}
 		
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		makeLine(105);
 		System.out.println("1. 과정 번호 선택  2. 뒤로가기");
 		System.out.print("번호를 입력하세요 :");
 		
