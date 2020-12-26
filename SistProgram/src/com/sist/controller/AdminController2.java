@@ -33,7 +33,7 @@ public class AdminController2 {
 	public void RStudentManagingMenu() {
 		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("1. 교육과정 면접 합격생 수강관리");
+		System.out.println("1. 합격생 수강상태 관리");
 		System.out.println("2. 예비교육생 전체조회");
 		System.out.println("3. 교육과정 면접 관리");
 		System.out.println();
@@ -81,8 +81,8 @@ public class AdminController2 {
 		
 		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("1. 면접일정 관리");
-		System.out.println("2. 면접결과 관리");
+		System.out.println("1. 면접일정 등록하기");
+		System.out.println("2. 면접결과 등록하기");
 		System.out.println();
 		System.out.println("0. 뒤로 가기");
 		
@@ -305,8 +305,8 @@ public class AdminController2 {
 	public void pause() {
 		System.out.print("엔터를 누르면 이전화면으로 돌아갑니다");
 		String num = scan.nextLine();
-		 AdminController ac = new  AdminController(mdto);	 
-		ac.start();
+		 
+		RStudentManagingMenu();
 	}
 	
 	
