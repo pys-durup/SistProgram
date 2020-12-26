@@ -1254,9 +1254,9 @@ public class AdminController {
 //			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 //			System.out.println("추천 인재 추가");
 //			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			aview.makeTitle("추천 인재 추가", 50);
+			aview.makeTitle("추천 인재 추가", 46);
 			System.out.println("수료생중 성적이 높은 10명");
-			aview.makeLine(50);
+			aview.makeLine(46);
 			System.out.println("[번호]  [이름]  [필기]  [실기]  [출결]");
 			ArrayList<AbleTStudentScoreListDTO> list = tsdao.ableTStudentScoreList();
 
@@ -1265,7 +1265,8 @@ public class AdminController {
 						dto.getPractice(), dto.getAttendance());
 			}
 
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+//			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeLine(46);
 			System.out.println("1. 추가하기 2. 뒤로가기");
 			System.out.print("번호를 선택하세요 : ");
 			num = scan.nextLine();
@@ -1314,8 +1315,10 @@ public class AdminController {
 	private void talentedStudenEdit() {
 		// 취업지원 관리 - 추천인재 관리 - 추천 인재 수정
 		while (true) {
+			aview.makeTitle("추천 인재 목록", 100);
 			aview.TalentedStudentListView(null);
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+//			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeLine(100);
 			System.out.println("1. 수정하기 2. 뒤로가기");
 			System.out.print("번호를 선택하세요 : ");
 			num = scan.nextLine();
@@ -1329,14 +1332,16 @@ public class AdminController {
 				TalentedStudentListDTO dto = tsdao.getTalentedStudent(num);
 
 				// 수정할 기업의 정보
-				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-				System.out.println("수정할 인재 정보");
-				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+//				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+//				System.out.println("수정할 인재 정보");
+//				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				aview.makeTitle("수정할 인재 정보", 76);
 				System.out.println("이름       : " + dto.getName());
 				System.out.println("전화번호   : " + dto.getTel());
 				System.out.println("포트폴리오 : " + dto.getPortfolio());
 				System.out.println("추천이유   : " + dto.getReason());
-				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+//				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				aview.makeLine(76);
 				System.out.println("━━━━━━━━━━━━━━ 수정을 하지 않는 컬럼은 엔터를 입력하시오 ━━━━━━━━━━━━━━━━━━━");
 				System.out.print("수정할 포트폴리오 : ");
 				String portfolio = scan.nextLine();
@@ -1393,8 +1398,10 @@ public class AdminController {
 		// 취업지원 관리 - 추천인재 관리 - 추천 인재 삭제
 
 		while (true) {
+			aview.makeTitle("추천 인재 목록", 100);
 			aview.TalentedStudentListView(null);
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+//			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeLine(100);
 			System.out.println("1. 삭제하기 2. 뒤로가기");
 			System.out.print("번호를 선택하세요 : ");
 			num = scan.nextLine();
@@ -1432,14 +1439,16 @@ public class AdminController {
 		// 취업지원 관리 - 기업에 인재 추천
 		while (true) {
 
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("추천인재 관리");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+//			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+//			System.out.println("추천인재 관리");
+//			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeTitle("추천인재 관리", 46);
 			System.out.println("1. 추천현황 조회");
 			System.out.println("2. 기업인재추천 등록");
 			System.out.println("3. 기업인재추천 취소");
 			System.out.println("4. 뒤로가기");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+//			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeLine(46);
 			System.out.print("번호를 입력하세요 :");
 			num = scan.nextLine();
 
@@ -1484,11 +1493,11 @@ public class AdminController {
 //			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 //			System.out.println("인재 추천 등록");
 //			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			aview.makeTitle("인재 추천 등록", 123);
+			aview.makeTitle("인재 추천 등록", 100);
 
 			// 추천 할 인재 선택
 			aview.TalentedStudentListView(null);
-
+			aview.makeLine(100);
 			System.out.println("1. 인재 추천하기 2. 뒤로가기");
 			System.out.print("번호를 선택하세요 : ");
 			num = scan.nextLine();
@@ -1887,7 +1896,7 @@ public class AdminController {
 				System.out.println("[수강번호] [이름] [출석횟수] [결석횟수] [지각횟수] [조퇴횟수] [출석률]");
 
 				for (AttendanceStatisticsDTO dto : slist) {
-					System.out.printf("%6s\t   %s    %-3d         %-3d        %-3d         %-3d    %d%%\n", dto.getReginum(), dto.getName(),
+					System.out.printf("%6s\t   %s    %-3d         %-3d        %-3d         %-3d     %d%%\n", dto.getReginum(), dto.getName(),
 							dto.getAttendance(), dto.getAbsent(), dto.getLate(), dto.getLeave(),
 							Math.round(dto.getAttendanceRate()));
 
@@ -2274,6 +2283,10 @@ public class AdminController {
 		
 	}
 
+	
+	
+	
+	
 	private void pause() {
 		System.out.print("엔터를 누르면 이전화면으로 돌아갑니다");
 		String num = scan.nextLine();

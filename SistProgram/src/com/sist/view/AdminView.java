@@ -47,9 +47,9 @@ public class AdminView {
 		if(list.size() > 0) {
 			// 검색된 값 결과가 있을때
 			makeLine(100);
-			System.out.println("[번호]\t[이름]\t[전화번호]\t[포트폴리오]\t[추천이유]");
+			System.out.println("[번호]\t[이름]\t [전화번호]\t\t\t[포트폴리오]\t\t\t[추천이유]");
 			for (TalentedStudentListDTO dto : list) {
-				System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+				System.out.printf("%4s\t%s\t%s\t%-37s\t  %s\n"
 						, dto.getSeq()
 						, dto.getName()
 						, dto.getTel()
