@@ -113,7 +113,6 @@ public class AdminView {
 									, dto.getRecoDate());
 		}
 		
-		makeLine(67);
 		
 	}
 	

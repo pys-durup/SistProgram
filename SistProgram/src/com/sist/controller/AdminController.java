@@ -1479,6 +1479,8 @@ public class AdminController {
 		aview.makeTitle("추천 현황 조회", 67);
 		
 		aview.recommendStudentListView();
+		
+		aview.makeLine(67);
 
 		pause();
 	}
@@ -1551,19 +1553,19 @@ public class AdminController {
 //			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 //			System.out.println("기업 인재 추천 취소");
 //			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			aview.makeTitle("기업 인재 추천 취소", 54);
+			aview.makeTitle("기업 인재 추천 취소", 67);
 			
 			aview.recommendStudentListView();
 			// 인재 추천 취소 하기 진행
 //			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			aview.makeLine(54);
+			aview.makeLine(67);
 			System.out.println("1. 인재 추천 취소 2. 뒤로가기");
 			System.out.print("번호를 입력하세요 : ");
 			num = scan.nextLine();
 
 			if (num.equals("1")) {
 //				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-				aview.makeLine(54);
+				aview.makeLine(67);
 				System.out.print("삭제할 기업인재 추천 번호를 선택하세요 : ");
 				num = scan.nextLine();
 
