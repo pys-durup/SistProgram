@@ -46,8 +46,8 @@ public class ReserveStudentController {
 				myResult();
 				break;
 			} else if (num.equals("4")) { //4. 로그아웃
-				Login lg = new Login();
-				lg.loginReserveStudent(); //로그아웃하면 로그인 클래스의 예비교육생 메서드 호출
+				//Login lg = new Login();
+				//lg.loginReserveStudent(); //로그아웃하면 로그인 클래스의 예비교육생 메서드 호출
 				break;
 			} else {
 				System.out.println("잘못된 입력입니다");

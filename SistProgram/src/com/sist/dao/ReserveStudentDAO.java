@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.sist.dto.InterviewResultDTO;
@@ -147,8 +148,9 @@ public class ReserveStudentDAO {
 	}
 	
 	
+	
 	public int addMigration(String seq) {
-		
+		//면접 합격한 예비교육생이 교육생으로 계정전환하는 메서드
 		try {
 			String sql = "{ call procMigration(?) }";
 			
@@ -168,7 +170,7 @@ public class ReserveStudentDAO {
 	
 	
 	public int addNewReserve(ReserveStudentDTO dto) {
-		
+		//예비교육생이 회원가입하는 메서드
 		try {
 			String sql = "{ call procaddReserve(?, ?, ?, ?, ?, ?) }";
 			
@@ -188,10 +190,163 @@ public class ReserveStudentDAO {
 			e.printStackTrace();
 		}
 		
+		return 0;
+	}
+	
+	
+	
+	public ArrayList<ReserveStudentDTO> list() {
+		//관리자가 전체 예비교육생(계정전환X) 조회하는 메서드 
+		
+		try {
+			String sql = "select * from vw_rStudentList";
+			
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<ReserveStudentDTO> list = new ArrayList<ReserveStudentDTO>();
+			
+			while (rs.next()) {
+				
+				ReserveStudentDTO dto = new ReserveStudentDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setName(rs.getString("name"));
+				dto.setJumin(rs.getString("jumin"));
+				dto.setTel(rs.getString("tel"));
+				dto.setAddress(rs.getString("address"));
+				dto.setField(rs.getString("field"));
+				dto.setKnowledge(rs.getString("knowledge"));
+				
+				list.add(dto);
+			}
+			return list;
+			
+		} catch(Exception e) {
+			System.out.println("ReserveStudentDAO.list()");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
+	
+	public ArrayList<ReserveStudentDTO> noDateList() {
+		//관리자가 면접일자가 미정인 학생- 과정명을 조회하는 메서드
+		
+		try {
+			String sql = "select * from vw_needDateList";
+			
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<ReserveStudentDTO> list = new ArrayList<ReserveStudentDTO>();
+			
+			while (rs.next()) {
+				
+				ReserveStudentDTO dto = new ReserveStudentDTO();
+				
+				dto.setcName(rs.getString("cName"));
+				dto.setCreatedCourceNum(rs.getString("CreatedCourceNum"));
+				dto.setName(rs.getString("name"));
+				dto.setJumin(rs.getString("jumin"));
+				dto.setTel(rs.getString("tel"));
+				dto.setAddress(rs.getString("address"));
+				
+				list.add(dto);
+			}
+			return list;
+			
+			
+		} catch(Exception e) {
+			System.out.println("ReserveStudentDAO.noDateList()");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
+	
+	
+	public int addChoicedDate(String createdCourceNum, String choicedDate) {
+		//관리자가 특정 교육과정의 면접일을 지정하는 메서드
+		try {
+			String sql = "{ call procEditDate(?, ?) }";
+			
+			cstat = conn.prepareCall(sql);
+			
+			cstat.setString(1, createdCourceNum);
+			cstat.setString(2, choicedDate);
+			
+			return cstat.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("ReserveStudentDAO.addChoicedDate()");
+			e.printStackTrace();
+		}
 		
 		
 		return 0;
 	}
+	
+	
+	public ArrayList<ReserveStudentDTO> finisheInterviewList() {
+		//관리자가 종료된 면접 목록을 조회하는 메서드
+		try {
+			String sql = "select * from vw_finishedInterviewList";
+			
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<ReserveStudentDTO> list = new ArrayList<ReserveStudentDTO>();
+			
+			while (rs.next()) {
+				
+				ReserveStudentDTO dto = new ReserveStudentDTO();
+				
+				dto.setcName(rs.getString("cName"));
+				dto.setInterviewDate(rs.getString("interviewDate"));
+				dto.setSeq(rs.getString("seq"));
+				dto.setName(rs.getString("name"));
+				dto.setJumin(rs.getString("jumin"));
+				dto.setTel(rs.getString("tel"));
+				dto.setAddress(rs.getString("address"));
+				
+				list.add(dto);
+			}
+			return list;
+			
+		} catch(Exception e) {
+			System.out.println("ReserveStudentDAO.finisheInterviewList()");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
+	
+	
+	public int addPassFail(String studentNum, String resultNum) {
+		
+		try {
+			String sql = "{ call procaddResult(?, ?) }";
+			
+			cstat = conn.prepareCall(sql);
+			
+			cstat.setString(1, studentNum);
+			cstat.setString(2, resultNum);
+			
+			return cstat.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("ReserveStudentDAO.addPassFail()");
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+	
+	
 	
 	
 	

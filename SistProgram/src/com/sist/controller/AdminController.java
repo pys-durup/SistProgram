@@ -114,6 +114,7 @@ public class AdminController {
 			System.out.println("7. 취업지원 관리");
 			System.out.println("8. 데이터 통계 관리");
 			System.out.println("9. 상담일지 관리");
+			System.out.println("10. 예비교육생 관리");
 			System.out.println("0. 로그아웃");
 			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.print("번호를 입력하세요 :");
@@ -137,6 +138,10 @@ public class AdminController {
 				dataStatisticsManagement(); // 데이터 통계 관리 - 박영수
 			} else if (num.equals("9")) { 
 				CourseconsultationManagement();	// 상담 관리 - 윤지현
+			} else if (num.equals("10")) {//예비교육생 관리 - 김소리
+				//코드를 실수로 건들까봐.. 예비교육생 관리 파일 분리(컨트롤러2)
+				AdminController2 ac2 = new AdminController2(mdto);
+				ac2.RStudentManagingMenu();
 			} else if (num.equals("0")) {
 				// 로그아웃
 				break;
