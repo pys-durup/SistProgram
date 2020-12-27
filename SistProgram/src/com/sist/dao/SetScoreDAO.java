@@ -35,7 +35,11 @@ public SetScoreDAO() {
 	
 }
 
-//배점 추가
+/**
+ * 배점 추가
+ * @param dto 배점정보
+ * @return
+ */
 public int addSetScore(SetScoreDTO dto) {
 	
 		
@@ -60,7 +64,11 @@ public int addSetScore(SetScoreDTO dto) {
 	
 		
 }
-//배점삭제
+/**
+ * 배점과목 삭제
+ * @param seq 배점과목번호
+ * @return
+ */
 public int deleteSetScore(String seq) {
 	
 	
@@ -83,7 +91,11 @@ public int deleteSetScore(String seq) {
 
 
 
-//배점수정
+/**
+ * 배점수정
+ * @param dto2 배점정보
+ * @return
+ */
 public int editSetScore(SetScoreDTO dto2) {
 	
 	try {

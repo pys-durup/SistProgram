@@ -1,7 +1,7 @@
 package com.sist.dto;
 
-public class StudentsRegiCourceDTO { //교육생, 수강, 수강상태 테이블, 수료테이블 
-	//StudentDAO에서 수강번호, 수강상태 정보, 수료번호 정보를 얻어야 할 때 사용
+public class StudentsRegiCourceDTO { //교육생, 수강, 수강상태 테이블, 수료테이블, 개설과정테이블 
+	//StudentDAO에서 수강번호, 수강상태 정보, 수료번호, 개설과정 정보를 얻어야 할 때 사용
 	private String seq; //교육생번호
 	private String name; //교육생이름
 	private String jumin;  //교육생주민번호
@@ -12,6 +12,11 @@ public class StudentsRegiCourceDTO { //교육생, 수강, 수강상태 테이블
 	private String regiStateNum; //수강상태번호
 	private String regiState; //수강상태 
 	private String CourceCompletNum; //수료 테이블의 수료번호(seq)
+	private String startDate; //개설과정테이블의 과정시작일
+	private String endDate; //개설과정테이블의 과정종료일
+	private String cName; //개설과정명
+	private String evalNum; //교사평가 글 개수
+	private String qNum; //구직활동 글 개수
 	
 	
 	public String getSeq() {
@@ -73,6 +78,36 @@ public class StudentsRegiCourceDTO { //교육생, 수강, 수강상태 테이블
 	}
 	public void setCourceCompletNum(String courceCompletNum) {
 		CourceCompletNum = courceCompletNum;
+	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public String getcName() {
+		return cName;
+	}
+	public void setcName(String cName) {
+		this.cName = cName;
+	}
+	public String getEvalNum() {
+		return evalNum;
+	}
+	public void setEvalNum(String evalNum) {
+		this.evalNum = evalNum;
+	}
+	public String getqNum() {
+		return qNum;
+	}
+	public void setqNum(String qNum) {
+		this.qNum = qNum;
 	}
 	
 }

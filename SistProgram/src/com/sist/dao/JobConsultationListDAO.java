@@ -32,7 +32,11 @@ public JobConsultationListDAO() {
 		}
 
 	}
-//취업상담내역 조회
+/**
+ * 취업상담조회
+ * @param pseq 교사번호
+ * @return
+ */
 public ArrayList<JobConsultationListDTO> jslist(String pseq){
 	
 	try {
@@ -81,6 +85,13 @@ public ArrayList<JobConsultationListDTO> jslist(String pseq){
 }
 
 //edit를 위한 기존목록보기
+
+/**
+ * 취업상담 edit를 위한 기존목록보기 
+ * @param pseq 교사번호
+ * @param seq 상담번호
+ * @return
+ */
 public JobConsultationListDTO get(String pseq, String seq) {
 	
 	try { 	String sql = "{ call proc_editJobConsultationList(?,?,?) }";
@@ -123,7 +134,7 @@ public JobConsultationListDTO get(String pseq, String seq) {
 	
 }
 
-
+//안씀(킵)
 public ArrayList<JobConsultationListDTO> selectJslist(){
 	
 	try {
@@ -170,7 +181,12 @@ public ArrayList<JobConsultationListDTO> selectJslist(){
 }
 
 
-//취업상담내역 작성
+
+/**
+ * 취업상담내역 작성
+ * @param dto 취업상담정보
+ * @return
+ */
 public int addJobConsulting(JobConsultationListDTO dto) {
 	
 	
@@ -191,7 +207,12 @@ public int addJobConsulting(JobConsultationListDTO dto) {
 	return 0;
 		
 }
-//취업상담내역 수정
+
+/**
+ * 취업상담내역 수정
+ * @param dto2 취업상담정보
+ * @return
+ */
 public int editJobConsulting(JobConsultationListDTO dto2) {
 	
 	try {	
@@ -211,6 +232,11 @@ public int editJobConsulting(JobConsultationListDTO dto2) {
 	
 }
 //취업상담내역 삭제
+/**
+ * 취업상담 삭제
+ * @param seq 취업상담번호
+ * @return
+ */
 public int deleteJobConsulting(String seq) {
 	
 	try {

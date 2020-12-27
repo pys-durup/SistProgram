@@ -37,22 +37,15 @@ public class StudentlistDAO {
 		
 	}
 
-	public ArrayList<StudentlistDTO> Studentlist(String word) {
+	public ArrayList<StudentlistDTO> Studentlist() {
 		try {
 			
-//			String where = "";
-//			
-//			if(word != null) {
-//				where = String.format("where name like '%%%s%%'", word);	
-//				
-//			}
+			String sql = "{call procStudentList(?)}";
 			
-			String sql = "{call procStudentList(?, ?)}";
-				
 			cstat = conn.prepareCall(sql);
-			cstat.setString(1, "1"); //popseq IN NUMBER,
-			cstat.registerOutParameter(2, OracleTypes.CURSOR);
 			
+			cstat.registerOutParameter(1, OracleTypes.CURSOR);
+						
 			cstat.executeQuery();
 			
 			rs = (ResultSet)cstat.getObject(2);

@@ -35,6 +35,11 @@ public CompletionStudentDAO() {
 
 		
 	}
+/**
+ * 수료자 리스트(취업상담 가능)
+ * @param seq 교사번호
+ * @return
+ */
 public ArrayList<CompletionStudentDTO> list(String seq){
 	
 	

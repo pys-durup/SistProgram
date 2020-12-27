@@ -1,6 +1,9 @@
 package com.sist.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 import com.sist.dao.AttendanceDAO;
@@ -21,7 +24,14 @@ import com.sist.dto.StudentDTO;
 import com.sist.dto.StudentsAttendanceDTO;
 import com.sist.dto.StudentsRegiCourceDTO;
 import com.sist.dto.TeacherEvaluationDTO;
+import com.sist.main.Login;
 import com.sist.view.StudentView;
+
+/**
+ * 이 클래스는 교육생 계정의 모든 기능을 조작하는 클래스이다.
+ * @author 김소리
+ */
+
 
 public class StudentController {
 
@@ -32,14 +42,24 @@ public class StudentController {
 	private StudentView view; //출력문 메서드를 모아놓은 객체
 	private StudentsRegiCourceDTO srdto;//로그인한 교육생의 수강-수료 테이블 정보
 	
+	
+	
+	/**
+	 * StudentController 생성자
+	 * */
 	public StudentController(StudentDTO sdto, StudentsRegiCourceDTO srdto) {
 		this.sdto = sdto; // 로그인한 교육생의 계정 정보를 담는다
 		this.srdto = srdto; //로그인한 교육생의 교육생테이블, 교육생-수강-수료테이블 정보 담기 (수강번호, 수료번호 필요)
 		this.tdao = new TeacherEvaluationDAO();
-		this.view = new StudentView(sdto);  //각 메서드마다 뷰 객체 찍어내지 않고 바로 호출
+		this.view = new StudentView(sdto, srdto);  //각 메서드마다 뷰 객체 찍어내지 않고 바로 호출
 	}
 	
 	
+	
+	
+	/**
+	 * 교육생 메인메뉴
+	 * */
 	public void start() {
 		
 		boolean check = true;
@@ -64,18 +84,21 @@ public class StudentController {
 			} else if (num.equals("5")) { //5. 취업활동 관리
 				jobMenu();
 				break;
-			} else {
-				System.out.println("잘못된 입력입니다");
-				pause();
+			} else {  //6. 로그아웃(교육생 로그인 메서드 호출)
 				
+				break;
 			}
 		}
 		
 	}
 	
 	
+	
+	/**
+	 * 교육생 취업 관리 메뉴
+	 * */
 	private void jobMenu() {
-		//취업관리 메뉴
+		
 		view.jobMenuView();
 		
 		boolean check = true;
@@ -104,6 +127,9 @@ public class StudentController {
 
 
 
+	/**
+	 * 교육생 취업내역정보 메뉴
+	 * */
 
 	private void jobInfoMenu() {
 		
@@ -134,12 +160,23 @@ public class StudentController {
 			}
 		}
 		
-		
-		
 	}
 
+	
+	/**
+	 * 교육생이 본인의 취업내역을 수정하는 메서드
+	 * @param srdto.getCourceCompletNum() 로그인한 교육생의 수료번호
+	 * @param JobInfoDTO dto2 입력받은 수정하고자 하는 값
+	 * */
 
 	private void editJobInfo() {
+		
+		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 취업내역은 수료 이후 작성하실 수 있습니다.**");
+			pause();
+			
+		} else {
+		
 		//취업내역 수정 메서드
 		view.editJobInfoView();
 		
@@ -213,12 +250,24 @@ public class StudentController {
 		}
 		pause(); //취업정보메뉴로 회귀
 		
-		
+		}
 	}
 
 
 	
+	/**
+	 * 교육생이 본인의 취업내역을 조회하는 메서드
+	 * @param srdto.getCourceCompletNum() 로그인한 교육생의 수료번호
+	 * */
+	
 	private void listJobInfo() {
+		
+		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 취업내역 기능은 수료 이후 이용하실 수 있습니다.**");
+			pause();
+			
+		} else {
+		
 		
 		view.listJobInfoView();
 		
@@ -230,6 +279,7 @@ public class StudentController {
  		
 		
 		for (JobInfoDTO dto : list) {
+			System.out.println("----------------------------------------------");
 			System.out.printf("[취업일자] %s\n[4대보험 가입여부] %s\n[고용형태] %s\n[직무] %s\n[연봉]%s\n"
 								,dto.getStartDate()
 								,dto.getInsurance()
@@ -239,11 +289,23 @@ public class StudentController {
 			
 		}
 		pause();
-		
+		}
 	}
 
 
+	
+	
+	/**
+	 * 교육생이 본인의 취업내역을 등록하는 메서드
+	 * @param srdto.getCourceCompletNum() 로그인한 교육생의 수료번호
+	 * */
 	private void addJobInfo() {
+		
+		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 취업내역은 수료 이후 작성하실 수 있습니다.**");
+			pause();
+			
+		} else {
 		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("취업내역 등록");
@@ -293,9 +355,15 @@ public class StudentController {
 		}
 		
 		pause();
+	
+		}
 	}
 
-
+	
+	
+	/*
+	 * 구직활동정보 메뉴
+	 * */
 	private void qualificationMenu() {
 		//구직활동 메뉴
 		view.qualificationMenu();
@@ -330,6 +398,10 @@ public class StudentController {
 	}
 
 	
+	/**
+	 * 교육생이 본인의 구직활동정보를 삭제하는 메서드
+	 * @param this.srdto.getrSeq() 로그인한 교육생의 수강번호
+	 * */
 
 	private void deletequalification() {
 		//구직정보 삭제 메서드
@@ -363,6 +435,10 @@ public class StudentController {
 
 	
 
+	
+	/**
+	 * 교육생이 본인의 구직활동을 수정하는 메서드
+	 * */
 	private void editqualification() {
 		//구직활동 수정하기 메서드
 		view.editqualificationView();
@@ -437,6 +513,12 @@ public class StudentController {
 		
 	}
 
+	
+	
+	/**
+	 * 교육생이 본인의 구직활동을 조회하는 메서드
+	 * @param pregiNum 로그인한 교육생의 수강번호
+	 * */
 
 	private void listqualification() {
 		//구직활동 조회하기 메서드
@@ -450,6 +532,7 @@ public class StudentController {
 		ArrayList<QualificationDTO> list = dao.list(pregiNum);
 		
 		for (QualificationDTO dto : list) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 			System.out.printf("[보유자격증] %s\n[이력서] %s\n[희망 직무] %s\n[깃허브 주소] %s\n[희망 연봉] %s\n"
 								, dto.getLicense()
 								, dto.getResume()
@@ -461,8 +544,19 @@ public class StudentController {
 		
 	}
 
+	
+	/**
+	 * 교육생이 본인의 구직활동정보를 등록하는 메서드
+	 * @param pregiNum 로그인한 교육생의 수강번호
+	 * */
 
 	private void addqualification() {
+		
+		
+		if (this.srdto.getqNum() != "0") {
+			System.out.println("이미 구직활동정보를 등록하셨습니다. 등록 이후 수정 혹은 삭제만 가능하십니다.");
+			pause();
+		} {
 		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("구직활동정보 등록");
@@ -511,9 +605,16 @@ public class StudentController {
 		}
 		
 		pause();
+	
+		}
+
 	}
 
 
+	
+	/**
+	 * 교육생의 출석 메뉴
+	 * */
 	private void studentAttendance() {
 		view.studentAttendanceMenu();
 		
@@ -528,6 +629,8 @@ public class StudentController {
 			} else if (num.equals("2")) {
 				listStudentAttendance(); //출결 전체조회하기
 				break;
+			} else if (num.equals("3")) {
+				choiceRangeAttendance(); //출결 선택조회하기
 			} else if (num.equals("0")) {
 				start(); //학생 메인메뉴로 회귀
 				break;
@@ -543,23 +646,66 @@ public class StudentController {
 
 	
 
+	
+	/**
+	 * 교육생이 입력한 기간에 따른 본인의 출석 내역, 근태상황을 확인하는 메서드
+	 * @param pstartDate 사용자가 입력한 조회기간 시작일
+	 * @param pendDate 사용자가 입력한 조회기간 종료일
+	 * */
+	private void choiceRangeAttendance() {
+		view.choiceRangeAttendanceView();
+		
+		System.out.println("조회할 기간의 시작일을 입력해주세요.");
+		System.out.println("   ex) 20201020");
+		String pstartDate = scan.nextLine();
+		
+		System.out.println("조회할 기간의 종료일을 입력해주세요.");
+		System.out.println("   ex) 20201120");
+		String pendDate = scan.nextLine();
+		
+		String pstudentNum = this.sdto.getSeq();
+		//생성자로 만든 sdto의 학생번호를 프로시저 매개변수로 사용.
+		
+		AttendanceDAO dao = new AttendanceDAO();
+		
+		ArrayList<StudentsAttendanceDTO> listChoice = dao.listChoice(pstudentNum, pstartDate, pendDate); 
+		
+		System.out.printf("[날짜]\t\t[입실시간]\t\t[퇴실시간]\t\t[출결상태]\n");
+		System.out.println();
+		for (StudentsAttendanceDTO dto : listChoice) {
+			
+			System.out.printf("%s\t%s\t%s\t%s\t\n"
+								,dto.getDays()
+								,dto.getInTime()
+								,dto.getOutTime()
+								,dto.getDayState());
+		}
+		pause();
+		
+	}
+
+
+	
+	/*
+	 * 교육생이 본인의 출석을 전체조회하는 메서드
+	 * */
 	private void listStudentAttendance() {
 		view.listAttendance();
 	
-		String pregiNum = this.srdto.getrSeq(); 
-		//생성자로 만들어놓은 srdto의 수강번호를 프로시저에 필요한 매개변수로 쓸 것임.
-		String pcreatedCourceNum = this.srdto.getCreatedCourceNum();
-		//생성자로 만들어놓은 srdto의 개설과정번호를 프로시저에 필요한 매개변수로 쓸 것임.
+		String pstudentNum = this.sdto.getSeq();
+
 		AttendanceDAO dao = new AttendanceDAO();
 		
-		ArrayList<StudentsAttendanceDTO> list = dao.list(pregiNum, pcreatedCourceNum);
+		ArrayList<StudentsAttendanceDTO> list = dao.list(pstudentNum);
 		
-		System.out.printf("[날짜]\t\t[근태상황]\n");
+		System.out.printf("[날짜]\t\t[입실시간]\t\t[퇴실시간]\t\t[출결상태]\n");
 		System.out.println();
 		for (StudentsAttendanceDTO dto : list) {
 		
-			System.out.printf("%s\t\t%s\n",
+			System.out.printf("%s\t%s\t%s\t%s\t\n",
 								dto.getAlldates(),
+								dto.getInTime(),
+								dto.getOutTime(),
 								dto.getAttstate());
 		}
 		
@@ -568,40 +714,78 @@ public class StudentController {
 
 
 	
+	
+	/**
+	 * 교육생이 출석체크하는 메서드
+	 * @param pregiNum 로그인한 교육생의 수강번호
+	 * */
 	private void checkAttendance() {
-		view.addAttendance();
+		//유효성 검사
+		SimpleDateFormat df= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
-		String num = scan.nextLine();
+		Date date = new Date();
+		String today = df.format(date); //현재시간 문자열 만들기
 		
-		if (num.equals("1")) { //출석체크 진행
-			AttendanceDTO dto = new AttendanceDTO();
-			AttendanceDAO dao = new AttendanceDAO();
-			
-			String pregiNum = srdto.getrSeq(); //프로시저 호출시 필요한 매개변수인 수강번호를 srdto(생성자로 만듦)를 통해 가져오기.
-			
-			dto.setRegiNum(pregiNum);
-			
-			int result = dao.addAttendance(dto); //매개변수를 담은 dto를 dao의 메서드로 넘기며 호출
-			
-			if (result > 0) {
-				System.out.println("출석체크를 하셨습니다.");
-			} else {
-				System.out.println("출석체크가 정상적으로 되지 않았습니다.");
-			}
-			
-		} else if (num.equals("0")) { // //출석메뉴 뒤로 가기
-			studentAttendance();
-		} else {
-			System.out.println("번호를 잘못 입력하셨습니다.");
-			pause();
+		Date day = null; //날짜 비교를 위한 변수 초기화
+		Date startDate = null;
+		Date endDate = null;
+		//날짜 변환 parse를 사용하기 위해서 try catch 로 예외처리
+		try {
+			day = df.parse(today); 
+			startDate = df.parse(this.srdto.getStartDate());
+			endDate = df.parse(this.srdto.getEndDate());			
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
 		
+		if (day.compareTo(startDate) > 0 && day.compareTo(endDate) < 0) {
+			//현재시간이 과정시작일보다 미래 && 현재시간이 과정종료일보다 과거라면
+			//출결체크하기
+			view.addAttendance();
+			
+			String num = scan.nextLine();
+			
+			if (num.equals("1")) { //출석체크 진행
+				AttendanceDTO dto = new AttendanceDTO();
+				AttendanceDAO dao = new AttendanceDAO();
+				
+				String pregiNum = srdto.getrSeq(); //프로시저 호출시 필요한 매개변수인 수강번호를 srdto(생성자로 만듦)를 통해 가져오기.
+				
+				dto.setRegiNum(pregiNum);
+				
+				int result = dao.addAttendance(dto); //매개변수를 담은 dto를 dao의 메서드로 넘기며 호출
+				
+				if (result > 0) {
+					System.out.println("출석체크를 하셨습니다.");
+				} else {
+					System.out.println("출석체크가 정상적으로 되지 않았습니다.");
+				}
+				
+			} else if (num.equals("0")) { // //출석메뉴 뒤로 가기
+				studentAttendance();
+			} else {
+				System.out.println("번호를 잘못 입력하셨습니다.");
+				pause();
+			}
+			
+			pause();
 		
+			
+		
+		} else {
+			System.out.println("현재는 교육과정 기간이 아니기 때문에 출석 체크를 할 수 없습니다.");
+			pause();
+		}
+
 	}
 
+	
 
+	
+	/**
+	 * 교육생의 상담일지 메뉴
+	 * */
 	private void studentConsultation() {
-		//상담일지 메뉴
 		view.ConsultationMenuView();
 		
 		boolean check = true;
@@ -628,9 +812,14 @@ public class StudentController {
 		
 	}
 
-
+	
+	
+	/**
+	 * 교육생이 본인의 취업상담 내역을 조회하는 메서드
+	 * @param pstudentNum 로그인한 교육생의 번호
+	 * */
 	private void listJobConsultation() {
-		//취업상담 내역 조회 메서드
+		
 		view.listJConsultationView();
 		String pstudentNum = this.sdto.getSeq();
 		JobConsultationDAO dao = new JobConsultationDAO();
@@ -638,7 +827,7 @@ public class StudentController {
 		ArrayList<JobConsultationDTO> list = dao.list(pstudentNum);
 		
 		System.out.printf("[상담일]\t\t\t[상담 내용]\n");
-		for (JobConsultationDTO dto : list) {
+		for (JobConsultationDTO dto : list) {			
 			System.out.printf("%s\t\t%s\n"
 								,dto.getConsDate()
 								,dto.getContent());
@@ -650,8 +839,12 @@ public class StudentController {
 	}
 
 
+	/**
+	 * 교육생이 본인의 수업상담 내역을 조회하는 메서드
+	 * @param pstudentNum 로그인한 교육생의 번호
+	 * */
 	private void listCourseConsultation() {
-		//수업상담 내역 조회 메서드
+		
 		view.listCConsultationView();
 		String pstudentNum = this.sdto.getSeq();
 		CourseConsultationDAO dao = new CourseConsultationDAO();
@@ -671,25 +864,28 @@ public class StudentController {
 		
 	}
 
-
+	
+	/**
+	 *교육생이 본인의 성적을 조회하는 메서드
+	 *@param pstudentNum 로그인한 교육생의 번호
+	 * */
 	private void studentScore() {
-		//점수 조회 메서드
+		
 		 view.scoreView();
 		 
-		
 		 String pstudentNum = this.sdto.getSeq(); 
 		 ScoreDAO dao = new ScoreDAO(); //성적 dao 객체 생성
 		 
 		 ArrayList<ScoreAndSubjectDTO> list = dao.list(pstudentNum);
 		 
-		 System.out.printf("[과목명]\t\t\t\t\t\t\t[출석점수]\t\t[실기점수]\t\t[필기점수]\t\n");
 		 for (ScoreAndSubjectDTO dto : list) {
-			 System.out.printf("%s\t\t\t\t\t\t %s\t\t%s\t\t%s\n"
+			 System.out.printf("[과목명] %s\n[출석점수] %s\n[실기점수] %s\n[필기점수] %s\n"
 					 			,dto.getName()
 					 			,dto.getAttendance()
 					 			,dto.getPractice()
 					 			,dto.getWrite());
-			 
+
+			 System.out.println("----------------------------------------------\n");
 		 }
 		 
 		 System.out.println("");
@@ -698,6 +894,10 @@ public class StudentController {
 	}
 
 
+	
+	/**
+	 * 교사평가 메뉴 메서드
+	 * */
 	private void studentEvaluation() {
 				
 		view.evaluationMenu(); //교사평가메뉴 뷰 메서드 호출
@@ -732,8 +932,19 @@ public class StudentController {
 	
 	
 	
+	/**
+	 * 교육생이 본인의 교사평가를 삭제하는 메서드
+	 * @param completNum 로그인한 교육생의 수료번호
+	 * */
 	private void deleteEvaluation() {
+	
+		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 교사평가는 수료 이후 작성하실 수 있습니다.**");
+			pause();
+			
+		} else {
 		
+		//교사평가 삭제 메서드
 		view.evaluationDelete();
 		String num = scan.nextLine();
 	
@@ -755,12 +966,23 @@ public class StudentController {
 		}
 		
 		pause();
-		
+		}
 	}
 
 	
 	
+	/**
+	 * 교육생이 본인이 등록한 교사평가를 조회하는 메서드
+	 * @param completNum 로그인한 교육생의 수료번호
+	 * */
 	private void listEvaluation() {
+		
+		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 교사평가는 수료 이후 작성하실 수 있습니다.**");
+			pause();
+			
+		} else {
+		
 		//교사평가 조회 메서드
 		view.evaluationListView();
 		
@@ -781,13 +1003,23 @@ public class StudentController {
 	
 		 
 		 pause();
-	}
+	
+		}
 
+	}
 	
 	
-	
+	/**
+	 * 교육생이 본인의 교사평가를 수정하는 메서드
+	 * @param completNum 로그인한 교육생의 수료번호
+	 * */
 	private void editEvaluation() {
 
+		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 교사평가는 수료 이후 작성하실 수 있습니다.**");
+			pause();
+			
+		} else {
 		
 		view.editEvaluationView();
 		
@@ -858,11 +1090,26 @@ public class StudentController {
 	
 		 pause();
 			
+		}
 	}
 
 	
 	
+	/**
+	 * 교육생이 교사평가를 등록하는 메서드
+	 * @param completNum 로그인한 교육생의 수료번호
+	 * */
+	
 	private void addEvaluation() {
+		
+		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
+			System.out.println("**아직 수료 내역이 확인되지 않았습니다. 교사평가는 수료 이후 작성하실 수 있습니다.**");
+			pause();
+			
+		} else if (this.srdto.getEvalNum() != "0") {
+			System.out.println("이미 교사평가를 등록하셨습니다. 등록 이후에는 삭제 혹은 수정만 가능하십니다.");
+			pause();
+		} else {
 		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("교사평가 등록");
@@ -914,9 +1161,13 @@ public class StudentController {
 		
 		
 		 pause();
-		
+		}
 	}
 
+	
+	/**
+	 * 각 메서드의 기능 이후, 메인 메뉴로 돌아올 수 있도록 하는 메서드
+	 * */
 	private void pause() {
 		System.out.print("엔터를 누르면 이전화면으로 돌아갑니다");
 		String num = scan.nextLine();

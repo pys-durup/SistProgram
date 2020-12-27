@@ -39,7 +39,7 @@ public class ScCourseSubjectScoreDAO {
 		
 		try {
 			
-			String sql = "{call procScStudentList(?)}";
+			String sql = "{call procScCourseSubjectScore(?)}";
 			
 			cstat = conn.prepareCall(sql);
 			cstat.registerOutParameter(1, OracleTypes.CURSOR);

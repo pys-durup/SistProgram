@@ -35,7 +35,11 @@ public class ScoreListDAO {
 		}	
 		
 	}
-	//담당학생 성적조회
+	/**
+	 * 과목별 성적 조회
+	 * @param pseq 담당교사번호
+	 * @return
+	 */
 	public ArrayList<setScoreListDTO> list(String pseq){
 		
 		try {
@@ -65,6 +69,7 @@ public class ScoreListDAO {
 				   dto.setCourseStartdate(rs.getString("courseStartdate"));
 				   dto.setCourseEnddate(rs.getString("courseEnddate"));
 				   dto.setRoomName(rs.getString("roomName"));
+				   dto.setScoreStatus(rs.getString("scoreStatus"));
 				   
 				   list.add(dto);
 			   }

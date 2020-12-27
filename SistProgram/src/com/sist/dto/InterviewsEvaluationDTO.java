@@ -30,8 +30,8 @@ public class InterviewsEvaluationDTO {
 	public String getQuestion() {
 		return question;
 	}
-	public void setQuestion(String qusetion) {
-		this.question = qusetion;
+	public void setQuestion(String question) {
+		this.question = question;
 	}
 	public String getEvaluation() {
 		return evaluation;
