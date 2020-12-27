@@ -402,7 +402,7 @@ public class AdminView {
 		
 		System.out.println(line);
 	}
-}
+
 
 	public void HeadRoom() {
 	 	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
