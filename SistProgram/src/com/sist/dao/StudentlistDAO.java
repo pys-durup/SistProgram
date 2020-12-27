@@ -48,7 +48,8 @@ public class StudentlistDAO {
 						
 			cstat.executeQuery();
 			
-			rs = (ResultSet)cstat.getObject(2);
+//			rs = (ResultSet)cstat.getObject(2);
+			rs = (ResultSet)cstat.getObject(1);
 			
 			ArrayList<StudentlistDTO> list = new ArrayList<StudentlistDTO>();
 			
