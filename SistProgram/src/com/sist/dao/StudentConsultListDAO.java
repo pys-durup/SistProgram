@@ -72,22 +72,17 @@ public class StudentConsultListDAO {
 		}
 		return null;
 	}
-//**************진행중
+
 	//상담 추가
 	public int add(StudentConsultListDTO dto) {
 		
 		try {
 			
-//			string sql = "{}"
+			String sql = "{call procAddConsultation(?, ?)}";
 					
-//			cstat = conn.prepareCall(sql);
+			cstat = conn.prepareCall(sql);
 			cstat.setString(1, dto.getConsultDate());
-			cstat.setString(2, dto.getSname());
-			cstat.setString(3, dto.getSubjectSeq());
-			cstat.setString(4, dto.getSubjectName());
-			cstat.setString(5, dto.getCourseDate());
-			cstat.setString(6, dto.getConsultReason());
-			cstat.setString(7, dto.getConsultContent());
+			cstat.setString(2, dto.getConsultContent());
 			
 			return cstat.executeUpdate();
 			
@@ -112,7 +107,7 @@ public class StudentConsultListDAO {
 			return pstat.executeUpdate(); // 1 or 0 반환
 			
 		} catch (Exception e) {
-			System.out.println("AddressDAO.delete()");
+			System.out.println("StudentConsultListDAO.delete()");
 			e.printStackTrace();
 		}
 		
@@ -123,14 +118,12 @@ public class StudentConsultListDAO {
 
 		try {
 			
-			String sql = "update tblCourseConsultation set name=?, ConsultDate=?, ConsultReason=?, ConsultContent=?";
+			String sql = "{call procEditInterviewsEvaluation(}";
 			
 			pstat= conn.prepareStatement(sql);
 			
-			pstat.setString(1, dto2.getSname());
-			pstat.setString(2, dto2.getConsultDate());
-			pstat.setString(3, dto2.getConsultReason());
-			pstat.setString(4, dto2.getConsultContent());
+			pstat.setString(1, dto2.getConsultDate());
+			pstat.setString(2, dto2.getConsultContent());
 
 			return pstat.executeUpdate();
 			
@@ -140,6 +133,45 @@ public class StudentConsultListDAO {
 		}
 		
 		return 0;
+	}
+
+	public StudentConsultListDTO get(String seq) {
+		
+		try {
+			
+			String sql = "{call procStudentConsultList(?)}";
+			
+			cstat = conn.prepareCall(sql);
+			cstat.registerOutParameter(1, OracleTypes.CURSOR);
+			
+			cstat.executeQuery();
+			 
+			rs = (ResultSet)cstat.getObject(1);
+			
+			ArrayList<StudentConsultListDTO> list = new ArrayList<StudentConsultListDTO>();
+			
+			while(rs.next()) {
+				StudentConsultListDTO dto = new StudentConsultListDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setConsultDate(rs.getString("consultDate"));
+				dto.setSname(rs.getString("sname"));
+				dto.setSubjectSeq(rs.getString("subjectSeq"));
+				dto.setSubjectName(rs.getString("subjectName"));
+				dto.setCourseDate(rs.getString("courseDate"));
+				dto.setConsultReason(rs.getString("consultReason"));
+				dto.setConsultContent(rs.getString("consultContent"));
+				
+							
+				return dto;
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println("StudentConsultListDAO.get()");
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	

@@ -42,7 +42,6 @@ public class ScCourseSubjectDAO {
 			String sql = "{call procScSubjectList(?)}";
 			
 			cstat = conn.prepareCall(sql);
-			//cstat.setString(1, );
 			cstat.registerOutParameter(1, OracleTypes.CURSOR);
 			
 			cstat.executeQuery();

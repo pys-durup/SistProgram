@@ -68,7 +68,7 @@ public class InterviewDataDAO {
 				
 		try {
 			
-			String sql = "{ call procAddInterview(?, '?', '?') }";
+			String sql = "{ call procAddInterviewData(?, '?', '?') }";
 		
 			cstat = conn.prepareCall(sql);
 			
@@ -124,7 +124,7 @@ public class InterviewDataDAO {
 				dto.setStandard(rs.getString("standard"));
 							
 				return dto;
-			}
+			} 
 			
 		} catch (Exception e) {
 			System.out.println("InterviewDataDAO.get()");
@@ -137,12 +137,14 @@ public class InterviewDataDAO {
 	public int edit(InterviewDataDTO dto2) {
 		try {
 			
-			String sql = "update tblInterview set question=?, standard=?";
+			String sql = "{call procEditInterviewData(?,?)";
 			
 			pstat= conn.prepareStatement(sql);
 			
 			pstat.setString(1, dto2.getQuestion());
 			pstat.setString(2, dto2.getStandard());
+		
+			
 
 			return pstat.executeUpdate();
 			
