@@ -34,8 +34,13 @@ public TeacherScheduleDAO() {
 
 }
 
+/**
+ * 교사 강의스케줄 조회
+ * @param seq 교사번호
+ * @return
+ */
 public ArrayList<TeacherScheduleDTO> list(String seq){
-	//seq는 교사번호
+	
 	try {
 		
 		String sql = "{ call proc_teacherScheduleAll(?) }";				

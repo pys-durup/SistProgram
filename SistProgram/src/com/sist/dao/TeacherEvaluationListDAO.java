@@ -32,6 +32,12 @@ public TeacherEvaluationListDAO() {
 		}
 
 	}
+
+/**
+ * 교사평가조회
+ * @param pseq 교사번호
+ * @return
+ */
 public ArrayList<TeacherEvaluationListDTO> telist(String pseq){
 	
 	try {

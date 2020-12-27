@@ -36,7 +36,12 @@ public class StudentScoreListDAO {
 	}
 	
 	
-	
+	/**
+	 * 학생성적조회
+	 * @param pseq 개설과목번호
+	 * @param tseq 교사번호
+	 * 
+	 */
 	public ArrayList<StudentScoreListDTO> list (String pseq, String tseq){
 		
 		try {
@@ -77,7 +82,11 @@ public class StudentScoreListDAO {
 		
 	}
 	
-	
+	/**
+	 * 학생성적수정
+	 * @param dto2 학생성적데이터
+	 * 
+	 */
 	public int editStudentScore(StudentScoreListDTO dto2) {
 		
 		try {
