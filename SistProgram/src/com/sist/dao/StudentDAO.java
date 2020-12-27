@@ -5,10 +5,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import com.sist.dto.StudentDTO;
 import com.sist.dto.StudentsRegiCourceDTO;
 import com.sist.main.DBUtil;
+
+import oracle.jdbc.OracleTypes;
 
 public class StudentDAO {
 
@@ -119,6 +122,90 @@ public class StudentDAO {
 		
 		return null;
 	}
+
+
+	public ArrayList<StudentDTO> list(String seq) {
+	    try {
+
+		String sql = "{ call procStudentStatus(?, ?) }";
+		
+		cstat = conn.prepareCall(sql);
+		cstat.registerOutParameter(1, OracleTypes.CURSOR);
+		cstat.setString(2, seq);
+		
+		cstat.executeQuery();
+		
+		rs = (ResultSet) cstat.getObject(1);
+		
+		ArrayList<StudentDTO> list = new ArrayList<StudentDTO>();
+		
+		while(rs.next()) {
+		    StudentDTO dto = new StudentDTO();
+		    
+		    dto.setSeq(rs.getString("수강생번호"));
+		    dto.setName(rs.getString("수강생이름"));
+		    dto.setJumin(rs.getString("주민번호"));
+		    dto.setTel(rs.getString("전화번호"));
+		    dto.setRegdate(rs.getString("등록일"));
+		    dto.setRegistate(rs.getString("registate"));
+		    
+		    
+		    list.add(dto);
+		}
+		
+		rs.close();
+		return list;
+		
+	    } catch (Exception e) {
+		System.out.println("StudentDAO.list()");
+		e.printStackTrace();
+	    }
+	    
+	    return null;
+	}
+
+	public int UpdateStatusStudent(StudentDTO dto) {  //과정별 학생 수강상태 수정
+	    
+	    try {
+
+		String sql = " { call procUpdateStudentStatusEach (?, ?) } ";
+		
+		cstat = conn.prepareCall(sql);
+		
+		cstat.setString(1, dto.getPseq());	
+		cstat.setString(2, dto.getPrseq());
+				
+		return cstat.executeUpdate();
+
+	    } catch (Exception e) {
+		System.out.println("StudentDAO.UpdateStatusStudent()");
+		e.printStackTrace();
+	    }
+	    return 0;
+	}
+
+
+	public int UpdateStatusEachStudent(StudentDTO dto2) { //개별 수강생 수강상태 수정
+	    try {
+
+		String sql = " { call procUpdateStudentStatus (?, ?) } ";
+		
+		cstat = conn.prepareCall(sql);
+		
+		cstat.setString(1, dto2.getPseq());		//학생번호
+		cstat.setString(2, dto2.getPrseq());		//수강정보 
+				
+		return cstat.executeUpdate();
+
+	    } catch (Exception e) {
+		System.out.println("StudentDAO.UpdateStatusEachStudent()");
+		e.printStackTrace();
+	    }
+	    
+	    return 0;
+	}
+
+	
 	
 
 }

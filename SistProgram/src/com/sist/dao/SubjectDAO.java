@@ -159,11 +159,11 @@ public int UpdateSubject(SubjectDTO dto2) {
 
 		String sql = " { call procUpdateSubject( ?, ?, ?) } ";
 		
-		cstat = conn.prepareCall(sql);
+		pstat = conn.prepareCall(sql);
 		
-		cstat.setString(1, dto2.getSeq());	
-		cstat.setString(2, dto2.getName());
-		cstat.setString(3, dto2.getDuration());
+		pstat.setString(1, dto2.getSeq());	
+		pstat.setString(2, dto2.getName());
+		pstat.setString(3, dto2.getDuration());
 		
 		
 		return pstat.executeUpdate();

@@ -53,8 +53,7 @@ public class RoomDAO {
 		    dto.setRoomnum(rs.getString("roomnum"));
 		    dto.setCapacity(rs.getString("capacity"));
 		    dto.setName(rs.getString("name"));
-		    
-		    rs.close();
+	
 		    list.add(dto);
 		}
 
@@ -87,7 +86,7 @@ public class RoomDAO {
 		    dto.setCapacity(rs.getString("capacity"));
 		    dto.setName(rs.getString("name"));
 		    
-		    rs.close();
+		 
 		    return dto;
 		    
 		}
@@ -110,7 +109,7 @@ public class RoomDAO {
 		    	pstat.setString(1, dto2.getSeq());
 		    	pstat.setString(2, dto2.getRoomnum());
 		    	
-		    	rs.close();
+		    	
 		    	return pstat.executeUpdate();
 		    	
 	    } catch (Exception e) {
@@ -128,7 +127,7 @@ public class RoomDAO {
 		    	pstat.setString(1, dto2.getSeq());
 		    	pstat.setString(2, dto2.getCapacity());
 		    	
-		    	rs.close();
+		    
 		    	return pstat.executeUpdate();
 		    	
 	    } catch (Exception e) {
