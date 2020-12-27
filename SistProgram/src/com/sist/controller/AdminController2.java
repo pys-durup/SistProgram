@@ -77,12 +77,13 @@ public class AdminController2 {
 	
 	
 	
-	private void managingInterview() {
+	public void managingInterview() {
 		
 		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("1. 면접일정 등록하기");
-		System.out.println("2. 면접결과 등록하기");
+		System.out.println("2. 면접일정 조회하기");
+		System.out.println("3. 면접결과 등록하기");
 		System.out.println();
 		System.out.println("0. 뒤로 가기");
 		
@@ -92,10 +93,13 @@ public class AdminController2 {
 		
 		while (check) {
 		
-			if (num.equals("1")) { // 1. 면접일정 관리
+			if (num.equals("1")) { // 1. 면접일정 등록하기
 				checkDate();
 				break;
-			} else if (num.equals("2")) { //2. 면접결과 관리
+			} else if (num.equals("2")) { // 2. 면접일정 조회하기
+				listInterviewDate();
+				break;
+			} else if (num.equals("3")) { //3. 면접결과 등록하기
 				addPassOrFail();
 				break;
 			} else if (num.equals("0")) { //이전으로
@@ -119,7 +123,68 @@ public class AdminController2 {
 
 
 
-	private void addPassOrFail() {
+	public void listInterviewDate() {
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println(" 면접일정 목록");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println();	
+		
+		ReserveStudentDAO dao = new ReserveStudentDAO();
+		ArrayList<ReserveStudentDTO> list = dao.scheduleList();
+		
+		for (ReserveStudentDTO dto : list) {
+		
+			System.out.printf(
+								"---------------------------------------------------\n"+
+								"[과정번호] %s\n[면접일] %s\n[과정명] %s\n[과정 시작일] %s\n"
+								, dto.getCreatedCourceNum()
+								, dto.getInterviewDate()
+								, dto.getcName()
+								, dto.getStartDate());
+		}
+		
+		detailScheduleList(); //스케줄에 해당하는 예비교육생의 상세정보 조회 메서드 
+		
+	}
+
+
+
+
+
+
+	public void detailScheduleList() {
+		
+		System.out.println("면접신청한 예비교육생을 조회할 교육과정번호 입력: ");
+		String pcreatedCourceNum = scan.nextLine(); //입력한 개설과정번호(매개변수1)
+		
+		ReserveStudentDAO dao = new ReserveStudentDAO();
+		
+		ArrayList<ReserveStudentDTO> list = dao.detailedApply(pcreatedCourceNum);
+		
+		for (ReserveStudentDTO dto : list) {
+			System.out.printf(
+					"---------------------------------------------------\n"+
+					"[과정명] %s\n[교육과정번호] %s\n[예비교육생 이름] %s\n[주민등록번호] %s\n[연락처] %s\n[주소] %s\n"					
+								, dto.getcName()
+								, dto.getCreatedCourceNum()
+								, dto.getName()
+								, dto.getJumin()
+								, dto.getTel()
+								, dto.getAddress());
+		}
+		
+		System.out.println();
+	
+		
+		pause();
+	}
+
+
+
+
+
+
+	public void addPassOrFail() {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println(" 면접결과 등록이 필요한 예비교육생 목록");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -186,29 +251,27 @@ public class AdminController2 {
 		
 		ArrayList<ReserveStudentDTO> list = dao.noDateList();
 		
-		
+		//이 부분을 과정번호, 과정명, 과정시작일만 보여주는 것으로 고치기(O)
 		for (ReserveStudentDTO dto : list) {
 			System.out.printf(
 					"---------------------------------------------------\n"+
-					"[신청 교육과정명] %s\n[교육과정 번호] %s\n[예비교육생 이름] %s\n[주민등록번호] %s\n[연락처] %s\n[주소] %s\n"
-								, dto.getcName()
+					"[교육과정 번호] %s\n[과정명] %s\n[과정시작일] %s\n"					
 								, dto.getCreatedCourceNum()
-								, dto.getName()
-								, dto.getJumin()
-								, dto.getTel()
-								, dto.getAddress());
+								, dto.getcName()
+								, dto.getStartDate());
 		}
 		
 		System.out.println();
 		 
+		//바로 입력받기
 		System.out.println("면접 날짜를 지정할 교육과정 번호 입력: ");
-		String createdCourceNum = scan.nextLine(); //입력한 개설과정번호(매개변수1)
-		 
+		String pcreatedCourceNum = scan.nextLine(); //입력한 개설과정번호(매개변수1)
+		
 		System.out.println("면접 날짜 입력: ");
 		System.out.println(" * ex) 20201228");
 		String choicedDate = scan.nextLine(); //입력한 면접날짜(매개변수2)
 		
-		int result = dao.addChoicedDate(createdCourceNum, choicedDate);
+		int result = dao.addChoicedDate(pcreatedCourceNum, choicedDate);
 		
 		
 			if (result > 0) {

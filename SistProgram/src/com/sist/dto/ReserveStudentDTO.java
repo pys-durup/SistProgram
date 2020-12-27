@@ -14,6 +14,7 @@ public class ReserveStudentDTO {
 	private String cName; //수강면접신청한 과정명
 	private String createdCourceNum; //수강면접신청한 과정번호
 	private String interviewDate; // 면접일자
+	private String startDate; // 과정시작일
 	
 	public String getSeq() {
 		return seq;
@@ -74,6 +75,12 @@ public class ReserveStudentDTO {
 	}
 	public void setInterviewDate(String interviewDate) {
 		this.interviewDate = interviewDate;
+	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
 	
 }
