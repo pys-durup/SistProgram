@@ -14,6 +14,12 @@ import com.sist.main.Login;
 import com.sist.main.Main;
 import com.sist.view.ReserveStudentView;
 
+
+/**
+ * 이 클래스는 예비교육생 계정의 모든 기능을 조작하는 클래스이다.
+ * @author 김소리
+ */
+
 public class ReserveStudentController {
 
 	private String num = ""; // 사용자가 입력하는 번호
@@ -22,14 +28,25 @@ public class ReserveStudentController {
 	private ReserveStudentView view;
 	private InterviewResultDTO idto; //로그인한 계정의 면접결과 정보를 담는 객체
 	
+	
+	/**
+	 * ReserveStudentController 생성자
+	 * */
+	
 	public ReserveStudentController(ReserveStudentDTO rsdto, InterviewResultDTO idto) {
 		this.rsdto = rsdto; // 로그인한 예비교육생의 계정 정보를 담는다
 		this.view = new ReserveStudentView(rsdto);
 		this.idto = idto;
 	}
 	
+	
+	/**
+	 * 예비교육생 메인메뉴
+	 * */
+	
+	
 	public void start() {
-		//예비학생 메인메뉴
+		
 		view.mainRMenu();
 		boolean check = true;		
 		num = scan.nextLine();
@@ -46,8 +63,6 @@ public class ReserveStudentController {
 				myResult();
 				break;
 			} else if (num.equals("4")) { //4. 로그아웃
-				//Login lg = new Login();
-				//lg.loginReserveStudent(); //로그아웃하면 로그인 클래스의 예비교육생 메서드 호출
 				break;
 			} else {
 				System.out.println("잘못된 입력입니다");
@@ -59,12 +74,17 @@ public class ReserveStudentController {
 	}
 	
 	
-	
+	/**
+	 * 예비교육생이 자신의 면접결과를 확인하는 메서드
+	 * @param prstudentNum 생성자 rsdto의 get메서드로 불러온 예비학생번호 매개변수
+	 * @param result 생성자 idto의 get메서드로 불러온 예비학생의 합격여부 매개변수
+	 * 
+	 * */
 	public void myResult() {
-	//예비교육생이 자신의 면접결과를 확인하는 메서드
+	
 		view.myResultView();
 		
-		String prstudentNum = this.rsdto.getSeq(); //생성자 rsdto의 get메서드로 매개변수 선언
+		String prstudentNum = this.rsdto.getSeq(); 
 	
 		
 		if (this.idto.getResult() == null) { //면접 신청을 하지 않아 null값인 회원을 예외처리
@@ -113,6 +133,9 @@ public class ReserveStudentController {
 
 	
 	
+	/**
+	 * 합격한 예비교육생이 교육생으로 계정을 전환하는 메서드
+	 * */
 	private void migration() {
 		
 		view.migrationView();
@@ -147,9 +170,16 @@ public class ReserveStudentController {
 		pause();
 		
 	}
+	
+	
+	
+	
+	/**
+	 * 예비교육생이 교육과정 수강면접을 신청하는 메서드
+	 * */
 
 	public void addApply() {
-		//예외처리 (이미 면접 합격 결과가 있는 회원, 면접 결과값 null && 신청한 과정번호가 있는 사람)
+		//유효성검사 (이미 면접 합격 결과가 있는 회원, 면접 결과값 null && 신청한 과정번호가 있는 사람)
 		//면접은 불합격한 사람 & 아직 면접을 신청하지 않은 회원에 한해 가능함.
 
 		
@@ -161,7 +191,6 @@ public class ReserveStudentController {
 			System.out.println("**면접 합격 내역이 있습니다. 확인 후, 교육생 계정으로 전환해주세요.**");
 			pause();
 		} else {
-		
 		
 		
 		//교육생이 신청 가능한 교육과정을 조회하는 메서드
@@ -210,6 +239,10 @@ public class ReserveStudentController {
 
 	
 	
+	
+	/**
+	 * 예비교육생의 기본정보를 관리하는 메뉴 메서드
+	 * */
 	public void ReserveInfoMenu() {
 		//기본정보관리 메뉴
 			view.ReserveInfoMenuView();
@@ -234,18 +267,18 @@ public class ReserveStudentController {
 					
 				}
 			}
-			
-	
 		
 	}
 
 	
 	
+	/**
+	 * 예비교육생이 기본정보를 수정하는 메서드
+	 * */
+	
 	public void editReserveInfo() {
 
 		view.editReserveInfoView();
-		
-		
 		
 		System.out.println("(1) 수정할 이름: ");
 		String name = scan.nextLine();
@@ -322,7 +355,9 @@ public class ReserveStudentController {
 
 	
 	
-	
+	/**
+	 * 예비교육생이 본인의 기본정보를 조회하는 메서드
+	 * */
 	
 	public void listReserveInfo() {
 		//예비교육생 기본조회 메서드
@@ -341,7 +376,9 @@ public class ReserveStudentController {
 
 	
 	
-	
+	/**
+	 * 각 메서드의 기능 이후, 메인 메뉴로 돌아올 수 있도록 하는 메서드
+	 * */
 	public void pause() {
 		System.out.print("엔터를 누르면 이전화면으로 돌아갑니다");
 		String num = scan.nextLine();

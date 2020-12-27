@@ -10,6 +10,11 @@ import com.sist.dto.MasterDTO;
 import com.sist.dto.ReserveStudentDTO;
 import com.sist.view.AdminView;
 
+/**
+ * 이 클래스는 관리자 계정의 예비교육생 관리 기능을 조작하는 클래스이다.
+ * @author 김소리
+ */
+
 public class AdminController2 {
 	
 	private String num = ""; // 사용자가 입력하는 번호
@@ -17,6 +22,10 @@ public class AdminController2 {
 	private MasterDTO mdto; // 로그인한 계정의 정보를 담을 객체
 	private AdminView aview;
 	
+	
+	/**
+	 * AdminController2 생성자
+	 * */
 	
 	public AdminController2(MasterDTO mdto) {
 		
@@ -28,8 +37,9 @@ public class AdminController2 {
 	
 	
 	
-	
-
+	/**
+	 * 관리자의 예비교육생 관리 메인 메뉴 메서드
+	 * */
 	public void RStudentManagingMenu() {
 		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -50,7 +60,7 @@ public class AdminController2 {
 			} else if (num.equals("2")) { //2. 예비교육생 전체조회
 				listrStudent(); 
 				break;
-			} else if (num.equals("3")) { // 3. 교육과정 수강면접 관리
+			} else if (num.equals("3")) { // 3. 교육과정 면접 관리
 				managingInterview();
 				break;
 			} else if (num.equals("0")) { //이전으로
@@ -66,16 +76,10 @@ public class AdminController2 {
 		}
 	}
 	
-
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * 교육과정 면접 관리 메뉴 메서드
+	 * */
 	
 	public void managingInterview() {
 		
@@ -120,9 +124,9 @@ public class AdminController2 {
 
 
 
-
-
-
+	/**
+	 * 관리자가 면접일정 목록을 조회하는 메서드
+	 * */
 	public void listInterviewDate() {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println(" 면접일정 목록");
@@ -150,7 +154,9 @@ public class AdminController2 {
 
 
 
-
+	/**
+	 * 관리자가 면접일정 메서드를 통해 접근한 면접일정에 맞는 예비교육생 정보를 조회하는 메서드
+	 * */
 
 	public void detailScheduleList() {
 		
@@ -182,7 +188,9 @@ public class AdminController2 {
 
 
 
-
+	/**
+	 * 관리자가 면접결과 등록이 아직 진행되지 않은 예비교육생의 목록을 조회 후, 면접 결과를 입력하는 메서드
+	 * */
 
 	public void addPassOrFail() {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -239,7 +247,9 @@ public class AdminController2 {
 
 
 
-
+	/**
+	 * 관리자가 면접 일정 등록이 진행되지 않은 수강생 모집 교육과정을 조회 후, 면접일정을 등록하는 메서드
+	 * */
 
 	public void checkDate() {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -282,11 +292,12 @@ public class AdminController2 {
 		
 		pause();
 	}
+	
 
 
-
-
-
+	/**
+	 * 관리자가 예비교육생의 전체목록을 조회하는 메서드
+	 * */
 
 	public void listrStudent() {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -318,7 +329,10 @@ public class AdminController2 {
 
 
 
-
+	/**
+	 * 관리자가 면접에 합격하여 계정전환한 교육생 중 아직 수강상태가 '수강정'인 교육생 목록을 조회 후, 
+	 * 수강중으로 상태 전환하는 메서드
+	 * */
 
 	public void enrollment() {
 		
@@ -363,8 +377,9 @@ public class AdminController2 {
 
 
 
-
-
+	/**
+	 * 각 메서드의 기능 이후, 메인 메뉴로 돌아올 수 있도록 하는 메서드
+	 * */
 	public void pause() {
 		System.out.print("엔터를 누르면 이전화면으로 돌아갑니다");
 		String num = scan.nextLine();

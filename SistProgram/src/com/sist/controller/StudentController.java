@@ -27,6 +27,12 @@ import com.sist.dto.TeacherEvaluationDTO;
 import com.sist.main.Login;
 import com.sist.view.StudentView;
 
+/**
+ * 이 클래스는 교육생 계정의 모든 기능을 조작하는 클래스이다.
+ * @author 김소리
+ */
+
+
 public class StudentController {
 
 	private String num = ""; // 사용자가 입력하는 번호
@@ -36,6 +42,11 @@ public class StudentController {
 	private StudentView view; //출력문 메서드를 모아놓은 객체
 	private StudentsRegiCourceDTO srdto;//로그인한 교육생의 수강-수료 테이블 정보
 	
+	
+	
+	/**
+	 * StudentController 생성자
+	 * */
 	public StudentController(StudentDTO sdto, StudentsRegiCourceDTO srdto) {
 		this.sdto = sdto; // 로그인한 교육생의 계정 정보를 담는다
 		this.srdto = srdto; //로그인한 교육생의 교육생테이블, 교육생-수강-수료테이블 정보 담기 (수강번호, 수료번호 필요)
@@ -44,8 +55,12 @@ public class StudentController {
 	}
 	
 	
+	
+	
+	/**
+	 * 교육생 메인메뉴
+	 * */
 	public void start() {
-		
 		
 		boolean check = true;
 		while (check) {
@@ -69,20 +84,21 @@ public class StudentController {
 			} else if (num.equals("5")) { //5. 취업활동 관리
 				jobMenu();
 				break;
-			} else {
+			} else {  //6. 로그아웃(교육생 로그인 메서드 호출)
 				
 				break;
-				 //Login lg = new Login();
-				 //lg.loginStudent(); //6. 로그아웃(교육생 로그인 메서드 호출)
-				
 			}
 		}
 		
 	}
 	
 	
+	
+	/**
+	 * 교육생 취업 관리 메뉴
+	 * */
 	private void jobMenu() {
-		//취업관리 메뉴
+		
 		view.jobMenuView();
 		
 		boolean check = true;
@@ -111,6 +127,9 @@ public class StudentController {
 
 
 
+	/**
+	 * 교육생 취업내역정보 메뉴
+	 * */
 
 	private void jobInfoMenu() {
 		
@@ -141,10 +160,12 @@ public class StudentController {
 			}
 		}
 		
-		
-		
 	}
 
+	
+	/**
+	 * 교육생이 본인의 취업내역을 수정하는 메서드
+	 * */
 
 	private void editJobInfo() {
 		
@@ -232,6 +253,10 @@ public class StudentController {
 
 
 	
+	/**
+	 * 교육생이 본인의 취업내역을 조회하는 메서드
+	 * */
+	
 	private void listJobInfo() {
 		
 		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
@@ -265,6 +290,11 @@ public class StudentController {
 	}
 
 
+	
+	
+	/**
+	 * 교육생이 본인의 취업내역을 등록하는 메서드
+	 * */
 	private void addJobInfo() {
 		
 		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
@@ -327,6 +357,9 @@ public class StudentController {
 
 	
 	
+	/*
+	 * 구직활동정보 메뉴
+	 * */
 	private void qualificationMenu() {
 		//구직활동 메뉴
 		view.qualificationMenu();
@@ -361,6 +394,9 @@ public class StudentController {
 	}
 
 	
+	/**
+	 * 교육생이 본인의 구직활동정보를 삭제하는 메서드
+	 * */
 
 	private void deletequalification() {
 		//구직정보 삭제 메서드
@@ -394,6 +430,10 @@ public class StudentController {
 
 	
 
+	
+	/**
+	 * 교육생이 본인의 구직활동을 수정하는 메서드
+	 * */
 	private void editqualification() {
 		//구직활동 수정하기 메서드
 		view.editqualificationView();
@@ -468,6 +508,11 @@ public class StudentController {
 		
 	}
 
+	
+	
+	/**
+	 * 교육생이 본인의 구직활동을 조회하는 메서드
+	 * */
 
 	private void listqualification() {
 		//구직활동 조회하기 메서드
@@ -493,6 +538,10 @@ public class StudentController {
 		
 	}
 
+	
+	/*
+	 * 교육생이 본인의 구직활동정보를 등록하는 메서드
+	 * */
 
 	private void addqualification() {
 		
@@ -554,7 +603,11 @@ public class StudentController {
 
 	}
 
+
 	
+	/**
+	 * 교육생의 출석 메뉴
+	 * */
 	private void studentAttendance() {
 		view.studentAttendanceMenu();
 		
@@ -586,6 +639,12 @@ public class StudentController {
 
 	
 
+	
+	/**
+	 * 교육생이 입력한 기간에 따른 본인의 출석 내역, 근태상황을 확인하는 메서드
+	 * @param pstartDate 사용자가 입력한 조회기간 시작일
+	 * @param pendDate 사용자가 입력한 조회기간 종료일
+	 * */
 	private void choiceRangeAttendance() {
 		view.choiceRangeAttendanceView();
 		
@@ -618,8 +677,11 @@ public class StudentController {
 		
 	}
 
-	
 
+	
+	/*
+	 * 교육생이 본인의 출석을 전체조회하는 메서드
+	 * */
 	private void listStudentAttendance() {
 		view.listAttendance();
 	
@@ -645,6 +707,10 @@ public class StudentController {
 
 
 	
+	
+	/**
+	 * 교육생이 출석체크하는 메서드
+	 * */
 	private void checkAttendance() {
 		//유효성 검사
 		SimpleDateFormat df= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -707,8 +773,11 @@ public class StudentController {
 
 	
 
+	
+	/**
+	 * 교육생의 상담일지 메뉴
+	 * */
 	private void studentConsultation() {
-		//상담일지 메뉴
 		view.ConsultationMenuView();
 		
 		boolean check = true;
@@ -735,9 +804,13 @@ public class StudentController {
 		
 	}
 
-
+	
+	
+	/*
+	 * 교육생이 본인의 취업상담 내역을 조회하는 메서드
+	 * */
 	private void listJobConsultation() {
-		//취업상담 내역 조회 메서드
+		
 		view.listJConsultationView();
 		String pstudentNum = this.sdto.getSeq();
 		JobConsultationDAO dao = new JobConsultationDAO();
@@ -757,8 +830,11 @@ public class StudentController {
 	}
 
 
+	/**
+	 * 교육생이 본인의 수업상담 내역을 조회하는 메서드
+	 * */
 	private void listCourseConsultation() {
-		//수업상담 내역 조회 메서드
+		
 		view.listCConsultationView();
 		String pstudentNum = this.sdto.getSeq();
 		CourseConsultationDAO dao = new CourseConsultationDAO();
@@ -778,12 +854,14 @@ public class StudentController {
 		
 	}
 
-
+	
+	/*
+	 *교육생이 본인의 성적을 조회하는 메서드
+	 * */
 	private void studentScore() {
-		//점수 조회 메서드
+		
 		 view.scoreView();
 		 
-		
 		 String pstudentNum = this.sdto.getSeq(); 
 		 ScoreDAO dao = new ScoreDAO(); //성적 dao 객체 생성
 		 
@@ -805,6 +883,10 @@ public class StudentController {
 	}
 
 
+	
+	/**
+	 * 교사평가 메뉴 메서드
+	 * */
 	private void studentEvaluation() {
 				
 		view.evaluationMenu(); //교사평가메뉴 뷰 메서드 호출
@@ -839,6 +921,9 @@ public class StudentController {
 	
 	
 	
+	/**
+	 * 교육생이 본인의 교사평가를 삭제하는 메서드
+	 * */
 	private void deleteEvaluation() {
 	
 		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
@@ -874,6 +959,9 @@ public class StudentController {
 
 	
 	
+	/**
+	 * 교육생이 본인이 등록한 교사평가를 조회하는 메서드
+	 * */
 	private void listEvaluation() {
 		
 		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
@@ -908,7 +996,9 @@ public class StudentController {
 	}
 	
 	
-	
+	/**
+	 * 교육생이 본인의 교사평가를 수정하는 메서드
+	 * */
 	private void editEvaluation() {
 
 		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
@@ -991,6 +1081,10 @@ public class StudentController {
 
 	
 	
+	/**
+	 * 교육생이 교사평가를 등록하는 메서드
+	 * */
+	
 	private void addEvaluation() {
 		
 		if (null == this.srdto.getCourceCompletNum()) { //수료번호 null값 체크
@@ -1055,6 +1149,10 @@ public class StudentController {
 		}
 	}
 
+	
+	/**
+	 * 각 메서드의 기능 이후, 메인 메뉴로 돌아올 수 있도록 하는 메서드
+	 * */
 	private void pause() {
 		System.out.print("엔터를 누르면 이전화면으로 돌아갑니다");
 		String num = scan.nextLine();

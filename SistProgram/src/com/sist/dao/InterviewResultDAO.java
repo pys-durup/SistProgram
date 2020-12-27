@@ -13,6 +13,11 @@ import com.sist.main.DBUtil;
 
 import oracle.jdbc.OracleTypes;
 
+/**
+ * 예비교육생의 면접 결과 DAO 클래스
+ * @author 김소리
+ * */
+
 public class InterviewResultDAO {
 	
 	private static Scanner scan = new Scanner(System.in);
@@ -35,8 +40,12 @@ public class InterviewResultDAO {
 	}
 
 	
+	
+	/**
+	 * 예비교육생이 본인의 면접 결과를 조회하는 메서드
+	 * */
 	public ArrayList<InterviewResultDTO> list(String prstudentNum) {
-		//예비교육생이 본인의 면접 결과를 조회하는 메서드
+		
 		try {
 			String sql = "{ call procResult(?, ?) }";
 			
@@ -73,10 +82,12 @@ public class InterviewResultDAO {
 	}
 	
 	
-	
+	/**
+	 * 관리자가 아직 '수강전' 인 교육생 리스트를 조회하는 메서드
+	 * */
 	public ArrayList<InterviewResultDTO> enrollmentList() {
 		
-		//관리자가 아직 '수강전' 인 교육생 리스트를 조회하는 메서드
+		
 		try {
 			String sql = "select * from vw_previous";
 			
@@ -109,8 +120,12 @@ public class InterviewResultDAO {
 	}
 	
 	
+	
+	/**
+	 * 관리자가 학생번호를 지정하여 수강상태를 수강전 -> 수강중으로 변경하는 메서드
+	 * */
 	public int editEnrollment(String pstudentNum) {
-		//관리자가 학생번호를 지정하여 수강상태를 수강전 -> 수강중으로 변경하는 메서드
+		
 		try {
 			String sql = "{ call procsignUp(?) }";
 			
