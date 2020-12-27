@@ -60,7 +60,7 @@ public ArrayList<BookDTO> list(String word) {
 		list.add(dto);
 	}
 	
-	rs.close();
+	
 	return list;
 	
 
@@ -83,7 +83,7 @@ public int addBook(String name, String writer, String publisher, String price, S
 	int result = stat.executeUpdate(sql);
 	
 	
-	rs.close();
+	
 	return result;
 
     } catch (Exception e) {
@@ -113,7 +113,8 @@ public BookDTO getBook(String seq) {
 		dto.setPublisher(rs.getString("publisher"));
 		dto.setPrice(rs.getString("price"));
 		dto.setCount(rs.getString("count"));
-				
+		
+		
 		return dto;
 	}
     } catch (Exception e) {
@@ -129,17 +130,17 @@ public int UpdateBook(BookDTO dto2) {
 
 	String sql = " { call procUpdateBook( ?, ?, ?, ?, ?) } ";
 	
-	cstat = conn.prepareCall(sql);
+	pstat = conn.prepareCall(sql);
 	
-	cstat.setString(1, dto2.getSeq());	
-	cstat.setString(2, dto2.getName());
-	cstat.setString(3, dto2.getWriter());
-	cstat.setString(4, dto2.getPublisher());
-	cstat.setString(5, dto2.getPrice());
-	cstat.setString(6, dto2.getCount());
+	pstat.setString(1, dto2.getSeq());	
+	pstat.setString(2, dto2.getName());
+	pstat.setString(3, dto2.getWriter());
+	pstat.setString(4, dto2.getPublisher());
+	pstat.setString(5, dto2.getPrice());
+	pstat.setString(6, dto2.getCount());
 	
 	
-	rs.close();
+
 	return pstat.executeUpdate();
 
     } catch (Exception e) {
@@ -160,7 +161,7 @@ public int DeleteBook(String seq) {
 	int result = stat.executeUpdate(sql);
 	
 	
-	rs.close();
+	
 	return result;
 	
 

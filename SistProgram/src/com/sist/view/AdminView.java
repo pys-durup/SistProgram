@@ -11,8 +11,10 @@ import com.sist.dto.BookDTO;
 import com.sist.dto.CourseDTO;
 import com.sist.dto.EndCourseListDTO;
 import com.sist.dto.LinkCompanyDTO;
+import com.sist.dto.MakeCourceDTO;
 import com.sist.dto.RecommendListDTO;
 import com.sist.dto.RoomDTO;
+import com.sist.dto.StudentDTO;
 import com.sist.dto.SubjectDTO;
 import com.sist.dto.TalentedStudentListDTO;
 
@@ -205,9 +207,10 @@ public class AdminView {
 	
 	public void CourseList(ArrayList<CourseDTO> list) {
 		for (CourseDTO dto : list) {
-			System.out.println("[번호]  \t[과정]\t\t\t\t\t[과정목적]");	
-			System.out.printf(" %s\t%-30s\t%60s", dto.getSeq(), dto.getName(), dto.getPurpose());
-			System.out.println();
+			System.out.printf("[번호] %2s [과정] %s [과정목적] %s"
+							,dto.getSeq()
+							,dto.getName()
+							,dto.getPurpose());	
 	}
 	}
 		
@@ -255,15 +258,18 @@ public class AdminView {
 
 	public void HeadSubject() {
 	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-	System.out.println("[과정관리]");
+	System.out.println("[과목 관리]");
 	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 	}
 
 	public void SubjectList(ArrayList<SubjectDTO> list) {
 	for (SubjectDTO dto : list) {
-		System.out.println("[번호]  \t[과목]\t\t\t\t\t\t\t[소요일]");	
-		System.out.printf("%s %s\t\t%s", dto.getSeq(), dto.getName(), dto.getDuration());
-		System.out.println();
+		System.out.printf("[번호] %2s \t[과목] %s [소요일] %s\n"
+					, dto.getSeq()
+					, dto.getName()
+					, dto.getDuration());	
+		
+		
 	}
 	}
 	public void BasicInfoMenu() {
@@ -315,7 +321,7 @@ public class AdminView {
         public void BookList(ArrayList<BookDTO> list) {
     	for (BookDTO dto : list) {
     	    		System.out.printf(
-    	    				    "[번호] %s [책이름] %s [글쓴이] %s [출판사] %s [가격] %s [재고] %s\n"
+    	    				    "[번호] %2s [책이름] %s [글쓴이] %s [출판사] %s [가격] %s [재고] %s\n"
     	    					  		,dto.getSeq()
     	    					  		,dto.getName()
     	    					  		,dto.getWriter()
@@ -341,23 +347,23 @@ public class AdminView {
 	}
 
 	public void Book() {
-	    System.out.println("교재 : ");
+	    System.out.print("교재 : ");
 	}
 
 	public void Writer() {
-	    System.out.println("글쓴이 :");
+	    System.out.print("글쓴이 :");
 	}
 
 	public void Publisher() {
-	    System.out.println("출판사 : ");
+	    System.out.print("출판사 : ");
 	}
 
 	public void Price() {
-	    System.out.println("가격 : ");
+	    System.out.print("가격 : ");
 	}
 
 	public void Count() {
-	    System.out.println("재고 : ");
+	    System.out.print("재고 : ");
 	}
 
 	public void InfoBook(BookDTO dto) {
@@ -413,7 +419,7 @@ public class AdminView {
 	public void RoomList(ArrayList<RoomDTO> list) {
 	    for(RoomDTO dto : list) {
 		System.out.printf(
-				  "[번호] %s [교실명] %s [수용인원] %s [과정명] %s \n"
+				  "[번호] %2s [교실명] %s [수용인원] %s [과정명] %s \n"
 				 			,dto.getSeq()
 				 			,dto.getRoomnum()
 				 			,dto.getCapacity()
@@ -453,6 +459,180 @@ public class AdminView {
 	public void Caustion() {
 	    System.out.println("1,2,3 강의실은 최대 정원 30명, 2,3,4 강의실은 정원 최대 정원 26명 입니다.");
 	    System.out.println("그 이상으로 입력되지 않습니다.");
+	}
+
+	public void MakeCourseMenu() {
+	        
+	        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	        System.out.println("1. 개별 개설과정 검색");
+	        System.out.println("2. 개설과정 수강생 조회");
+	        System.out.println("3. 수강정보 일괄 수정");
+	        System.out.println("4. 학생별 수강정보 수정");
+	        System.out.println("5. 과정 개설");
+	        System.out.println("6. 과정 수정");
+	        System.out.println("7. 과정 삭제");
+	        System.out.println("0. 뒤로가기");
+	        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	        System.out.print("선택(번호) : ");
+	    
+	}
+
+	public void AllCurrentCourseList(ArrayList<MakeCourceDTO> list) {
+	    	for (MakeCourceDTO dto : list) {
+	    		System.out.printf(
+	    				    "[번호] %2s [고유번호] %s [과정명] %s [시작일] %s [종료일] %s [강의실] %s\n"
+	    					  		,dto.getRownum()
+	    					  		,dto.getSeq()
+	    					  		,dto.getName()
+	    					  		,dto.getStartdate()
+	    					  		,dto.getEnddate()
+	    					  		,dto.getRoomnum());
+	    
+	}
+	}
+	public void HeadMakeCourse() {
+	       System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	       System.out.println("[개설과정 관리]");
+	       System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	
+	}
+
+	public void EachCourseSearch(ArrayList<MakeCourceDTO> list) {
+	    for (MakeCourceDTO mcdao : list) {
+		    System.out.printf("[번호] %2s [과정번호] %-3s [교실명] %s [과목명] %s [교과서명] %s [기간] %s\n"
+					,mcdao.getRownum()
+					,mcdao.getSeq()
+					,mcdao.getRoomnum()
+					,mcdao.getSname()
+					,mcdao.getBname()
+					,mcdao.getDuration());
+	    }
+	}
+
+	public void CourseNumber() {
+	    System.out.print("과정 고유번호: ");
+	}
+
+	public void Bar() {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	}
+
+	public void searchStudenCourse() {
+	       System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	       System.out.println("[개설과정 수강생 조회]");
+	       System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	       System.out.println("개설과정 고유번호 :  ");
+	}
+
+	public void ListCourseStudent(ArrayList<StudentDTO> list) {
+	    for (StudentDTO stdao: list) {
+		    System.out.printf("[수강생번호] %2s [이름] %s [주민번호] %s [전화번호] %s [등록일] %s [수강상태] %s\n"
+					,stdao.getSeq()
+					,stdao.getName()
+					,stdao.getJumin()
+					,stdao.getTel()
+					,stdao.getRegdate()
+					,stdao.getRegistate());
+	    }
+	    
+	}
+
+	public void ManageStudentStatusMenu() {
+	       System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	       System.out.println("[과정별 수강정보 일괄 수정]");
+	       System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	       System.out.println("1. 과정별 수강정보 일괄 수정");
+	       System.out.println("0. 뒤로가기");
+	       System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	       System.out.print("선택(번호) : ");
+	}
+
+	public void EditCourseStudentStatus() {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("1. 과정번호 입력  2. 뒤로가기");
+		System.out.print("선택(번호) : ");
+		
+	}
+
+	public void StatusNumber() {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    System.out.println("1. 수강중, 2.수료, 3.중도탈락, 4. 수강전");
+	    System.out.print("번호 선택 : ");
+	}
+
+	public void StudentNumber() {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    System.out.print("학생 번호 : ");
+	}
+
+	public void ManageStudentStatusMenuEach() {
+	       System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	       System.out.println("[학생별 수강정보 수정]");
+	       System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	       System.out.println("1. 학생별 수강정보 수정");
+	       System.out.println("0. 뒤로가기");
+	       System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	       System.out.print("선택(번호) : ");
+	}
+
+	public void StartDate() {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    System.out.print("시작일 ex) 20/12/12 : ");
+	}
+
+	public void Enddate() {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    System.out.print("종료일 ex) 20/12/12 : ");
+	}
+
+	public void Roomnum() {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    System.out.print("강의실번호 ex) 1~6번 사이의 숫자를 입력!! : ");
+	}
+
+	public void TeacherNum() {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    System.out.print("선생님 번호 ex) 숫자 입력!! : ");
+	}
+
+	public void Coursenum() {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    System.out.print("과정 번호 ex) 숫자 입력!! : ");
+	}
+
+	public void MakeCourseNum() {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    System.out.print("개설 과정 번호 ex) 숫자 입력!! : ");
+	}
+
+	public void Cancel() {
+	    System.out.println("뒤로 돌아가기 '00' 입력");
+	    
+	}
+
+	public void MakeSubjectNum() {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    System.out.print("과목명 번호 ex) 숫자 입력!! : ");
+		    
+	    
+	}
+
+	public void Booknum() {
+	    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+	    System.out.print("교과서 번호 ex) 숫자 입력!! : ");
+	}
+
+	public void MakeSubjectSeq() {
+	    System.out.print("개설 과목 고유번호 : ");
+	}
+
+	public void ConnectNum() {
+	    System.out.print("연계 고유번호 : ");
+	}
+
+	public void DistristateBook() {
+	    System.out.println("미완 또는 완료");
+	    System.out.print("분배상태 :");
 	}
 	}
 
