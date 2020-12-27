@@ -34,9 +34,12 @@ public JobConsultationDAO() {
 }
 
 
+/**
+ * 교육생이 취업상담 일지를 조회하는 메서드
+ * */
 
 public ArrayList<JobConsultationDTO> list(String pstudentNum) {
-	// 교육생이 취업상담 일지를 조회하는 메서드
+	
 	try {
 		String sql = "{ call proclistjConsultation(?, ?) }";
 		

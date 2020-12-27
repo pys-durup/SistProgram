@@ -12,6 +12,11 @@ import com.sist.main.DBUtil;
 
 import oracle.jdbc.OracleTypes;
 
+/**
+ * 교육생의 교사평가 DAO 클래스
+ * @author 김소리
+ * */
+
 public class TeacherEvaluationDAO {
 	
 	private Connection conn;
@@ -33,8 +38,12 @@ public TeacherEvaluationDAO() {
 }
 
 
+
+/**
+ * 교육생이 교사평가를 등록하는 메서드
+ * */
 public int addTeacherEvaluation(TeacherEvaluationDTO tdto) {
-	//교육생이 교사평가를 등록하는 메서드
+	
 	try {
 		String sql = "{ call procAddTeacherEvaluation(?,?,?,?,?,?) }";
 		
@@ -60,10 +69,12 @@ public int addTeacherEvaluation(TeacherEvaluationDTO tdto) {
 
 
 
+/**
+ * 교육생이 본인의 교사평가 내역 한 행의 정보를 가져오는 메서드
+ * */
 
 public TeacherEvaluationDTO get(String completNum) {
 	
-	//교육생이 수정 중 본인의 교사평가 내역 한 행의 정보를 가져오는 메서드 
 	try {
 		String sql = "select * from tblTeacherEvaluation where completNum = ?";
 		
@@ -98,8 +109,12 @@ public TeacherEvaluationDTO get(String completNum) {
 
 
 
+/**
+ * 교육생이 자신의 교사평가 목록을 조회하는 메서드
+ * */
+
 public ArrayList<TeacherEvaluationDTO> list(String pcompletNum) {
-	//교육생이 자신의 교사평가 목록을 조회하는 메서드
+	
 	try {
 		
 		String sql = "{ call proclistEvaluation(?, ?) }";
@@ -138,10 +153,12 @@ public ArrayList<TeacherEvaluationDTO> list(String pcompletNum) {
 
 
 
-
+/**
+ * 교육생이 본인이 작성한 교사평가를 수정하는 메서드
+ * */
 
 public int editTeacherEvaluation(TeacherEvaluationDTO dto) {
-	//교육생이 본인이 작성한 교사평가를 수정하는 메서드
+	
 	try {
 		String sql = "{ call procreEvaluation(?, ?, ?, ?, ?, ?) }";
 		
@@ -166,9 +183,11 @@ public int editTeacherEvaluation(TeacherEvaluationDTO dto) {
 
 
 
-
+/**
+ * 교육생이 자신의 교사평가 글을 삭제하는 메서드
+ * */
 public int deleteTeacherEvaluation(String completNum) {
-	//교육생이 자신의 교사평가 글을 삭제하는 메서드
+	
 	try {
 		String sql = "{ call procdeleteEvaluation(?) }";
 		

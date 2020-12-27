@@ -13,6 +13,11 @@ import com.sist.main.DBUtil;
 
 import oracle.jdbc.OracleTypes;
 
+/**
+ * 교육생의 구직활동정보 DAO 클래스
+ * @author 김소리
+ * */
+
 public class QualificationDAO {
 
 
@@ -37,8 +42,12 @@ public class QualificationDAO {
 	}
 	
 	
+	
+	/**
+	 * 교육생이 구직활동정보를 글 등록하는 메서드
+	 * */
 	public int addQualification(QualificationDTO dto) {
-		// 교육생이 구직활동정보를 글 등록하는 메서드
+		
 		try {
 		
 			String sql = "{ call procQualification(?, ?, ?, ?, ?, ?) }";
@@ -64,8 +73,12 @@ public class QualificationDAO {
 	
 	
 	
+	
+	/**
+	 * 교육생이 구직정보를 조회하는 메서드
+	 * */
 	public ArrayList<QualificationDTO> list(String pregiNum) {
-		//교육생이 구직정보를 조회하는 메서드
+		
 		try {
 			
 			String sql = "{ call proclistQ(?, ?) }";
@@ -105,8 +118,12 @@ public class QualificationDAO {
 	
 	
 	
+	
+	/**
+	 * 교육생이 본인이 작성한 구직정보를 수정하는 메서드
+	 * */
 	public int editQualification(QualificationDTO dto) {
-		//교육생이 본인이 작성한 구직정보를 수정하는 메서드
+		
 		try {
 			String sql = "{ call procupdateQ(?, ?, ?, ?, ?, ?) }";
 			
@@ -131,9 +148,10 @@ public class QualificationDAO {
 	}
 	
 	
-	
+	/**
+	 * 교육생이 본인이 작성한 구직활동정보를 삭제하는 메서드
+	 * */
 	public int deleteQualification(String regiNum) { 
-		//글삭제는 수강번호 1개를 받으므로 dto로 매개변수 받지 않고, 수강번호(fk)를 받는다.
 		
 		try {
 			String sql = "{ call procdeleteQ(?) }";

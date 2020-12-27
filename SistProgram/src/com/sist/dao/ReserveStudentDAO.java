@@ -14,6 +14,11 @@ import com.sist.main.DBUtil;
 
 import oracle.jdbc.OracleTypes;
 
+
+/**
+ * 예비교육생 DAO 클래스
+ * @author 김소리
+ * */
 public class ReserveStudentDAO {
 	
 
@@ -24,9 +29,7 @@ public class ReserveStudentDAO {
 	private CallableStatement cstat;
 	private ResultSet rs;
 	
-	/*
-	 예비학생 기본정보관리에는 삭제 기능 없음.
-	 */
+	
 	
 	public ReserveStudentDAO() {
 	
@@ -41,10 +44,13 @@ public class ReserveStudentDAO {
 		
 	}
 
-	
+	/**
+	 *로그인한 예비교육생의 정보를 불러오는 메서드 
+	 *@param seq 로그인한 예비교육생의 번호
+	 * */
 	
 	public ReserveStudentDTO getReserveStudent(String seq) {
-		//로그인한 예비학생의 정보를 불러오는 메서드
+		
 		try {
 			String sql = "select * from tblReserveStudent where seq = ?";
 			pstat = conn.prepareStatement(sql);
@@ -77,9 +83,11 @@ public class ReserveStudentDAO {
 	
 	
 	
-	
+	/**
+	 * 예비학생의 개인정보 수정 메서드
+	 * */
 	public int editReserveStudent(ReserveStudentDTO dto) {
-		//예비학생의 개인정보 수정하기
+		
 		try {
 			String sql = "{ call  procreRinfo(?, ?, ?, ?, ?, ?, ?) }";
 			
@@ -105,8 +113,12 @@ public class ReserveStudentDAO {
 	
 	
 	
+	/**
+	 * 로그인한 예비교육생의 면접 결과를 불러오는 메서드
+	 * @param seq 로그인한 예비교육생의 번호
+	 * */
 	public InterviewResultDTO getInterviewResult(String seq) {
-		//로그인한 예비학생의 면접 결과를 불러오는 메서드
+		
 		
 		//outer join을 해서 면접결과가 null값인 회원을 자바 상에서 예외처리
 		try {
@@ -151,8 +163,12 @@ public class ReserveStudentDAO {
 	
 	
 	
+	/**
+	 * 면접 합격한 예비교육생이 교육생으로 계정전환하는 메서드
+	 * @param seq 로그인한 예비교육생의 번호
+	 * */
 	public int addMigration(String seq) {
-		//면접 합격한 예비교육생이 교육생으로 계정전환하는 메서드
+		
 		try {
 			String sql = "{ call procMigration(?) }";
 			
@@ -171,8 +187,12 @@ public class ReserveStudentDAO {
 	}
 	
 	
+	
+	/**
+	 *예비교육생이 회원가입하는 메서드
+	 * */
 	public int addNewReserve(ReserveStudentDTO dto) {
-		//예비교육생이 회원가입하는 메서드
+		
 		try {
 			String sql = "{ call procaddReserve(?, ?, ?, ?, ?, ?) }";
 			
@@ -197,8 +217,11 @@ public class ReserveStudentDAO {
 	
 	
 	
+	/**
+	 * 관리자가 전체 예비교육생(계정전환X) 조회하는 메서드 
+	 * */
 	public ArrayList<ReserveStudentDTO> list() {
-		//관리자가 전체 예비교육생(계정전환X) 조회하는 메서드 
+		
 		
 		try {
 			String sql = "select * from vw_rStudentList";
@@ -233,8 +256,10 @@ public class ReserveStudentDAO {
 	
 	
 	
+	/**
+	 * 관리자가 면접일자가 미정인 과정명을 조회하는 메서드
+	 * */
 	public ArrayList<ReserveStudentDTO> noDateList() {
-		//관리자가 면접일자가 미정인 과정명을 조회하는 메서드
 		
 		try {
 			String sql = "select * from vw_neededcourseList";
@@ -265,8 +290,12 @@ public class ReserveStudentDAO {
 	}
 	
 	
+	/**
+	 * 관리자가 과정의 해당 면접일정 스케줄에 일치하는 교육생 정보를 조회하는 메서드
+	 * @param pcreatedCourceNum 상세조회하고자 하는 개설과정번호
+	 * */
 	public ArrayList<ReserveStudentDTO> detailedApply(String pcreatedCourceNum) {
-		//관리자가과정의 해당 면접일정 스케줄에 일치하는 교육생 정보를 조회하는 메서드
+		
 		
 		try {
 			
@@ -306,7 +335,11 @@ public class ReserveStudentDAO {
 	}
 	
 	
-	
+	/**
+	 * 관리자가 특정 교육과정의 면접일을 지정하는 메서드
+	 * @param createdCourceNum 면접일을 지정하고자 하는 개설과정번호
+	 * @param choicedDate 지정하고자 하는 면접일자 
+	 * */
 	
 	public int addChoicedDate(String createdCourceNum, String choicedDate) {
 		//관리자가 특정 교육과정의 면접일을 지정하는 메서드
@@ -330,9 +363,12 @@ public class ReserveStudentDAO {
 	}
 	
 	
-	
+	/**
+	 * 관리자가 면접 일정을 전체조회하는 메서드
+	 * @return
+	 * */
 	public ArrayList<ReserveStudentDTO> scheduleList() {
-		//관리자가 면접 일정을 전체조회하는 메서드
+		
 		try {
 			String sql = "select * from vw_interviewDateList";
 			
@@ -367,8 +403,12 @@ public class ReserveStudentDAO {
 	
 	
 	
+	/**
+	 * 관리자가 종료된 면접 목록을 조회하는 메서드
+	 * @return
+	 * */
 	public ArrayList<ReserveStudentDTO> finisheInterviewList() {
-		//관리자가 종료된 면접 목록을 조회하는 메서드
+		
 		try {
 			String sql = "select * from vw_finishedInterviewList";
 			
@@ -402,9 +442,14 @@ public class ReserveStudentDAO {
 	
 	
 	
+	/**
+	 * 관리자가 예비교육생의 면접 합격 여부를 지정하는 메서드
+	 * @param studentNum 예비교육생의 번호
+	 * @param resultNum 면접 합격 여부 (합: 1, 불합: 2)
+	 * */
 	
 	public int addPassFail(String studentNum, String resultNum) {
-		// 관리자가 예비교육생의 면접 합불 정보를 지정하는 메서드
+		
 		try {
 			String sql = "{ call procaddResult(?, ?) }";
 			
