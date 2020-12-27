@@ -37,6 +37,12 @@ public class CourseStudentListDAO {
 		
 	}
 	
+	
+	/**
+	 * 강의스케줄 내 과목번호 입력시 해당과정 학생리스트 출력
+	 * @param pseq 개설과목번호
+	 * @return
+	 */
 	public ArrayList<CourseStudentListDTO> cslist(String pseq){
 		
 		try {

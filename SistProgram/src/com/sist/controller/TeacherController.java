@@ -7,7 +7,9 @@ import com.sist.dao.CompletionStudentDAO;
 import com.sist.dao.CourseStudentListDAO;
 import com.sist.dao.InterviewDataDAO;
 import com.sist.dao.JobConsultationListDAO;
+import com.sist.dao.ScoreListDAO;
 import com.sist.dao.SetScoreDAO;
+import com.sist.dao.StudentScoreListDAO;
 import com.sist.dao.TeacherEvaluationListDAO;
 import com.sist.dao.TeacherScheduleDAO;
 import com.sist.dao.InterviewsEvaluationDAO;
@@ -17,13 +19,19 @@ import com.sist.dto.CompletionStudentDTO;
 import com.sist.dto.CourseStudentListDTO;
 import com.sist.dto.InterviewDataDTO;
 import com.sist.dto.JobConsultationListDTO;
+import com.sist.dto.ScoreListDTO;
 import com.sist.dto.SetScoreDTO;
+import com.sist.dto.StudentScoreListDTO;
+import com.sist.dto.StudentlistDTO;
 import com.sist.dto.TeacherDTO;
 import com.sist.dto.TeacherEvaluationListDTO;
 import com.sist.dto.TeacherScheduleDTO;
 import com.sist.dto.setScoreListDTO;
 import com.sist.dto.InterviewsEvaluationDTO;
 import com.sist.dto.CConsultationDTO;
+import com.sist.view.TeacherView;
+import com.sist.dto.InterviewDataDTO;
+
 
 
 
@@ -37,6 +45,8 @@ public class TeacherController {
 	private static CompletionStudentDAO cdao;
 	private static SetScoreDAO ssdao;
 	private static setScoreListDAO ssldao;
+	private static ScoreListDAO sldao; 	
+	private static StudentScoreListDAO stldao;
 	private static InterviewDataDAO ivdao;
 	private static InterviewsEvaluationDAO ivedao;
 	private static CConsultationDAO ccdao;
@@ -49,39 +59,31 @@ public class TeacherController {
 		cdao = new CompletionStudentDAO();  //수료자 리스트(취업상담조회 가능자)
 		ssdao = new SetScoreDAO(); // 과목배점관리
 		ssldao = new setScoreListDAO();
+		sldao = new ScoreListDAO(); //성적리스트
+		stldao = new StudentScoreListDAO(); //학생별 성적리스트
 		ivdao = new InterviewDataDAO(); //모의면접데이터
 		ivedao = new InterviewsEvaluationDAO(); //모의면접 평가
 		ccdao = new CConsultationDAO(); //상담일지관리
+
+
 		
 	}
 
 	private String num = ""; // 사용자가 입력하는 번호
 	private static Scanner scan = new Scanner(System.in);;
 	private TeacherDTO tdto; // 로그인한 계정의 정보를 담을 객체
+	private TeacherView view;
 	
 	public TeacherController(TeacherDTO tdto) {
 		this.tdto = tdto; // 로그인한 강사의 계정 정보를 담는다
+		this.view = new TeacherView(tdto);
 	}
 	
 	public void start() {
 		boolean check = true;
 		
 		while (check) {
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.printf("강사 %s님 접속을 환영합니다\n", this.tdto.getName());
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.println("1. 강의 스케줄 조회");
-			System.out.println("2. 배점 입출력");
-			System.out.println("3. 성적 입출력");
-			System.out.println("4. 출결 관리");
-			System.out.println("5. 교사 평가 조회");
-			System.out.println("6. 상담 일지 관리");
-			System.out.println("7. 취업 상담 관리");
-			System.out.println("8. 모의 면접 관리");
-			System.out.println("9. 데이터 통계");
-			System.out.println("10. 로그아웃");
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-			System.out.print("번호를 입력하세요 :");
+			view.teacherMenu();
 			num = scan.nextLine();
 			
 			if(num.equals("1")) {
@@ -90,7 +92,7 @@ public class TeacherController {
 			} else if (num.equals("2")) { 
 				setScoreList();
 			} else if (num.equals("3")) { 
-				
+				scoreList();
 			} else if (num.equals("4")) { 
 				
 			} else if (num.equals("5")) { 
@@ -130,10 +132,11 @@ public class TeacherController {
 		
 		
 		ArrayList<TeacherScheduleDTO> list = tsdao.selectList(this.tdto.getSeq());
-		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("[과정번호][교사명]\t\t\t[과정명]\t\t      \t  [과목번호]\t\t\t[과목명]\t\t\t    [책이름]\t\t    [강의실][개강일] [종강일] [과정인원수][상태]");
+		
+		
 		for (TeacherScheduleDTO dto : list) {
-			System.out.printf("%s    \t  %s \t%s \t%s \t%s \t\t       %s      \t%s %s %s %s %s\n"
+			System.out.printf("_________________________________________________________\n"
+					+ "[과정번호] %s\n[교사명] %s\n[과정명] %s\n[과목번호] %s\n[과목명] %s\n[책이름] %s\n[강의실] %s\n[개강일] %s\n[종강일] %s\n[과정인원수] %s\n[상태] %s\n"
 					,dto.getCourseNum()
 					,dto.getTeacherName()
 					,dto.getCourseName()
@@ -161,9 +164,9 @@ public class TeacherController {
 		ArrayList<CourseStudentListDTO> list = csdao.cslist(pseq);
 		System.out.println();
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("[번호][학생명][주민번호]      [전화번호]     [등록일]  [수료상태]");
+		System.out.println("[번호][학생명][주민번호]  [전화번호]    [등록일] [수료상태]");
 		for (CourseStudentListDTO csdto : list) {
-			System.out.printf("%s, %s, %s, %s, %s, %s\n"
+			System.out.printf("%s %s %s %s %s %s\n"
 					,csdto.getSeq()
 					,csdto.getName()
 					,csdto.getJumin()
@@ -207,9 +210,9 @@ public class TeacherController {
 		
 		ArrayList<JobConsultationListDTO> list = jcdao.jslist(this.tdto.getSeq());
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("[상담번호][학생번호][학생명][교사명][과정번호]\t\t[과정명]\t\t\t\t\t\t[상담내용]               [상담일][수강상태]");
+		System.out.println("[상담번호][학생번호][학생명][교사명][과정번호]\t\t[과정명]\t\t\t\t\t\t[상담내용]               \t[상담일]\t\t[수강상태]");
 		for(JobConsultationListDTO jcdto : list) {
-			System.out.printf("%-10s%-10s%-4s%-7s%-8s%-35s%-30s%-11s%-4s\n"
+			System.out.printf("%-10s%-10s%-4s%-7s%-8s%-35s%-30s\t%-13s%7s\n"
 					,jcdto.getConsultationNum()
 					,jcdto.getStudentNum()
 					,jcdto.getStudentName()
@@ -222,11 +225,7 @@ public class TeacherController {
 		}
 		
 		boolean check = true;
-		System.out.println();
-		System.out.println("1.상담내역 작성");
-		System.out.println("2.상담내역 수정");
-		System.out.println("3.상담내역 삭제");
-		System.out.println("4.뒤로가기");
+		view.JobConsultationMenu();
 		num = scan.nextLine();
 		
 		while (check) {
@@ -250,7 +249,7 @@ public class TeacherController {
 	//취업상담 작성
 	private void addJobConsultation() {
 		System.out.println("취업상담가능한 학생리스트(수료자)");
-		System.out.println("[상담번호][학생명][교사명][과정번호][과정명][개강일][종강일][수강상태]");
+		System.out.println("[상담번호][학생명][교사명][과정번호]\t\t     [과정명]\t\t\t   [개강일]\t[종강일]\t\t[수강상태]");
 		CompletionStudent();
 		
 		System.out.println("상담내역 추가하기");
@@ -279,10 +278,10 @@ public class TeacherController {
 	
 	//취업상담가능한 수료자들 list
 	private void CompletionStudent() {
-		System.out.println("");
+		
 		ArrayList<CompletionStudentDTO> list = cdao.list(this.tdto.getSeq());
 		for (CompletionStudentDTO cdto : list) {
-			System.out.printf("%s %s %s %s %s %s %s %s\n"
+			System.out.printf("%-9s%-5s%-5s %-3s\t%-30s\t %-13s %-11s     %5s\n"
 					,cdto.getStudentNum()
 					,cdto.getStudentName()
 					,cdto.getTeacherName()
@@ -369,10 +368,10 @@ public class TeacherController {
 	private void setScoreList() {
 		
 		ArrayList<setScoreListDTO> list = ssldao.list(this.tdto.getSeq());
-		System.out.println("[번호][개강과목번호]  [과목명]        [책이름][출석배점][필기배점][실기배점][과목개강일][과목종강일][과정명][과정개강일][과정종강일][강의실번호]");
+		
 		for (setScoreListDTO ssldto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n"
-					,ssldto.getSeq()
+			System.out.printf("_______________________________________________________________________________________________________________________________________________\n"
+					+"[개강과목번호] %s\n[과목명] %s\n[책이름] %s\n[출석배점] %s\n[필기배점] %s\n[실기배점] %s\n[과목개강일] %s\n[과목종강일] %s\n[과정명] %s\n[과정개강일] %s\n[과정종강일] %s\n[강의실번호]%s\n"					
 					,ssldto.getSubjectNum()
 					,ssldto.getSubjectName()
 					,ssldto.getBookName()
@@ -392,11 +391,7 @@ public class TeacherController {
 		System.out.println();
 		
 		boolean check = true;
-		System.out.println();
-		System.out.println("1.과목배점 작성");
-		System.out.println("2.과목배점 수정");
-		System.out.println("3.과목배점 삭제");
-		System.out.println("4.뒤로가기");
+		view.setScoreMenu();
 		num = scan.nextLine();
 		
 		while (check) {
@@ -416,7 +411,7 @@ public class TeacherController {
 		}
 	}
 	
-	
+	//배점과목 추가
 	private void addSetScore() {
 		
 		System.out.println("배점 과목추가하기");
@@ -451,7 +446,7 @@ public class TeacherController {
 		pause();
 		start();
 	}
-		
+	//배점과목삭제	
 	private void deleteSetScore() {
 		
 		System.out.println("삭제할 번호: ");
@@ -469,6 +464,7 @@ public class TeacherController {
 		pause();
 		start();
 	}
+	//배점수정
 	private void editSetScore()	{
 		
 		System.out.println("수정할 번호 입력: ");
@@ -511,16 +507,153 @@ public class TeacherController {
 		int result = ssdao.editSetScore(dto2);
 		
 		if (result > 0) {
-			System.out.println("상담내역 수정 완료");
+			System.out.println("배점 수정 완료");
 		} else {
-			System.out.println("상담내역 수정 실패");
+			System.out.println("배점 수정 실패");
 		}
 		pause();
+		start();
 		
+		
+	}
+	//성적리스트
+	private void scoreList() {
+		
+		ArrayList<setScoreListDTO> list = sldao.list(this.tdto.getSeq());
+		
+		for (setScoreListDTO sldto : list) {
+			System.out.printf("_____________________________________\n"
+					+ "[개강과목번호]%s\n[과목명]%s\n[책이름]%s\n[출석배점]%s\n[필기배점]%s\n[실기배점]%s\n[과목개강일]%s\n[과목종강일]%s\n[과정명]%s\n[과정개강일]%s\n[과정종강일]%s\n[강의실번호]%s\n[성적등록여부]%s\n"					
+					,sldto.getSubjectNum()
+					,sldto.getSubjectName()
+					,sldto.getBookName()
+					,sldto.getAttendance()
+					,sldto.getWrite()
+					,sldto.getPractice()
+					,sldto.getSubjectStartdate()
+					,sldto.getSubjectEnddate()
+					,sldto.getCourseName()
+					,sldto.getCourseStartdate()
+					,sldto.getCourseEnddate()
+					,sldto.getRoomName()
+					,sldto.getScoreStatus());
+			
+			
+			
+		}
+		System.out.println();
+		
+		boolean check = true;
+		System.out.println();
+		System.out.println("1.성적관리");
+		System.out.println("2.뒤로가기");
+		num = scan.nextLine();
+		
+		while (check) {
+		if (num.equals("1")) {			
+			studentScoreList();
+		} else if (num.equals("2")) {
+			start();//메인화면
+		} else {
+			System.out.println("잘못된 입력입니다.");
+			check = false;
+		}
+		
+		}
+			System.out.println();
+		
+		
+		
+		
+	}//학생 성적리스트
+	private void studentScoreList() {
+		System.out.println("개강과목번호 선택");
+		String pseq = scan.nextLine();
+		
+		ArrayList<StudentScoreListDTO> list = stldao.list(pseq, this.tdto.getSeq());
+		System.out.println("[성적번호][학생명][출석점수][실기점수][필기점수][수강상태]");
+		for (StudentScoreListDTO stldto : list) {
+			System.out.printf("%s\t   %s\t%s\t%s\t%s \t%s\n"
+					,stldto.getScoreSeq()
+					,stldto.getStudentName()					
+					,stldto.getAttendance()
+					,stldto.getPractice()
+					,stldto.getWriter()
+					,stldto.getRegistate());			
+		}
+		System.out.println();
+		
+		boolean check = true;
+		System.out.println();
+		System.out.println("1.성적입력");
+		System.out.println("2.뒤로가기");
+		num = scan.nextLine();
+		
+		while (check) {
+		if (num.equals("1")) {			
+			editStudentScore();
+		} else if (num.equals("2")) {
+			start();//메인화면
+		} else {
+			System.out.println("잘못된 입력입니다.");
+			check = false;
+		}
+		
+		}
 		
 		
 	}
 	
+
+private void editStudentScore()	{
+		
+		System.out.println("수정할 성적번호 입력: ");
+		String seq = scan.nextLine();
+		
+				
+		System.out.println("출석점수 입력: ");
+		String attendance = scan.nextLine();
+		
+		StudentScoreListDTO dto = new StudentScoreListDTO();
+		
+		if(attendance.equals("")) {
+			attendance = dto.getAttendance();
+		}
+		
+		
+		System.out.println("필기점수 입력: ");
+		String write = scan.nextLine();
+		
+		if(write.equals("")) {
+			write = dto.getWriter();		
+		}
+		
+		System.out.println("실기점수 입력: ");
+		String practice = scan.nextLine();
+		
+		if(practice.equals("")) {
+			practice = dto.getPractice();		
+		}
+		
+		
+		StudentScoreListDTO dto2 = new StudentScoreListDTO();				
+		dto2.setSeq(seq);
+		dto2.setAttendance(attendance);
+		dto2.setPractice(practice);
+		dto2.setWriter(write);
+		
+		
+		int result = stldao.editStudentScore(dto2);
+		
+		if (result > 0) {
+			System.out.println("성적입력 완료");
+		} else {
+			System.out.println("성적입력 실패");
+		}
+		pause();
+		start();
+}
+
 	private void Interview() {
 		// 모의 면접 관리
 		boolean check = true;
@@ -977,6 +1110,7 @@ public class TeacherController {
 		}
 				
 		pause();
+
 		
 	}
 

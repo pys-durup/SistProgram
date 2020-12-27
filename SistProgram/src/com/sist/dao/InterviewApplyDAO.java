@@ -12,6 +12,12 @@ import com.sist.dto.AvailableApplyListDTO;
 import com.sist.dto.InterviewApplyDTO;
 import com.sist.main.DBUtil;
 
+/**
+ * 예비교육생의 면접 신청 DAO 클래스
+ * @author 김소리
+ * */
+
+
 public class InterviewApplyDAO {
 
 	private static Scanner scan = new Scanner(System.in);
@@ -35,9 +41,13 @@ public class InterviewApplyDAO {
 	}
 	
 
-	
+	/**
+	 * 예비학생의 면접 신청하기
+	 * @param dto.getCreatedCourceNum() 예비교육생이 신청한 개설과정번호
+	 * @param dto.getReserveStudentNum() 예비교육생 번호
+	 * */	
 	public int addApply(InterviewApplyDTO dto) {
-		//예비학생의 면접 신청하기
+		
 		try {
 			String sql = "{ call procaddApply(?, ?) }";
 			
@@ -58,9 +68,12 @@ public class InterviewApplyDAO {
 	
 	
 	
+	/**
+	 * 예비교육생이 신청가능한 면접 리스트를 보는 메서드
+	 * */
 	
 	public ArrayList<AvailableApplyListDTO> list () {
-		//예비교육생이 신청가능한 면접 리스트를 보는 메서드
+		
 		try {
 		
 			String sql = "select * from vw_listApply";
