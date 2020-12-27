@@ -10,6 +10,11 @@ import com.sist.dto.StudentDTO;
 import com.sist.dto.StudentsRegiCourceDTO;
 import com.sist.main.DBUtil;
 
+/**
+ * 교육생 DAO 클래스
+ * @author 김소리
+ * */
+
 public class StudentDAO {
 
 	Connection conn;
@@ -35,8 +40,12 @@ public class StudentDAO {
 	}//StudentDAO() 
 	
 	
+	/**
+	 * 교육생 계정의 정보를 얻어오는 메서드
+	 *  @param seq 로그인한 교육생의 번호
+	 * */
 	public StudentDTO getStudent(String seq) {
-		//교육생 테이블 정보 얻어오기
+		
 		try {
 			String sql = "select * from tblStudent where seq = ?";
 			pstat = conn.prepareStatement(sql);
@@ -64,7 +73,10 @@ public class StudentDAO {
 	}
 	
 	
-	
+	/**
+	 * 로그인한 교육생의 수강정보, 수료 정보, 글작성내역을 얻어오는 메서드
+	 * @param seq 로그인한 교육생의 번호
+	 * */
 	
 	public StudentsRegiCourceDTO getStudentsRegiCource(String seq) { //교육생번호 매개변수
 		//교육생, 수강테이블, 수료테이블 조인 정보 얻어오기

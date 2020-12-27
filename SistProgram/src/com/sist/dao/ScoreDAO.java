@@ -12,6 +12,12 @@ import com.sist.main.DBUtil;
 
 import oracle.jdbc.OracleTypes;
 
+/**
+ * 교육생 성적 DAO 클래스
+ * @author 김소리
+ * */
+
+
 public class ScoreDAO {
 	
 	private Connection conn;
@@ -34,6 +40,11 @@ public ScoreDAO() {
 }
 
 
+
+/**
+ * 교육생이 본인의 성적을 조회하는 메서드
+ * @param pstudentNum 교육생번호 매개변수
+ * */
 
 public ArrayList<ScoreAndSubjectDTO> list(String pstudentNum) {
 	

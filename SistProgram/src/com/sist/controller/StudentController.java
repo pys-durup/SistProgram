@@ -165,6 +165,8 @@ public class StudentController {
 	
 	/**
 	 * 교육생이 본인의 취업내역을 수정하는 메서드
+	 * @param srdto.getCourceCompletNum() 로그인한 교육생의 수료번호
+	 * @param JobInfoDTO dto2 입력받은 수정하고자 하는 값
 	 * */
 
 	private void editJobInfo() {
@@ -255,6 +257,7 @@ public class StudentController {
 	
 	/**
 	 * 교육생이 본인의 취업내역을 조회하는 메서드
+	 * @param srdto.getCourceCompletNum() 로그인한 교육생의 수료번호
 	 * */
 	
 	private void listJobInfo() {
@@ -294,6 +297,7 @@ public class StudentController {
 	
 	/**
 	 * 교육생이 본인의 취업내역을 등록하는 메서드
+	 * @param srdto.getCourceCompletNum() 로그인한 교육생의 수료번호
 	 * */
 	private void addJobInfo() {
 		
@@ -396,6 +400,7 @@ public class StudentController {
 	
 	/**
 	 * 교육생이 본인의 구직활동정보를 삭제하는 메서드
+	 * @param this.srdto.getrSeq() 로그인한 교육생의 수강번호
 	 * */
 
 	private void deletequalification() {
@@ -512,6 +517,7 @@ public class StudentController {
 	
 	/**
 	 * 교육생이 본인의 구직활동을 조회하는 메서드
+	 * @param pregiNum 로그인한 교육생의 수강번호
 	 * */
 
 	private void listqualification() {
@@ -539,8 +545,9 @@ public class StudentController {
 	}
 
 	
-	/*
+	/**
 	 * 교육생이 본인의 구직활동정보를 등록하는 메서드
+	 * @param pregiNum 로그인한 교육생의 수강번호
 	 * */
 
 	private void addqualification() {
@@ -710,6 +717,7 @@ public class StudentController {
 	
 	/**
 	 * 교육생이 출석체크하는 메서드
+	 * @param pregiNum 로그인한 교육생의 수강번호
 	 * */
 	private void checkAttendance() {
 		//유효성 검사
@@ -806,8 +814,9 @@ public class StudentController {
 
 	
 	
-	/*
+	/**
 	 * 교육생이 본인의 취업상담 내역을 조회하는 메서드
+	 * @param pstudentNum 로그인한 교육생의 번호
 	 * */
 	private void listJobConsultation() {
 		
@@ -832,6 +841,7 @@ public class StudentController {
 
 	/**
 	 * 교육생이 본인의 수업상담 내역을 조회하는 메서드
+	 * @param pstudentNum 로그인한 교육생의 번호
 	 * */
 	private void listCourseConsultation() {
 		
@@ -855,8 +865,9 @@ public class StudentController {
 	}
 
 	
-	/*
+	/**
 	 *교육생이 본인의 성적을 조회하는 메서드
+	 *@param pstudentNum 로그인한 교육생의 번호
 	 * */
 	private void studentScore() {
 		
@@ -923,6 +934,7 @@ public class StudentController {
 	
 	/**
 	 * 교육생이 본인의 교사평가를 삭제하는 메서드
+	 * @param completNum 로그인한 교육생의 수료번호
 	 * */
 	private void deleteEvaluation() {
 	
@@ -961,6 +973,7 @@ public class StudentController {
 	
 	/**
 	 * 교육생이 본인이 등록한 교사평가를 조회하는 메서드
+	 * @param completNum 로그인한 교육생의 수료번호
 	 * */
 	private void listEvaluation() {
 		
@@ -998,6 +1011,7 @@ public class StudentController {
 	
 	/**
 	 * 교육생이 본인의 교사평가를 수정하는 메서드
+	 * @param completNum 로그인한 교육생의 수료번호
 	 * */
 	private void editEvaluation() {
 
@@ -1083,6 +1097,7 @@ public class StudentController {
 	
 	/**
 	 * 교육생이 교사평가를 등록하는 메서드
+	 * @param completNum 로그인한 교육생의 수료번호
 	 * */
 	
 	private void addEvaluation() {

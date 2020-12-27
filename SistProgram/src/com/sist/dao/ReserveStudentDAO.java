@@ -45,7 +45,8 @@ public class ReserveStudentDAO {
 	}
 
 	/**
-	 *로그인한 예비학생의 정보를 불러오는 메서드 
+	 *로그인한 예비교육생의 정보를 불러오는 메서드 
+	 *@param seq 로그인한 예비교육생의 번호
 	 * */
 	
 	public ReserveStudentDTO getReserveStudent(String seq) {
@@ -113,7 +114,8 @@ public class ReserveStudentDAO {
 	
 	
 	/**
-	 * 로그인한 예비학생의 면접 결과를 불러오는 메서드
+	 * 로그인한 예비교육생의 면접 결과를 불러오는 메서드
+	 * @param seq 로그인한 예비교육생의 번호
 	 * */
 	public InterviewResultDTO getInterviewResult(String seq) {
 		
@@ -163,6 +165,7 @@ public class ReserveStudentDAO {
 	
 	/**
 	 * 면접 합격한 예비교육생이 교육생으로 계정전환하는 메서드
+	 * @param seq 로그인한 예비교육생의 번호
 	 * */
 	public int addMigration(String seq) {
 		
@@ -287,8 +290,12 @@ public class ReserveStudentDAO {
 	}
 	
 	
+	/**
+	 * 관리자가 과정의 해당 면접일정 스케줄에 일치하는 교육생 정보를 조회하는 메서드
+	 * @param pcreatedCourceNum 상세조회하고자 하는 개설과정번호
+	 * */
 	public ArrayList<ReserveStudentDTO> detailedApply(String pcreatedCourceNum) {
-		//관리자가과정의 해당 면접일정 스케줄에 일치하는 교육생 정보를 조회하는 메서드
+		
 		
 		try {
 			
@@ -328,7 +335,11 @@ public class ReserveStudentDAO {
 	}
 	
 	
-	
+	/**
+	 * 관리자가 특정 교육과정의 면접일을 지정하는 메서드
+	 * @param createdCourceNum 면접일을 지정하고자 하는 개설과정번호
+	 * @param choicedDate 지정하고자 하는 면접일자 
+	 * */
 	
 	public int addChoicedDate(String createdCourceNum, String choicedDate) {
 		//관리자가 특정 교육과정의 면접일을 지정하는 메서드
@@ -354,6 +365,7 @@ public class ReserveStudentDAO {
 	
 	/**
 	 * 관리자가 면접 일정을 전체조회하는 메서드
+	 * @return
 	 * */
 	public ArrayList<ReserveStudentDTO> scheduleList() {
 		
@@ -393,6 +405,7 @@ public class ReserveStudentDAO {
 	
 	/**
 	 * 관리자가 종료된 면접 목록을 조회하는 메서드
+	 * @return
 	 * */
 	public ArrayList<ReserveStudentDTO> finisheInterviewList() {
 		
@@ -431,6 +444,8 @@ public class ReserveStudentDAO {
 	
 	/**
 	 * 관리자가 예비교육생의 면접 합격 여부를 지정하는 메서드
+	 * @param studentNum 예비교육생의 번호
+	 * @param resultNum 면접 합격 여부 (합: 1, 불합: 2)
 	 * */
 	
 	public int addPassFail(String studentNum, String resultNum) {

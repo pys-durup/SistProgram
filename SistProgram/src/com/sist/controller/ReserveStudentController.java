@@ -135,6 +135,7 @@ public class ReserveStudentController {
 	
 	/**
 	 * 합격한 예비교육생이 교육생으로 계정을 전환하는 메서드
+	 * @param  seq 로그인한 예비교육생의 번호
 	 * */
 	private void migration() {
 		
@@ -176,6 +177,8 @@ public class ReserveStudentController {
 	
 	/**
 	 * 예비교육생이 교육과정 수강면접을 신청하는 메서드
+	 * @param createdCourceNum 개설과정번호(매개변수1)
+	 * @param 생성자 rsdto의 get메서드로 받아온 로그인한 예비교육생 번호(매개변수2)
 	 * */
 
 	public void addApply() {
