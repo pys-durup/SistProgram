@@ -12,6 +12,8 @@ import com.sist.dto.InterviewResultDTO;
 import com.sist.dto.ReserveStudentDTO;
 import com.sist.main.DBUtil;
 
+import oracle.jdbc.OracleTypes;
+
 public class ReserveStudentDAO {
 	
 
@@ -232,10 +234,10 @@ public class ReserveStudentDAO {
 	
 	
 	public ArrayList<ReserveStudentDTO> noDateList() {
-		//관리자가 면접일자가 미정인 학생- 과정명을 조회하는 메서드
+		//관리자가 면접일자가 미정인 과정명을 조회하는 메서드
 		
 		try {
-			String sql = "select * from vw_needDateList";
+			String sql = "select * from vw_neededcourseList";
 			
 			rs = stat.executeQuery(sql);
 			
@@ -245,8 +247,47 @@ public class ReserveStudentDAO {
 				
 				ReserveStudentDTO dto = new ReserveStudentDTO();
 				
+				dto.setCreatedCourceNum(rs.getString("cSeq"));
 				dto.setcName(rs.getString("cName"));
-				dto.setCreatedCourceNum(rs.getString("CreatedCourceNum"));
+				dto.setStartDate(rs.getString("startDate"));
+				
+				list.add(dto);
+			}
+			return list;
+			
+			
+		} catch(Exception e) {
+			System.out.println("ReserveStudentDAO.noDateList()");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
+	public ArrayList<ReserveStudentDTO> detailedApply(String pcreatedCourceNum) {
+		//관리자가과정의 해당 면접일정 스케줄에 일치하는 교육생 정보를 조회하는 메서드
+		
+		try {
+			
+			String sql = "{ call procdetailList(?, ?) }";
+			
+			cstat = conn.prepareCall(sql);
+			
+			cstat.setString(1, pcreatedCourceNum);
+			cstat.registerOutParameter(2, OracleTypes.CURSOR);
+			cstat.executeUpdate();
+			
+			rs = (ResultSet)cstat.getObject(2); // 커서 반환값을 rs로 형변환
+			
+			ArrayList<ReserveStudentDTO> list = new ArrayList<ReserveStudentDTO>();
+	
+			while (rs.next()) {
+				
+				ReserveStudentDTO dto = new ReserveStudentDTO();
+				
+				dto.setcName(rs.getString("cName"));
+				dto.setCreatedCourceNum(rs.getString("CREATEDCOURCENUM"));
 				dto.setName(rs.getString("name"));
 				dto.setJumin(rs.getString("jumin"));
 				dto.setTel(rs.getString("tel"));
@@ -256,9 +297,8 @@ public class ReserveStudentDAO {
 			}
 			return list;
 			
-			
 		} catch(Exception e) {
-			System.out.println("ReserveStudentDAO.noDateList()");
+			System.out.println("ReserveStudentDAO.detailedApply()");
 			e.printStackTrace();
 		}
 		
@@ -288,6 +328,43 @@ public class ReserveStudentDAO {
 		
 		return 0;
 	}
+	
+	
+	
+	public ArrayList<ReserveStudentDTO> scheduleList() {
+		//관리자가 면접 일정을 전체조회하는 메서드
+		try {
+			String sql = "select * from vw_interviewDateList";
+			
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<ReserveStudentDTO> list = new ArrayList<ReserveStudentDTO>();
+			
+			while (rs.next()) {
+				
+				ReserveStudentDTO dto = new ReserveStudentDTO();
+				
+				dto.setCreatedCourceNum(rs.getString("cSeq"));
+				dto.setInterviewDate(rs.getString("interviewDate"));
+				dto.setcName(rs.getString("cName"));
+				dto.setStartDate(rs.getString("startDate"));
+				
+				
+				list.add(dto);
+			}
+			return list;
+			
+			
+		} catch(Exception e) {
+			System.out.println("ReserveStudentDAO.scheduleList()");
+			e.printStackTrace();
+		}
+		
+		
+		
+		return null;
+	}
+	
 	
 	
 	public ArrayList<ReserveStudentDTO> finisheInterviewList() {
@@ -327,7 +404,7 @@ public class ReserveStudentDAO {
 	
 	
 	public int addPassFail(String studentNum, String resultNum) {
-		
+		// 관리자가 예비교육생의 면접 합불 정보를 지정하는 메서드
 		try {
 			String sql = "{ call procaddResult(?, ?) }";
 			
