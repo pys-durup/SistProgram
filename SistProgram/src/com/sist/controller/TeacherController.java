@@ -200,9 +200,9 @@ public class TeacherController {
 		
 		ArrayList<JobConsultationListDTO> list = jcdao.jslist(this.tdto.getSeq());
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("[상담번호][학생번호][학생명][교사명][과정번호]\t\t[과정명]\t\t\t\t\t\t[상담내용]               [상담일][수강상태]");
+		System.out.println("[상담번호][학생번호][학생명][교사명][과정번호]\t\t[과정명]\t\t\t\t\t\t[상담내용]               \t[상담일]\t\t[수강상태]");
 		for(JobConsultationListDTO jcdto : list) {
-			System.out.printf("%-10s%-10s%-4s%-7s%-8s%-35s%-30s%-11s%-4s\n"
+			System.out.printf("%-10s%-10s%-4s%-7s%-8s%-35s%-30s\t%-13s%7s\n"
 					,jcdto.getConsultationNum()
 					,jcdto.getStudentNum()
 					,jcdto.getStudentName()
@@ -239,7 +239,7 @@ public class TeacherController {
 	//취업상담 작성
 	private void addJobConsultation() {
 		System.out.println("취업상담가능한 학생리스트(수료자)");
-		System.out.println("[상담번호][학생명][교사명][과정번호][과정명][개강일][종강일][수강상태]");
+		System.out.println("[상담번호][학생명][교사명][과정번호]\t\t     [과정명]\t\t\t   [개강일]\t[종강일]\t\t[수강상태]");
 		CompletionStudent();
 		
 		System.out.println("상담내역 추가하기");
@@ -268,10 +268,10 @@ public class TeacherController {
 	
 	//취업상담가능한 수료자들 list
 	private void CompletionStudent() {
-		System.out.println("");
+		
 		ArrayList<CompletionStudentDTO> list = cdao.list(this.tdto.getSeq());
 		for (CompletionStudentDTO cdto : list) {
-			System.out.printf("%s %s %s %s %s %s %s %s\n"
+			System.out.printf("%-9s%-5s%-5s %-3s\t%-30s\t %-13s %-11s     %5s\n"
 					,cdto.getStudentNum()
 					,cdto.getStudentName()
 					,cdto.getTeacherName()
