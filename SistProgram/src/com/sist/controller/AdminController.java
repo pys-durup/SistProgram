@@ -305,8 +305,8 @@ public class AdminController {
 		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList();
 		
 		for(StudentConsultListDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\t%sn"
-								//, dto.getSeq()
+			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n"
+								, dto.getSeq()
 								, dto.getConsultDate()
 								, dto.getSname()
 								, dto.getSubjectSeq()
@@ -547,12 +547,13 @@ public class AdminController {
 		System.out.println("[성적 조회 - 과정별 - 과목]");
 		System.out.println("교육생 성적 리스트");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("교육생이름\t주민번호\t필기점수\t실기점수");
+		System.out.println("번호\t교육생이름\t주민번호\t필기점수\t실기점수");
 		
 		ArrayList<ScCourseSubjectScoreDTO> list = scssdao.list();
 		
 		for(ScCourseSubjectScoreDTO dto : list) {
 			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+								, dto.getSeq()
 								, dto.getSname()
 								, dto.getJumin()
 								, dto.getWrite()
@@ -606,7 +607,7 @@ public class AdminController {
 		System.out.println("[성적 조회 - 교육생별 - 과목]");
 		System.out.println("교육생 성적 리스트");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("과목명\t소요일수\t출결점수\t필기점수\t실기점수");
+		System.out.println("과목명\t소요일수\t교사이름\t출결점수\t필기점수\t실기점수");
 		
 		ArrayList<ScStudentSubjectDTO> list = sssdao.list();
 		
@@ -651,9 +652,9 @@ public class AdminController {
 		int result = sssdao.add(dto);
 
 		if (result == 1) {
-			System.out.println("상담 추가 성공입니다.");
+			System.out.println("성적 추가 성공입니다.");
 		} else {
-			System.out.println("상담 추가 실패입니다.");
+			System.out.println("성적 추가 실패입니다.");
 		}
 
 		pause();
@@ -675,9 +676,11 @@ public class AdminController {
 								, dto.getAttendance()
 								, dto.getWrite()
 								, dto.getPractice());
+			
+			
 		}
 		System.out.println();
-		System.out.print("수정할 상담 번호 : ");
+		System.out.print("수정할 성적 번호 : ");
 		String seq = scan.nextLine();
 		
 		ScStudentSubjectDTO dto = sssdao.get(seq);
@@ -742,20 +745,20 @@ public class AdminController {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[성적 삭제]");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("교육생이름\t주민번호\t필기점수\t실기점수");
+		System.out.println("과목명\t소요일수\t교사이름\t출결점수\t필기점수\t실기점수");
 		
 		ArrayList<ScStudentSubjectDTO> list = sssdao.list(); 
 		
 
 		for(ScStudentSubjectDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\n"
+			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\n"
+								
 								, dto.getSjname()
 								, dto.getDuration()
 								, dto.getTname()
 								, dto.getAttendance()
 								, dto.getWrite()
 								, dto.getPractice());
-			pause();
 			break;
 			
 		}

@@ -53,6 +53,7 @@ public class ScCourseSubjectScoreDAO {
 			while(rs.next()) {
 				ScCourseSubjectScoreDTO dto = new ScCourseSubjectScoreDTO();
 				
+				dto.setSeq(rs.getString("seq"));
 				dto.setSname(rs.getString("sname"));
 				dto.setJumin(rs.getString("jumin"));
 				dto.setWrite(rs.getString("write"));

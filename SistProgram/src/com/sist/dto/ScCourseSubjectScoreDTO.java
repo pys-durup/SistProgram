@@ -1,11 +1,21 @@
 package com.sist.dto;
 
 public class ScCourseSubjectScoreDTO {
-
+	
+	private String seq;
 	private String sname;
 	private String jumin;
 	private String write;
 	private String pratice;
+	
+	
+
+	public String getSeq() {
+		return seq;
+	}
+	public void setSeq(String seq) {
+		this.seq = seq;
+	}
 	
 	public String getSname() {
 		return sname;
