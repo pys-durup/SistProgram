@@ -14,7 +14,7 @@ import com.sist.dto.TalentedStudentListDTO;
 import com.sist.main.DBUtil;
 
 /**
- * 기업에 인재 추천 탭의 모든 기능을 담당하는 메서드
+ * 기업에 인재 추천 탭의 모든 기능을 담당하는 클래스 입니다
  * @author YSPark
  *
  */

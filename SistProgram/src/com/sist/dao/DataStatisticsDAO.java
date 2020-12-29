@@ -16,6 +16,11 @@ import com.sist.main.DBUtil;
 
 import oracle.jdbc.OracleTypes;
 
+/**
+ * 데이터 통계에 관련된 모든 기능을 담당하는 클래스 입니다
+ * @author YSPark
+ *
+ */
 public class DataStatisticsDAO {
 
 	private static Scanner scan = new Scanner(System.in);

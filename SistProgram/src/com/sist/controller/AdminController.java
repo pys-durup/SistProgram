@@ -56,6 +56,11 @@ import com.sist.dto.TalentedStudentListDTO;
 import com.sist.dto.ScStudentSubjectDTO;
 import com.sist.view.AdminView;
 
+/**
+ * 관리자의 모든 기능을 조작할수있는 클래스 입니다
+ * @author YSPark
+ *
+ */
 public class AdminController {
 
 	private String num = ""; // 사용자가 입력하는 번호

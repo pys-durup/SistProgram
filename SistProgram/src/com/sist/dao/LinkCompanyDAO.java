@@ -11,7 +11,7 @@ import com.sist.dto.LinkCompanyDTO;
 import com.sist.main.DBUtil;
 
 /**
- * 연계 기업의 모든 기능을 담당하는 메서드
+ * 연계 기업의 모든 기능을 담당하는 클래스 입니다
  * @author YSPark
  *
  */
