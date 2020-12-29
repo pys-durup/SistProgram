@@ -33,6 +33,11 @@ public class LinkCompanyDAO {
 		}
 	}
 	
+	/**
+	 * 연계기업 목록을 반환하는 메서드 
+	 * @param word 검색어
+	 * @return 연계기업 목록 ArrayList
+	 */
 	public ArrayList<LinkCompanyDTO> linkCompanyList(String word) {
 		
 		try {

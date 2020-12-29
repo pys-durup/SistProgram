@@ -38,8 +38,8 @@ public class DataStatisticsDAO {
 
 	/**
 	 * 종료된 과정의 수료생 목록을 받아와서 해당 목록별 출결데이터를 리턴하는 메서드
-	 * @param list
-	 * @return
+	 * @param list 수료생의 목록
+	 * @return 출결데이터
 	 */
 	public ArrayList<AttendanceStatisticsDTO> attendanceStatisticsList(ArrayList<CompletStudentListDTO> list) {
 		
@@ -126,7 +126,7 @@ public class DataStatisticsDAO {
 	/**
 	 * 종료된 과정의 개설 과정 번호를 받아와서 해당 과정의 수료인원, 중도탈락인원, 수료율을 반환한다
 	 * @param num 개설 과정 번호
-	 * @return
+	 * @return 수료율 정보가 담긴 ArrayList
 	 */
 	public ArrayList<String> completionRateInfo(String num) {
 		
@@ -163,7 +163,7 @@ public class DataStatisticsDAO {
 
 	/**
 	 * 종료된 과정의 개설 과정 번호를 받아와서 해당 과정의 수료인원, 취업인원, 취업률을 반환
-	 * @return
+	 * @return 취업률 정보가 담긴 ArrayList
 	 */
 	public ArrayList<EmploymentRateDTO> employmentRateInfo(String num) {
 		
