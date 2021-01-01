@@ -34,20 +34,19 @@ public class InterviewsEvaluationDAO {
 		}	
 		
 	}
-
+	
+	/**
+	 * 모의면접 평가 조회를 위해 모의면접을 진행한 교육생들의 평가리스트를 리턴하는 메서드
+	 * @return
+	 */
 	public ArrayList<InterviewsEvaluationDTO> list() {
 			
 		try {
 			
-			String sql = "{call proclistInterviewsEvaluation(?)}";
+			String sql = "select * from vwlistInterviewsEvaluation";
 			
-			cstat = conn.prepareCall(sql);
-	
-			cstat.registerOutParameter(1, OracleTypes.CURSOR);
-			
-			cstat.executeQuery();
-			
-			rs = (ResultSet)cstat.getObject(1);
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
 			
 			ArrayList<InterviewsEvaluationDTO> list = new ArrayList<InterviewsEvaluationDTO>();
 			
@@ -55,7 +54,7 @@ public class InterviewsEvaluationDAO {
 				InterviewsEvaluationDTO dto = new InterviewsEvaluationDTO();
 				
 				dto.setSeq(rs.getString("seq"));
-				dto.setScore(rs.getString("score"));
+				dto.setSname(rs.getString("sname"));
 				dto.setTname(rs.getString("tname"));
 				dto.setQuestion(rs.getString("qusetion"));
 				dto.setEvaluation(rs.getString("evaluation"));

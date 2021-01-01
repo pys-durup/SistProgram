@@ -34,18 +34,22 @@ public class StudentConsultListDAO {
 		}	
 		
 	}
-
-	public ArrayList<StudentConsultListDTO> StudentConsultList() {
+	/**
+	 * 입력받은 교육생번호로 교육생의 상담리스트를 리턴하는 메서드
+	 * @return
+	 */
+	public ArrayList<StudentConsultListDTO> StudentConsultList(String num) {
 		try {
 			
-			String sql = "{call procStudentConsultList(?)}";
+			String sql = "{call procStudentConsultList(?,?)}";
 			
 			cstat = conn.prepareCall(sql);
-			cstat.registerOutParameter(1, OracleTypes.CURSOR);
+			cstat.setString(1, num);
+			cstat.registerOutParameter(2, OracleTypes.CURSOR);
 			
 			cstat.executeQuery();
 			 
-			rs = (ResultSet)cstat.getObject(1);
+			rs = (ResultSet)cstat.getObject(2);
 			
 			ArrayList<StudentConsultListDTO> list = new ArrayList<StudentConsultListDTO>();
 			

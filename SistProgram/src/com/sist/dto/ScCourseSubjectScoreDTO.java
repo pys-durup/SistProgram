@@ -6,7 +6,7 @@ public class ScCourseSubjectScoreDTO {
 	private String sname;
 	private String jumin;
 	private String write;
-	private String pratice;
+	private String practice;
 	
 	
 
@@ -35,11 +35,11 @@ public class ScCourseSubjectScoreDTO {
 	public void setWrite(String write) {
 		this.write = write;
 	}
-	public String getPratice() {
-		return pratice;
+	public String getPractice() {
+		return practice;
 	}
-	public void setPratice(String pratice) {
-		this.pratice = pratice;
+	public void setPractice(String practice) {
+		this.practice = practice;
 	}
 	
 	

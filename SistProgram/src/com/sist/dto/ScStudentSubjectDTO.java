@@ -2,6 +2,8 @@ package com.sist.dto;
 
 public class ScStudentSubjectDTO {
 
+	private String seq;
+	private String sname;
 	private String sjname;
 	private String duration;
 	private String tname;
@@ -9,6 +11,18 @@ public class ScStudentSubjectDTO {
 	private String write;
 	private String practice;
 	
+	public String getSeq() {
+		return seq;
+	}
+	public void setSeq(String seq) {
+		this.seq = seq;
+	}
+	public String getSname() {
+		return sname;
+	}
+	public void setSname(String sname) {
+		this.sname = sname;
+	}
 	public String getSjname() {
 		return sjname;
 	}

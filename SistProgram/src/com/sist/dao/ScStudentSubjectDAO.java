@@ -35,19 +35,24 @@ public class ScStudentSubjectDAO {
 		}	
 		
 	}
-
-	public ArrayList<ScStudentSubjectDTO> list() {
+	/**
+	 * 입력바은 교육생번호로 교육생의 성적을 리턴하는 메서드
+	 * @param num
+	 * @return
+	 */
+	public ArrayList<ScStudentSubjectDTO> list(String num) {
 		
 		try {
 			
-			String sql = "{call procScStudentSubject(?)}";
+			String sql = "{call procScStudentSubject(?, ?)}";
 			
 			cstat = conn.prepareCall(sql);
-			cstat.registerOutParameter(1, OracleTypes.CURSOR);
+			cstat.setString(1, num);
+			cstat.registerOutParameter(2, OracleTypes.CURSOR);
 			
 			cstat.executeQuery();
 			 
-			rs = (ResultSet)cstat.getObject(1);
+			rs = (ResultSet)cstat.getObject(2);
 			
 			ArrayList<ScStudentSubjectDTO> list = new ArrayList<ScStudentSubjectDTO>();
 			
@@ -55,6 +60,8 @@ public class ScStudentSubjectDAO {
 				
 				ScStudentSubjectDTO dto = new ScStudentSubjectDTO();
 				
+				dto.setSeq(rs.getString("seq"));
+				dto.setSname(rs.getString("sname"));
 				dto.setSjname(rs.getString("sjname"));
 				dto.setDuration(rs.getString("duration"));
 				dto.setTname(rs.getString("tname"));

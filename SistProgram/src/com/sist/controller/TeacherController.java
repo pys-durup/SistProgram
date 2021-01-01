@@ -15,6 +15,7 @@ import com.sist.dao.TeacherScheduleDAO;
 import com.sist.dao.InterviewsEvaluationDAO;
 import com.sist.dao.setScoreListDAO;
 import com.sist.dao.CConsultationDAO;
+import com.sist.dao.evaluationDAO;
 import com.sist.dto.CompletionStudentDTO;
 import com.sist.dto.CourseStudentListDTO;
 import com.sist.dto.InterviewDataDTO;
@@ -31,6 +32,7 @@ import com.sist.dto.InterviewsEvaluationDTO;
 import com.sist.dto.CConsultationDTO;
 import com.sist.view.TeacherView;
 import com.sist.dto.InterviewDataDTO;
+import com.sist.dto.evaluationDTO;
 
 
 
@@ -50,6 +52,7 @@ public class TeacherController {
 	private static InterviewDataDAO ivdao;
 	private static InterviewsEvaluationDAO ivedao;
 	private static CConsultationDAO ccdao;
+	private static evaluationDAO edao;
 	
 	static {
 		tsdao = new TeacherScheduleDAO(); //강의계획조회		
@@ -64,6 +67,7 @@ public class TeacherController {
 		ivdao = new InterviewDataDAO(); //모의면접데이터
 		ivedao = new InterviewsEvaluationDAO(); //모의면접 평가
 		ccdao = new CConsultationDAO(); //상담일지관리
+		edao = new evaluationDAO(); //강의 평점 조회
 
 
 		
@@ -106,7 +110,7 @@ public class TeacherController {
 			} else if (num.equals("8")) { 
 				Interview();
 			} else if (num.equals("9")) { 	
-				
+				dataStatistic();
 			} else if (num.equals("10")) { 
 				// 로그아웃
 				break;
@@ -119,6 +123,8 @@ public class TeacherController {
 		
 	}
 	
+
+
 
 
 	private void pause() {
@@ -1145,5 +1151,66 @@ private void editStudentScore()	{
 		
 	}
 
-	
+	private void dataStatistic() {
+		// 데이터통계관리
+		
+		boolean check = true;
+		while (check) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("[데이터 통계 관리]");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 과목별 시험 점수 평균 조회");
+			System.out.println("2. 강의 평점 조회");
+			System.out.println("3. 뒤로가기");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+
+			if(num.equals("1")) {				
+				subjectAvgScore();
+			} else if (num.equals("2")) { 
+				evaluation();
+			} else if (num.equals("3")) { 
+				break;
+			}else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+		}
+		}
+		
+	}
+
+	private void subjectAvgScore() {
+		// 과목별 시험 점수 평균 조회
+		
+	}
+
+	private void evaluation() {
+		// 강의 평점 조회
+		
+		ArrayList<evaluationDTO> list = edao.list(this.tdto.getSeq());
+		
+		boolean check = true;
+		while (check) {
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[강의 평점 조회]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("과정명\t\t\t\t\t교재준비\t소통\t취업\t시간분배");
+		
+		for(evaluationDTO dto : list) {
+			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+								, dto.getCoursename()
+								, dto.getMaterials()
+								, dto.getCommunication()
+								, dto.getJobpreparing()
+								, dto.getDivisionTime());
+				
+		}
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		pause();
+		break;
+		}
+		
+	}
 }   

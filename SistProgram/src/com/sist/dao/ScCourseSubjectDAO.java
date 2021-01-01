@@ -35,18 +35,25 @@ public class ScCourseSubjectDAO {
 		}	
 		
 	}
+	/**
+	 * 입력받은 과정의 번호로 해당 과정의 과목리스트를 리턴하는 메서드
+	 * @param num
+	 * @return
+	 */
+	
 	// 성적조회 - 과정별 - 과정선택 - 과목리스트
-	public ArrayList<ScCourseSubjectDTO> list() {
+	public ArrayList<ScCourseSubjectDTO> list(String num) {
 		try {
 			
-			String sql = "{call procScSubjectList(?)}";
+			String sql = "{call procScSubjectList(?,?)}";
 			
 			cstat = conn.prepareCall(sql);
-			cstat.registerOutParameter(1, OracleTypes.CURSOR);
+			cstat.setString(1, num);
+			cstat.registerOutParameter(2, OracleTypes.CURSOR);
 			
 			cstat.executeQuery();
 			 
-			rs = (ResultSet)cstat.getObject(1);
+			rs = (ResultSet)cstat.getObject(2);
 			
 			ArrayList<ScCourseSubjectDTO> list = new ArrayList<ScCourseSubjectDTO>();
 			
