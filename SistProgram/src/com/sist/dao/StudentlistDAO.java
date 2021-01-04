@@ -37,19 +37,28 @@ public class StudentlistDAO {
 		
 	}
 
+	/**
+	 * 상담조회를 위해 교육생리스트 리턴하는 메서드
+	 * @return
+	 */
 	public ArrayList<StudentlistDTO> Studentlist() {
 		try {
+			String sql = "select * from vwStudentList";
 			
-			String sql = "{call procStudentList(?)}";
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+
+			//String sql = "{call procStudentList(?)}";
 			
-			cstat = conn.prepareCall(sql);
+			//cstat = conn.prepareCall(sql);
 			
-			cstat.registerOutParameter(1, OracleTypes.CURSOR);
+			//cstat.registerOutParameter(1, OracleTypes.CURSOR);
 						
-			cstat.executeQuery();
+			//cstat.executeQuery();
 			
 //			rs = (ResultSet)cstat.getObject(2);
-			rs = (ResultSet)cstat.getObject(1);
+			//rs = (ResultSet)cstat.getObject(1);
+
 			
 			ArrayList<StudentlistDTO> list = new ArrayList<StudentlistDTO>();
 			

@@ -15,6 +15,8 @@ import com.sist.dao.TeacherScheduleDAO;
 import com.sist.dao.InterviewsEvaluationDAO;
 import com.sist.dao.setScoreListDAO;
 import com.sist.dao.CConsultationDAO;
+import com.sist.dao.evaluationDAO;
+import com.sist.dao.subjectAvgScoreDAO;
 import com.sist.dto.CompletionStudentDTO;
 import com.sist.dto.CourseStudentListDTO;
 import com.sist.dto.InterviewDataDTO;
@@ -31,6 +33,8 @@ import com.sist.dto.InterviewsEvaluationDTO;
 import com.sist.dto.CConsultationDTO;
 import com.sist.view.TeacherView;
 import com.sist.dto.InterviewDataDTO;
+import com.sist.dto.evaluationDTO;
+import com.sist.dto.subjectAvgScoreDTO;
 
 
 
@@ -50,6 +54,9 @@ public class TeacherController {
 	private static InterviewDataDAO ivdao;
 	private static InterviewsEvaluationDAO ivedao;
 	private static CConsultationDAO ccdao;
+	private static evaluationDAO edao;
+	private static subjectAvgScoreDAO svdao;
+	
 	
 	static {
 		tsdao = new TeacherScheduleDAO(); //강의계획조회		
@@ -64,7 +71,8 @@ public class TeacherController {
 		ivdao = new InterviewDataDAO(); //모의면접데이터
 		ivedao = new InterviewsEvaluationDAO(); //모의면접 평가
 		ccdao = new CConsultationDAO(); //상담일지관리
-
+		edao = new evaluationDAO(); //강의 평점 조회
+		svdao = new subjectAvgScoreDAO();//점수 평균 조회
 
 		
 	}
@@ -106,7 +114,7 @@ public class TeacherController {
 			} else if (num.equals("8")) { 
 				Interview();
 			} else if (num.equals("9")) { 	
-				
+				dataStatistic();
 			} else if (num.equals("10")) { 
 				// 로그아웃
 				break;
@@ -119,6 +127,8 @@ public class TeacherController {
 		
 	}
 	
+
+
 
 
 	private void pause() {
@@ -725,12 +735,12 @@ private void editStudentScore()	{
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[모의 면접 평가 조회]");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("번호\t교육생이름\t교사이름\t면접질문\t면접평가\t면접점수");
+		System.out.println("번호\t교육생이름\t교사이름\t면접질문\t\t\t\t면접평가\t면접점수");
 		
 		ArrayList<InterviewsEvaluationDTO> list = ivedao.list();
 		
 			for(InterviewsEvaluationDTO dto : list) {
-				System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\n"
+				System.out.printf("%s\t%s\t%s\t%-25s\t%s\t%s\n"
 									, dto.getSeq()
 									, dto.getSname()
 									, dto.getTname()
@@ -751,16 +761,30 @@ private void editStudentScore()	{
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[모의 면접 평가 추가]");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+		System.out.print("면접번호 : ");
+		String interviewNum = scan.nextLine();
 	
 		System.out.print("면접 평가 : ");
 		String evaluation = scan.nextLine();
 
 		System.out.print("면접 점수 : ");
 		String score = scan.nextLine();
+		
+		System.out.print("교사번호 : ");
+		String teacherNum = scan.nextLine();
+
+		System.out.print("수강번호 : ");
+		String regiNum = scan.nextLine();
+		
 
 		InterviewsEvaluationDTO dto = new InterviewsEvaluationDTO();
+		
+		dto.setInterviewNum(interviewNum);
 		dto.setEvaluation(evaluation);
 		dto.setScore(score);
+		dto.setTeacherNum(teacherNum);
+		dto.setRegiNum(regiNum);
 		
 		int result = ivedao.add(dto);
 		
@@ -795,9 +819,9 @@ private void editStudentScore()	{
 		}
 		System.out.println();
 		System.out.print("수정할 모의 면접 평가 번호 : ");
-		String seq = scan.nextLine();
+		String num = scan.nextLine();
 		 
-		InterviewsEvaluationDTO dto = ivedao.get(seq);
+		InterviewsEvaluationDTO dto = ivedao.get(num);
 		
 		System.out.println();
 		System.out.println("면접 평가 : " + dto.getEvaluation());
@@ -983,9 +1007,9 @@ private void editStudentScore()	{
 		}
 		System.out.println();
 		System.out.print("수정할 면접 데이터 번호 : ");
-		String seq = scan.nextLine();
+		String num = scan.nextLine();
 		
-		InterviewDataDTO dto = ivdao.get(seq);
+		InterviewDataDTO dto = ivdao.get(num);
 		
 		System.out.println();
 		System.out.println("질문 : " + dto.getQuestion());
@@ -1010,6 +1034,7 @@ private void editStudentScore()	{
 		
 		InterviewDataDTO dto2 = new InterviewDataDTO();
 		
+		dto2.setSeq(dto.getSeq());
 		dto2.setQuestion(question);
 		dto2.setStandard(standard);
 				
@@ -1096,10 +1121,22 @@ private void editStudentScore()	{
 		System.out.print("상담내용 : ");
 		String content = scan.nextLine();
 		
+		System.out.print("개설과목번호 : ");
+		String makeSubjectNum = scan.nextLine();
+		
+		System.out.print("상담사유번호 : ");
+		String reasonNum = scan.nextLine();
+		
+		System.out.print("수강번호 : ");
+		String regiNum = scan.nextLine();
+		
 		
 		CConsultationDTO dto = new CConsultationDTO();
 		dto.setDate(date);
 		dto.setContent(content);
+		dto.setMakeSubjectNum(makeSubjectNum);
+		dto.setReasonNum(reasonNum);
+		dto.setRegiNum(regiNum);
 		
 		int result = ccdao.add(dto);
 		
@@ -1122,18 +1159,19 @@ private void editStudentScore()	{
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[상담 일지 조회]");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("번호\t면접질문\t\t\t\t점수기준");
+		System.out.println("번호\t교육생이름\t교사이름\t과목번호\t과목명\t\t\t\t\t\t과정기간\t\t\t상담날짜\t\t상담사유\t상담내용");
 
-		ArrayList<CConsultationDTO> list = ccdao.list();
+		ArrayList<CConsultationDTO> list = ccdao.list(this.tdto.getSeq());
 		
 		for(CConsultationDTO dto : list) {
-			System.out.printf("%s\t%-25s\t%s\n"
+			System.out.printf("%s\t%s\t%s\t%s\t%-45s\t%-20s\t%s\t%s\t%s\n"
 								, dto.getSeq()
 								, dto.getSname()
+								, dto.getTname()
 								, dto.getSjseq()
 								, dto.getSjname()
 								, dto.getCoursedate()
-								, dto.getDate()
+								, dto.getConsultdate()
 								, dto.getReason()
 								, dto.getContent());
 				
@@ -1145,5 +1183,86 @@ private void editStudentScore()	{
 		
 	}
 
-	
+	private void dataStatistic() {
+		// 데이터통계관리
+		
+		boolean check = true;
+		while (check) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("[데이터 통계 관리]");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.println("1. 과목별 성적 평균 조회");
+			System.out.println("2. 강의 평점 조회");
+			System.out.println("3. 뒤로가기");
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.print("번호를 입력하세요 :");
+			num = scan.nextLine();
+
+			if(num.equals("1")) {				
+				subjectAvgScore();
+			} else if (num.equals("2")) { 
+				evaluation();
+			} else if (num.equals("3")) { 
+				break;
+			}else {
+				System.out.println("잘못된 입력입니다");
+				pause();
+				break;
+		}
+		}
+		
+	}
+
+	private void subjectAvgScore() {
+		// 과목별 시험 점수 평균 조회
+		ArrayList<subjectAvgScoreDTO> list = svdao.list(this.tdto.getSeq());
+		
+		boolean check = true;
+		while (check) {
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[과목별 성적 평균 조회]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("과목번호\t과목명\t\t\t\t\t\t필기점수\t실기점수");
+		
+		for(subjectAvgScoreDTO dto : list) {
+			System.out.printf("%s\t%-45s\t%s\t%s\n"
+								, dto.getSjseq()
+								, dto.getSjname()
+								, dto.getWrite()
+								, dto.getPractice());
+				
+		}
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		pause();
+		break;
+		}
+	}
+
+	private void evaluation() {
+		// 강의 평점 조회
+		
+		ArrayList<evaluationDTO> list = edao.list(this.tdto.getSeq());
+		
+		boolean check = true;
+		while (check) {
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[강의 평점 조회]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("과정명\t\t\t\t\t교재준비\t소통\t취업\t시간분배");
+		
+		for(evaluationDTO dto : list) {
+			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+								, dto.getCoursename()
+								, dto.getMaterials()
+								, dto.getCommunication()
+								, dto.getJobpreparing()
+								, dto.getDivisionTime());
+				
+		}
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		pause();
+		break;
+		}
+		
+	}
 }   

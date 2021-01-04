@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.sist.dto.EndCourseListDTO;
 import com.sist.dto.ScoreListCourseDTO;
 import com.sist.main.DBUtil;
 
@@ -34,21 +35,21 @@ public class ScoreListCourseDAO {
 		
 	}
 
+/**
+ * 과정 목록을 리턴하는 메서드
+ * @return
+ */
 	public ArrayList<ScoreListCourseDTO> list() {
 
 		try {
-			
-			String sql = "{call procCourseList(?)}";
-			
-			cstat = conn.prepareCall(sql);
-
-			cstat.registerOutParameter(1, OracleTypes.CURSOR);
-			
-			cstat.executeQuery();
-			
-			rs = (ResultSet)cstat.getObject(1);
+					
+			String sql = "select * from vwCourseList";
 			
 			ArrayList<ScoreListCourseDTO> list = new ArrayList<ScoreListCourseDTO>();
+		
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+						
 			
 			while(rs.next()) {
 				ScoreListCourseDTO dto = new ScoreListCourseDTO();

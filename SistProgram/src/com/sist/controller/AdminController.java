@@ -64,7 +64,7 @@ import com.sist.view.AdminView;
 public class AdminController {
 
 	private String num = ""; // 사용자가 입력하는 번호
-	private static Scanner scan = new Scanner(System.in);;
+	private static Scanner scan = new Scanner(System.in);
 	private MasterDTO mdto; // 로그인한 계정의 정보를 담을 객체
 	private AdminView aview;
 
@@ -240,8 +240,6 @@ public class AdminController {
 		}
 	}
 
-//수정중***********************************************************************  
-
   	private void StudentConsultList(String num) {
   		// 관리자 - 상담 관리 - 상담 조회 
   		// 교육생 번호 선택
@@ -253,12 +251,13 @@ public class AdminController {
   		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[상담 조회]");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");	
+		System.out.println("번호\t상담날짜\t\t교육생이름\t과목번호\t과목명\t\t과정기간\t\t\t상담사유\t상담내용");
 		
-		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList();
+		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList(num);
 		
 		for(StudentConsultListDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t\t%s\n"
-								//, dto.getSeq()
+			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n"
+								, dto.getSeq()
 								, dto.getConsultDate()
 								, dto.getSname()
 								, dto.getSubjectSeq()
@@ -269,7 +268,6 @@ public class AdminController {
 			}
 			pause();
 			break;
-		
 			
 
 		}
@@ -307,10 +305,15 @@ public class AdminController {
 
 	private void CourseconsultationEdit() {
 		// 관리자 - 상담 관리 - 상담 수정
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[상담 수정]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("번호\t상담날짜\t\t교육생이름\t과목번호\t과목명\t\t\t\t\t\t과정기간\t\t\t상담사유\t상담내용");
+		
 		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList();
 		
 		for(StudentConsultListDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n"
+			System.out.printf("%s\t%s\t%s\t%s\t%-40s\t%s\t%s\t%s\n"
 								, dto.getSeq()
 								, dto.getConsultDate()
 								, dto.getSname()
@@ -376,16 +379,21 @@ public class AdminController {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[상담 삭제]");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-
-		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList(); 
+		System.out.println("번호\t상담날짜\t\t교육생이름\t과목번호\t과목명\t\t과정기간\t\t\t상담사유\t상담내용");
 		
-		for (StudentConsultListDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\n"
+		ArrayList<StudentConsultListDTO> list = scldao.StudentConsultList();
+		
+		for(StudentConsultListDTO dto : list) {
+			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n"
 								, dto.getSeq()
+								, dto.getConsultDate()
 								, dto.getSname()
+								, dto.getSubjectSeq()
 								, dto.getSubjectName()
+								, dto.getCourseDate()
+								, dto.getConsultReason()
 								, dto.getConsultContent());
-		}
+			}
 		System.out.println();
 
 		System.out.print("삭제할 상담 번호 : ");
@@ -484,7 +492,6 @@ public class AdminController {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("번호\t과정명\t과정시작일\t과정종료일");
 		
-		System.out.println(slcdao == null);
 		ArrayList<ScoreListCourseDTO> list = slcdao.list();
 		
 		for(ScoreListCourseDTO dto : list) {
@@ -518,12 +525,12 @@ public class AdminController {
 		System.out.println("[성적 조회 - 과정별]");
 		System.out.println("과목리스트");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("번호\t과목명\t과목기간\t강사명\t교재명");
+		System.out.println("번호\t과목명\t\t\t\t\t\t과목기간\t강사명\t교재명");
 		
-		ArrayList<ScCourseSubjectDTO> list = scsdao.list();
+		ArrayList<ScCourseSubjectDTO> list = scsdao.list(num);
 		
 		for(ScCourseSubjectDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+			System.out.printf("%s\t%-45s\t%s\t%s\t%s\n"
 								, dto.getSeq()
 								, dto.getSjname()
 								, dto.getDuration()
@@ -554,7 +561,7 @@ public class AdminController {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("번호\t교육생이름\t주민번호\t필기점수\t실기점수");
 		
-		ArrayList<ScCourseSubjectScoreDTO> list = scssdao.list();
+		ArrayList<ScCourseSubjectScoreDTO> list = scssdao.list(num);
 		
 		for(ScCourseSubjectScoreDTO dto : list) {
 			System.out.printf("%s\t%s\t%s\t%s\t%s\n"
@@ -562,11 +569,11 @@ public class AdminController {
 								, dto.getSname()
 								, dto.getJumin()
 								, dto.getWrite()
-								, dto.getPratice());
-			pause();
-			break;
-		
+								, dto.getPractice());
+
+			
 		}
+		pause();
 		
 	}
 
@@ -612,22 +619,24 @@ public class AdminController {
 		System.out.println("[성적 조회 - 교육생별 - 과목]");
 		System.out.println("교육생 성적 리스트");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("과목명\t소요일수\t교사이름\t출결점수\t필기점수\t실기점수");
+		System.out.println("과목번호\t교육생이름\t과목명\t\t\t\t\t\t소요일수\t교사이름\t출결점수\t필기점수\t실기점수");
 		
-		ArrayList<ScStudentSubjectDTO> list = sssdao.list();
+		ArrayList<ScStudentSubjectDTO> list = sssdao.list(num);
 		
 		for(ScStudentSubjectDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\n"
+			System.out.printf("%s\t%s\t%-40s\t%s\t%s\t%s\t%s\t%s\n"
+								, dto.getSeq()
+								, dto.getSname()
 								, dto.getSjname()
 								, dto.getDuration()
 								, dto.getTname()
 								, dto.getAttendance()
 								, dto.getWrite()
 								, dto.getPractice());
-			pause();
-			break;	
+
+
 		}
-		
+		pause();
 	}
 
 	private void ScoreAdd() {
@@ -636,7 +645,7 @@ public class AdminController {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[성적 추가]");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-
+		
 		System.out.print("출결점수 : ");
 		String attendance = scan.nextLine();
 		
@@ -646,6 +655,12 @@ public class AdminController {
 		System.out.print("실기점수 : ");
 		String practice = scan.nextLine();
 		
+		System.out.print("개설과목번호 : ");
+		String makeSubjectNum = scan.nextLine();
+		
+		System.out.print("수강번호 : ");
+		String regiNum = scan.nextLine();
+		
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		
 		ScStudentSubjectDTO dto = new ScStudentSubjectDTO();
@@ -653,6 +668,8 @@ public class AdminController {
 			dto.setAttendance(attendance);
 			dto.setWrite(write);
 			dto.setPractice(practice);;
+			dto.setMakeSubjectNum(makeSubjectNum);
+			dto.setRegiNum(regiNum);
 
 		int result = sssdao.add(dto);
 
@@ -671,26 +688,40 @@ public class AdminController {
 	private void ScoreEdit() {
 		// 성적 관리 - 성적 수정
 		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.println("[성적 수정]");
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");	
+		System.out.println("성적을 수정할 교육생 번호 입력해주세요");
+		System.out.print("번호 입력 : ");
+		num = scan.nextLine();
+		
+		System.out.println("번호\t교육생이름\t과목명\t\t\t\t\t\t소요일수\t교사이름\t출결점수\t필기점수\t실기점수");
+		
 		ArrayList<ScStudentSubjectDTO> list = sssdao.list();
 		
 		for(ScStudentSubjectDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\n"
+			if(num.equals(dto.getSeq())) {
+			System.out.printf("%s\t%s\t%-40s\t%s\t%s\t%s\t%s\t%s\n"
+								, dto.getSjseq()
+								, dto.getSname()
 								, dto.getSjname()
 								, dto.getDuration()
 								, dto.getTname()
 								, dto.getAttendance()
 								, dto.getWrite()
 								, dto.getPractice());
+			}
 			
 			
 		}
 		System.out.println();
-		System.out.print("수정할 성적 번호 : ");
-		String seq = scan.nextLine();
+		System.out.print("수정할 과목 번호 : ");
+		String num = scan.nextLine();
 		
-		ScStudentSubjectDTO dto = sssdao.get(seq);
+		ScStudentSubjectDTO dto = sssdao.get(num);
 		
 		System.out.println();
+		
 		System.out.println("출결 : " + dto.getAttendance());
 		System.out.println("필기 : " + dto.getWrite());
 		System.out.println("실기 : " + dto.getPractice());
@@ -750,21 +781,26 @@ public class AdminController {
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 		System.out.println("[성적 삭제]");
 		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-		System.out.println("과목명\t소요일수\t교사이름\t출결점수\t필기점수\t실기점수");
+		System.out.println("성적을 삭제할 교육생 번호 입력해주세요");
+		System.out.print("번호 입력 : ");
+		num = scan.nextLine();
 		
-		ArrayList<ScStudentSubjectDTO> list = sssdao.list(); 
+		System.out.println("번호\t교육생이름\t과목명\t\t\t\t\t\t소요일수\t교사이름\t출결점수\t필기점수\t실기점수");
 		
-
+		ArrayList<ScStudentSubjectDTO> list = sssdao.list();
+		
 		for(ScStudentSubjectDTO dto : list) {
-			System.out.printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\n"
-								
+			if(num.equals(dto.getSeq())) {
+			System.out.printf("%s\t%s\t%-40s\t%s\t%s\t%s\t%s\t%s\n"
+								, dto.getSjseq()
+								, dto.getSname()
 								, dto.getSjname()
 								, dto.getDuration()
 								, dto.getTname()
 								, dto.getAttendance()
 								, dto.getWrite()
 								, dto.getPractice());
-			break;
+			}
 			
 		}
 		System.out.println();

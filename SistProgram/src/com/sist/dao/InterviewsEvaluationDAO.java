@@ -34,20 +34,19 @@ public class InterviewsEvaluationDAO {
 		}	
 		
 	}
-
+	
+	/**
+	 * 모의면접 평가 조회를 위해 모의면접을 진행한 교육생들의 평가리스트를 리턴하는 메서드
+	 * @return
+	 */
 	public ArrayList<InterviewsEvaluationDTO> list() {
 			
 		try {
 			
-			String sql = "{call proclistInterviewsEvaluation(?)}";
+			String sql = "select * from vwlistInterviewsEvaluation";
 			
-			cstat = conn.prepareCall(sql);
-	
-			cstat.registerOutParameter(1, OracleTypes.CURSOR);
-			
-			cstat.executeQuery();
-			
-			rs = (ResultSet)cstat.getObject(1);
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
 			
 			ArrayList<InterviewsEvaluationDTO> list = new ArrayList<InterviewsEvaluationDTO>();
 			
@@ -55,9 +54,9 @@ public class InterviewsEvaluationDAO {
 				InterviewsEvaluationDTO dto = new InterviewsEvaluationDTO();
 				
 				dto.setSeq(rs.getString("seq"));
-				dto.setScore(rs.getString("score"));
+				dto.setSname(rs.getString("sname"));
 				dto.setTname(rs.getString("tname"));
-				dto.setQuestion(rs.getString("qusetion"));
+				dto.setQuestion(rs.getString("question"));
 				dto.setEvaluation(rs.getString("evaluation"));
 				dto.setScore(rs.getString("score"));
 				
@@ -89,21 +88,27 @@ public class InterviewsEvaluationDAO {
 
 		return 0;
 	}
-
+	
+	/**
+	 * 모의면접평가에서 추가하는 메서드
+	 * @param dto
+	 * @return
+	 */
 	public int add(InterviewsEvaluationDTO dto) {
 
 			try {
 			
-			String sql = "{call procAddInterviewsEvaluation(?, ?)}";
+			String sql = "{call procAddInterviewsEvaluation(?, ?, ?, ?, ?)}";
+			
+			cstat = conn.prepareCall(sql);
+			
+			cstat.setString(1, dto.getInterviewNum());
+			cstat.setString(2, dto.getScore());
+			cstat.setString(3, dto.getEvaluation());
+			cstat.setString(4, dto.getTeacherNum());
+			cstat.setString(5, dto.getRegiNum());
 		
-			pstat = conn.prepareStatement(sql);
-			
-			pstat.setString(1, dto.getEvaluation());
-			pstat.setString(2, dto.getScore());
-			
-		
-			return pstat.executeUpdate();
-			
+			return cstat.executeUpdate();
 			
 		} catch (Exception e) {
 			System.out.println("InterviewsEvaluationDAO.add()");
@@ -117,14 +122,15 @@ public class InterviewsEvaluationDAO {
 		
 		try {
 			
-			String sql = "{call procEditInterviewsEvaluation(?, ?)}";
+			String sql = "{call procEditInterviewsEvaluation(?, ?, ?)}";
 			
-			pstat= conn.prepareStatement(sql);
-			
-			pstat.setString(1, dto2.getEvaluation());
-			pstat.setString(2, dto2.getScore());
+			cstat = conn.prepareCall(sql);
 
-			return pstat.executeUpdate();
+			cstat.setString(1, dto2.getSeq());
+			cstat.setString(2, dto2.getEvaluation());
+			cstat.setString(3, dto2.getScore());
+			
+			return cstat.executeUpdate();
 			
 		} catch (Exception e) {
 			System.out.println("InterviewsEvaluationDAO.edit()");
@@ -133,23 +139,16 @@ public class InterviewsEvaluationDAO {
 		return 0;
 	}
 
-	public InterviewsEvaluationDTO get(String seq) {
+	public InterviewsEvaluationDTO get(String num) {
 
 		try {
 			
-			String sql = "{call proclistInterviewsEvaluation(?)}";
+			String sql = "select * from vwlistInterviewsEvaluation where seq = ?";
 			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, num);
 			
-			cstat = conn.prepareCall(sql);
-			
-			cstat.registerOutParameter(1, OracleTypes.CURSOR);
-			
-			cstat.executeQuery();
-			
-
-			rs = (ResultSet)cstat.getObject(1);
-			
-			ArrayList<InterviewsEvaluationDTO> list = new ArrayList<InterviewsEvaluationDTO>();
+			rs = pstat.executeQuery();
 			
 			while(rs.next()) {
 				InterviewsEvaluationDTO dto = new InterviewsEvaluationDTO();
@@ -157,31 +156,16 @@ public class InterviewsEvaluationDAO {
 				dto.setSeq(rs.getString("seq"));
 				dto.setScore(rs.getString("score"));
 				dto.setTname(rs.getString("tname"));
-				dto.setQuestion(rs.getString("qusetion"));
+				dto.setQuestion(rs.getString("question"));
 				dto.setEvaluation(rs.getString("evaluation"));
 				dto.setScore(rs.getString("score"));
 				
-				list.add(dto);
+				return dto;
 			}
-//			if(rs.next()) {
-//				
-//				InterviewsEvaluationDTO dto = new InterviewsEvaluationDTO();
-//				
-//				dto.setSeq(rs.getString("seq"));
-//				dto.setName(rs.getString("name"));
-//				dto.setAge(rs.getString("age"));
-//				dto.setGender(rs.getString("gender"));
-//				dto.setTel(rs.getString("tel"));
-//				dto.setAddress(rs.getString("address"));
-//				dto.setRegdate(rs.getString("regdate"));
-//				
-//							
-//				return dto;
-//			}
 			
 			
 		} catch (Exception e) {
-			System.out.println("AddressDAO.get()");
+			System.out.println("InterviewsEvaluationDAO.get()");
 			e.printStackTrace();
 		}
 		return null;

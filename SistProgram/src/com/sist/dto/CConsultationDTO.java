@@ -11,6 +11,12 @@ public class CConsultationDTO {
 	private String date;
 	private String reason;
 	private String content;
+	private String consultdate;
+	private String makeSubjectNum;
+	private String reasonNum;
+	private String regiNum;
+	
+
 	public String getSeq() {
 		return seq;
 	}
@@ -65,7 +71,30 @@ public class CConsultationDTO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
+	public String getConsultdate() {
+		return consultdate;
+	}
+	public void setConsultdate(String consultdate) {
+		this.consultdate = consultdate;
+	}
+	public String getMakeSubjectNum() {
+		return makeSubjectNum;
+	}
+	public void setMakeSubjectNum(String makeSubjectNum) {
+		this.makeSubjectNum = makeSubjectNum;
+	}
+	public String getReasonNum() {
+		return reasonNum;
+	}
+	public void setReasonNum(String reasonNum) {
+		this.reasonNum = reasonNum;
+	}
+	public String getRegiNum() {
+		return regiNum;
+	}
+	public void setRegiNum(String regiNum) {
+		this.regiNum = regiNum;
+	}
 	
 	
 	

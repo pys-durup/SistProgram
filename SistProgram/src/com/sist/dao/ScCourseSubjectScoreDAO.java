@@ -34,19 +34,24 @@ public class ScCourseSubjectScoreDAO {
 		}	
 		
 	}
-
-	public ArrayList<ScCourseSubjectScoreDTO> list() {
+	/**
+	 * 입력받은 과목의 번호로 해당 과목의 교육생 성적리스트 리턴하는 메서드
+	 * @param num
+	 * @return
+	 */
+	public ArrayList<ScCourseSubjectScoreDTO> list(String num) {
 		
 		try {
 			
-			String sql = "{call procScCourseSubjectScore(?)}";
+			String sql = "{call procScCourseSubjectScore(?,?)}";
 			
 			cstat = conn.prepareCall(sql);
-			cstat.registerOutParameter(1, OracleTypes.CURSOR);
+			cstat.setString(1, num);
+			cstat.registerOutParameter(2, OracleTypes.CURSOR);
 			
 			cstat.executeQuery();
 			 
-			rs = (ResultSet)cstat.getObject(1);
+			rs = (ResultSet)cstat.getObject(2);
 			
 			ArrayList<ScCourseSubjectScoreDTO> list = new ArrayList<ScCourseSubjectScoreDTO>();
 			
@@ -57,7 +62,7 @@ public class ScCourseSubjectScoreDAO {
 				dto.setSname(rs.getString("sname"));
 				dto.setJumin(rs.getString("jumin"));
 				dto.setWrite(rs.getString("write"));
-				dto.setPratice(rs.getString("pratice"));
+				dto.setPractice(rs.getString("practice"));
 				
 				list.add(dto);				
 			}
@@ -65,7 +70,7 @@ public class ScCourseSubjectScoreDAO {
 			return list;
 			
 		} catch (Exception e) {
-			System.out.println("ScCourseSubjectDAO.list()");
+			System.out.println("ScCourseSubjectScoreDAO.list()");
 			e.printStackTrace();
 		}
 		

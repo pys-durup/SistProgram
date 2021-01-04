@@ -7,14 +7,12 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.sist.dto.ScCourseSubjectDTO;
-import com.sist.dto.ScoreListCourseDTO;
-import com.sist.dto.StudentConsultListDTO;
+import com.sist.dto.subjectAvgScoreDTO;
 import com.sist.main.DBUtil;
 
 import oracle.jdbc.OracleTypes;
 
-public class ScCourseSubjectDAO {
+public class subjectAvgScoreDAO {
 	
 	private Connection conn;
 	private Statement stat; 
@@ -22,7 +20,7 @@ public class ScCourseSubjectDAO {
 	private ResultSet rs;
 	private CallableStatement cstat;
 	
-	public ScCourseSubjectDAO() {
+	public subjectAvgScoreDAO() {
 		
 		try {
 			
@@ -30,41 +28,34 @@ public class ScCourseSubjectDAO {
 			this.stat = conn.createStatement();
 			
 		} catch (Exception e) {
-			System.out.println("ScCourseSubjectDAO()");
+			System.out.println("subjectAvgScoreDAO()");
 			e.printStackTrace();
 		}	
 		
 	}
-	/**
-	 * 입력받은 과정의 번호로 해당 과정의 과목리스트를 리턴하는 메서드
-	 * @param num
-	 * @return
-	 */
-	
-	// 성적조회 - 과정별 - 과정선택 - 과목리스트
-	public ArrayList<ScCourseSubjectDTO> list(String num) {
+
+	public ArrayList<subjectAvgScoreDTO> list(String seq) {
 		try {
 			
-			String sql = "{call procScSubjectList(?,?)}";
+			String sql = "{call procScoreAvg(?,?)}";
 			
 			cstat = conn.prepareCall(sql);
-			cstat.setString(1, num);
+			cstat.setString(1, seq);
 			cstat.registerOutParameter(2, OracleTypes.CURSOR);
 			
 			cstat.executeQuery();
 			 
 			rs = (ResultSet)cstat.getObject(2);
 			
-			ArrayList<ScCourseSubjectDTO> list = new ArrayList<ScCourseSubjectDTO>();
+			ArrayList<subjectAvgScoreDTO> list = new ArrayList<subjectAvgScoreDTO>();
 			
 			while(rs.next()) {
-				ScCourseSubjectDTO dto = new ScCourseSubjectDTO();
+				subjectAvgScoreDTO dto = new subjectAvgScoreDTO();
 				
-				dto.setSeq(rs.getString("seq"));
+				dto.setSjseq(rs.getString("sjseq"));
 				dto.setSjname(rs.getString("sjname"));
-				dto.setDuration(rs.getString("duration"));
-				dto.setTname(rs.getString("tname"));
-				dto.setBook(rs.getString("book"));
+				dto.setWrite(rs.getString("write"));
+				dto.setPractice(rs.getString("practice"));
 				
 				list.add(dto);				
 			}
@@ -72,7 +63,7 @@ public class ScCourseSubjectDAO {
 			return list;
 			
 		} catch (Exception e) {
-			System.out.println("ScCourseSubjectDAO.list()");
+			System.out.println("subjectAvgScoreDAO.list()");
 			e.printStackTrace();
 		}
 		return null;

@@ -2,13 +2,37 @@ package com.sist.dto;
 
 public class ScStudentSubjectDTO {
 
+	private String seq;
+	private String sjseq;
+	private String sname;
 	private String sjname;
 	private String duration;
 	private String tname;
 	private String attendance;
 	private String write;
 	private String practice;
-	
+	private String makeSubjectNum;
+	private String regiNum;
+
+
+	public String getSeq() {
+		return seq;
+	}
+	public void setSeq(String seq) {
+		this.seq = seq;
+	}
+	public String getSjseq() {
+		return sjseq;
+	}
+	public void setSjseq(String sjseq) {
+		this.sjseq = sjseq;
+	}
+	public String getSname() {
+		return sname;
+	}
+	public void setSname(String sname) {
+		this.sname = sname;
+	}
 	public String getSjname() {
 		return sjname;
 	}
@@ -45,7 +69,18 @@ public class ScStudentSubjectDTO {
 	public void setPractice(String practice) {
 		this.practice = practice;
 	}
-	
+	public String getMakeSubjectNum() {
+		return makeSubjectNum;
+	}
+	public void setMakeSubjectNum(String makeSubjectNum) {
+		this.makeSubjectNum = makeSubjectNum;
+	}
+	public String getRegiNum() {
+		return regiNum;
+	}
+	public void setRegiNum(String regiNum) {
+		this.regiNum = regiNum;
+	}
 	
 	
 	

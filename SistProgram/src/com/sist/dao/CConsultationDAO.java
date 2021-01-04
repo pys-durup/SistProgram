@@ -40,12 +40,17 @@ public class CConsultationDAO {
 		
 		try {
 			
-			String sql = "{ call procAddCConsultation(?, ?)}";
+			String sql = "{ call procAddCConsultation(?, ?, ?, ?, ?, ?)}";
 		
 			cstat = conn.prepareCall(sql);
 			
-			cstat.setString(1, dto.getDate());
-			cstat.setString(2, dto.getContent());
+			cstat.setString(1, dto.getSeq());
+			cstat.setString(2, dto.getConsultdate());
+			cstat.setString(3, dto.getContent());
+			cstat.setString(4, dto.getMakeSubjectNum());
+			cstat.setString(5, dto.getReasonNum());
+			cstat.setString(6, dto.getRegiNum());
+			
 					
 			return cstat.executeUpdate();
 			
@@ -57,19 +62,19 @@ public class CConsultationDAO {
 		return 0;
 	}
 
-	public ArrayList<CConsultationDTO> list() {
+	public ArrayList<CConsultationDTO> list(String seq) {
 		// 교사 - 상담 일지 조회
 		try {
 		
-			String sql = "{ call procAddCConsultation(?)}";
+			String sql = "{ call procConsultList(?,?)}";
 			
 			cstat = conn.prepareCall(sql);
-
-			cstat.registerOutParameter(1, OracleTypes.CURSOR);
+			cstat.setString(1, seq);
+			cstat.registerOutParameter(2, OracleTypes.CURSOR);
 			
 			cstat.executeQuery();
 			
-			rs = (ResultSet)cstat.getObject(1);
+			rs = (ResultSet)cstat.getObject(2);
 			
 			ArrayList<CConsultationDTO> list = new ArrayList<CConsultationDTO>();
 			
@@ -78,10 +83,11 @@ public class CConsultationDAO {
 				
 				dto.setSeq(rs.getString("seq"));
 				dto.setSname(rs.getString("sname"));
+				dto.setTname(rs.getString("tname"));
 				dto.setSjseq(rs.getString("sjseq"));
 				dto.setSjname(rs.getString("sjname"));
 				dto.setCoursedate(rs.getString("coursedate"));
-				dto.setDate(rs.getString("date"));
+				dto.setConsultdate(rs.getString("consultdate"));
 				dto.setReason(rs.getString("reason"));
 				dto.setContent(rs.getString("content"));
 				
