@@ -11,7 +11,7 @@ import com.sist.dto.LinkCompanyDTO;
 import com.sist.main.DBUtil;
 
 /**
- * 연계 기업의 모든 기능을 담당하는 메서드
+ * 연계 기업의 모든 기능을 담당하는 클래스 입니다
  * @author YSPark
  *
  */
@@ -33,6 +33,11 @@ public class LinkCompanyDAO {
 		}
 	}
 	
+	/**
+	 * 연계기업 목록을 반환하는 메서드 
+	 * @param word 검색어
+	 * @return 연계기업 목록 ArrayList
+	 */
 	public ArrayList<LinkCompanyDTO> linkCompanyList(String word) {
 		
 		try {

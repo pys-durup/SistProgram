@@ -10,6 +10,8 @@ import com.sist.dao.CourseDAO;
 import com.sist.dao.DataStatisticsDAO;
 import com.sist.dao.JobActivitiesDAO;
 import com.sist.dao.LinkCompanyDAO;
+import com.sist.dao.MakeCourceDAO;
+import com.sist.dao.MakeSubjectDAO;
 import com.sist.dao.RecommendDAO;
 import com.sist.dao.RoomDAO;
 import com.sist.dao.ScCourseSubjectDAO;
@@ -29,11 +31,14 @@ import com.sist.dto.AttendanceStatisticsDTO;
 import com.sist.dto.BookDTO;
 import com.sist.dto.CompletStudentListDTO;
 import com.sist.dto.CourseDTO;
+import com.sist.dto.CourseStudentListDTO;
 import com.sist.dto.EmploymentRateDTO;
 import com.sist.dto.EndCourseListDTO;
 import com.sist.dto.InterviewsEvaluationDTO;
 import com.sist.dto.JobInfoDTO;
 import com.sist.dto.LinkCompanyDTO;
+import com.sist.dto.MakeCourceDTO;
+import com.sist.dto.MakeSubjectDTO;
 import com.sist.dto.MasterDTO;
 import com.sist.dto.QualificationDTO;
 import com.sist.dto.RoomDTO;
@@ -51,6 +56,11 @@ import com.sist.dto.TalentedStudentListDTO;
 import com.sist.dto.ScStudentSubjectDTO;
 import com.sist.view.AdminView;
 
+/**
+ * 관리자의 모든 기능을 조작할수있는 클래스 입니다
+ * @author YSPark
+ *
+ */
 public class AdminController {
 
 	private String num = ""; // 사용자가 입력하는 번호
@@ -76,7 +86,10 @@ public class AdminController {
 	private BookDAO bodao;
 	private ScStudentSubjectDAO sssdao;
 	private RoomDAO rodao;
-
+	private MakeCourceDAO mcdao;
+	private StudentDAO stdao;
+	private MakeSubjectDAO msdao;
+	
 	public AdminController(MasterDTO mdto) {
 		
 		this.mdto = mdto; // 로그인한 관리자의 계정 정보를 담는다
@@ -100,6 +113,9 @@ public class AdminController {
 		this.bodao = new BookDAO();
 		this.sssdao = new ScStudentSubjectDAO();
 		this.rodao = new RoomDAO();
+		this.mcdao = new MakeCourceDAO();
+		this.stdao = new StudentDAO();
+		this.msdao = new MakeSubjectDAO();
 	}
 
 	public void start() {
@@ -2224,37 +2240,38 @@ public class AdminController {
 		while (true) {
 			ArrayList<SubjectListDTO> list = adao.subjectList(stnum);
 			
-			aview.makeTitle("수강 과목 목록", 100);
+			aview.makeTitle("수강 과목 목록", 130);
 			if (list != null) { // 과목 정보 출결 내용이 있을떄
-				System.out.println("[과목번호]\t[과목명]\t\t[시작일]\t[종료일]\t[교재명]\t[강사명]");
+				System.out.println("[과목번호]\t[과목명]\t\t    [시작일]\t\t[종료일]\t\t[교재명]\t\t[강사명]");
 				for (SubjectListDTO dto : list) {
-					System.out.printf("%4s\t%-20s\t%s\t%s\t%s\t%s\n", dto.getSubjectseq(), dto.getSubjectname(),
+					System.out.printf("%4s\t\t%-23s   %10s\t%10s\t%20s\t\t%s\n", dto.getSubjectseq(), dto.getSubjectname(),
 							dto.getStartdate(), dto.getEnddate(), dto.getBookname(), dto.getTeachername());
 
 				}
 
-				aview.makeLine(100);
+				aview.makeLine(130);
 				System.out.println("1. 과목 번호 입력  2. 뒤로가기");
 				System.out.print("번호를 입력하세요 :");
 				num = scan.nextLine();
 
 				if (num.equals("1")) {
-					System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+					aview.makeLine(52);
 					System.out.print("과목 번호를 입력하세요 :");
 					num = scan.nextLine();
 
 					SubjectListDTO dto = adao.getsubjectInfo(num);
-					System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+					aview.makeLine(52);
 					System.out.println("과목 번호 : " + dto.getSubjectseq());
 					System.out.println("과목명 : " + dto.getBookname());
 					System.out.println("시작일 : " + dto.getStartdate());
 					System.out.println("종료일 : " + dto.getEnddate());
 					System.out.println("책이름 : " + dto.getBookname());
 					System.out.println("강사명 : " + dto.getTeachername());
-					System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+					aview.makeLine(52);
 
 					subjectAttList(stnum, num);
-
+					
+					aview.makeLine(76);
 					pause();
 
 				} else if (num.equals("2")) {
@@ -2285,10 +2302,12 @@ public class AdminController {
 
 		ArrayList<AttendanceInfoDTO> list = adao.subjectAttList(stnum, subjectnum);
 
+		
 		if (list != null) {
-			System.out.println("[날짜]\t[입실시간]\t[퇴실시간]\t[출결상태]");
+			aview.makeTitle("수강 과목 출결 정보", 76);
+			System.out.println(" [날짜]\t\t[입실시간]\t\t[퇴실시간]\t [출결상태]");
 			for (AttendanceInfoDTO dto : list) {
-				System.out.printf("%s\t%s\t%s\t%s\n", dto.getAlldate(), dto.getIntime(), dto.getOuttime(),
+				System.out.printf("%s\t %s\t\t%s\t   %s\n", dto.getAlldate(), dto.getIntime(), dto.getOuttime(),
 						dto.getAttstate());
 
 			}
@@ -2307,13 +2326,15 @@ public class AdminController {
 		while (true) {
 
 			ArrayList<EndCourseListDTO> list = adao.allCourseList();
-
+			
+			aview.makeTitle("과정 목록", 110);
+			System.out.println("[번호]\t\t\t[과정명]\t\t\t[시작일자]  [종료일]  [교사명]   [강의실]");
 			for (EndCourseListDTO dto : list) {
-				System.out.printf("%s\t%s\t%s\t%s\t%s\t\n", dto.getSeq(), dto.getCourseName(), dto.getStartDate(),
+				System.out.printf("%4s\t%-35s\t%10s  %10s  %s  %s\n", dto.getSeq(), dto.getCourseName(), dto.getStartDate(),
 						dto.getEndDate(), dto.getTeacherName(), dto.getRoom());
 			}
 
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeLine(110);
 			System.out.println("1. 과정번호 입력  2. 뒤로가기");
 			System.out.print("번호를 입력하세요 : ");
 			num = scan.nextLine();
@@ -2348,8 +2369,10 @@ public class AdminController {
 			
 			ArrayList<StudentInfoListDTO> list = adao.courseStudentList(courseNum);
 			
+			aview.makeTitle("수강생 목록", 70);
+			System.out.println("[번호]\t[이름]\t  [주민번호]  \t [전화번호]\t [등록일]");
 			for(StudentInfoListDTO dto : list) {
-				System.out.printf("%s\t%s\t%s\t%s\t%s\n"
+				System.out.printf("%4s\t%s\t%s\t%s\t%s\n"
 						,dto.getSeq()
 						,dto.getName()
 						,dto.getJumin()
@@ -2357,13 +2380,13 @@ public class AdminController {
 						,dto.getRegdate());
 			}
 			
-			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			aview.makeLine(70);
 			System.out.println("1. 교육생 번호 선택  2. 뒤로가기");
 			System.out.print("번호를 입력하세요 : ");
 			num = scan.nextLine();
 			
 			if (num.equals("1")) {
-				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				aview.makeLine(70);
 				System.out.print("교육생 번호를 입력하세요 : ");
 				num = scan.nextLine();
 				
@@ -2398,7 +2421,7 @@ public class AdminController {
 		while(check) {
 			aview.BasicInfoMenu();
 			num = scan.nextLine();
-
+			
 			if (num.equals("1")) { // 과정 관리
 				courseManagement();
 			} else if (num.equals("2")) { // 과목 관리
@@ -2418,7 +2441,6 @@ public class AdminController {
 		boolean loop = true;
 		private void courseManagement() {
 			ArrayList<CourseDTO> list = csdao.list(null);
-			
 			//관리자 - 기초정보 관리 - 과정 관리
 			aview.HeadCourse();			//과정관리 리스트 머리
 			aview.CourseList(list);		//과정관리 리스트 몸통
@@ -2619,6 +2641,7 @@ public class AdminController {
 						System.out.println("추가X");
 					}
 					break;
+				
 				case "2": // 과목 수정
 					aview.Number();
 					String seq = scan.nextLine();
@@ -2659,7 +2682,7 @@ public class AdminController {
 
 					break;
 
-				case "3": // 교제 삭
+				case "3": // 과목 삭제
 					aview.DeleteNumber();
 					seq = scan.nextLine();
 
@@ -2729,12 +2752,12 @@ public class AdminController {
 				    	aview.Number();
 				    	seq = scan.nextLine();
 
-					// seq정보를 주면 그기업의 정보를 반환시켜주는 메서드
+					
 					dto = rodao.getRoom(seq);
-
+					
 					// 수정할 강의실정보 
 					aview.InfoRoom(dto);
-
+					
 					aview.Capacity();
 					String capacity = scan.nextLine();
 
@@ -2745,9 +2768,9 @@ public class AdminController {
 					dto2 = new RoomDTO();
 
 					dto2.setSeq(seq);
-					dto2.setRoomnum(dto.getRoomnum());
+					//dto2.setRoomnum(dto.getRoomnum());
 					dto2.setCapacity(capacity);
-					dto2.setName(dto.getName());
+					//dto2.setName(dto.getName());
 
 					resultUpdate = rodao.UpdateCapacity(dto2);
 
@@ -2767,10 +2790,522 @@ public class AdminController {
 
 			}// roomManagement() 강의실관리
 
-			private void makecourseManagement() {
+			private void makecourseManagement() {//개설 과정 관리
+			    boolean check = true;
+			    	
+			    	       ArrayList<MakeCourceDTO> list = mcdao.list();
+			    	
+            			    	aview.HeadMakeCourse();
+            			    	aview.AllCurrentCourseList(list);
+            			    	aview.MakeCourseMenu(); //총 8 메뉴
+            				num = scan.nextLine();
+            			    
+			    
+				while(check) {
+				
+					if (num.equals("1")) { //개별 개설과정 검색
+					    	eachCourse();
+					} else if (num.equals("2")) { //개설과정 수강생 조회
+					    	makeCourseStudent();
+					} else if (num.equals("3")) { //수강정보 일괄 수정
+					    	manageStudentStatus();
+					} else if (num.equals("4")) { //학생별 수강정보 수정
+					    	manageStudentStatusEach();
+					} else if (num.equals("5")) { //과정 개설
+					    	makeCourse();
+					} else if (num.equals("6")) { //과정 수정
+					    	editMakeCourse();
+					} else if (num.equals("7")) { //과정 삭제
+					    	deleteMakeCourse();
+					} else if (num.equals("0")) { //뒤로 가기
+					    	start();
+					} else {
+						System.out.println("잘못된 입력입니다");
+						pause();
+						break;
+					}
+				}
+			    
+			    
 			}// makecourseManagement() 개설 과정 관리
 
-			private void makesubjectManagement() {
+        
+        		
+
+				private void eachCourse() { //개별 개설과정 검색
+        			    while(loop) {
+        			    aview.CourseNumber();
+        			    String seq = scan.nextLine();
+        			    aview.Bar();
+        			    ArrayList<MakeCourceDTO> list = mcdao.list2(seq);	
+        			    aview.EachCourseSearch(list);
+        			    aview.Bar();
+        			    break;
+        			    }       
+        			    makecourseManagement();
+
+        			} //개별 개설과정 검색
+        
+        			private void makeCourseStudent() { //개설과정 수강생 조회
+        			    
+        			    aview.searchStudenCourse();
+        			    String seq = scan.nextLine();
+        			    aview.Bar();
+        			    ArrayList<StudentDTO> list = stdao.list(seq);
+        			    aview.ListCourseStudent(list);
+        			    aview.Bar();
+        			    makecourseManagement();
+        			} //개설과정 수강생 조회
+        
+        			private void manageStudentStatus() { //수강생 수강정보 관리
+        			    
+        			    aview.ManageStudentStatusMenu(); //1. 수강정보 일괄 수정, 2. 학생별 수강정보 수정
+        			    num = scan.nextLine();
+        			    
+        			    
+        			    while(loop) {
+        			    if (num.equals("1")) { //과정별 수강정보 일괄 수정
+        				aview.EditCourseStudentStatus();
+        				String num = scan.nextLine();
+        				
+        				
+        			    
+        				if (num.equals("1")) { //과정번호 입력
+        				    	aview.CourseNumber();
+        				    	String seq = scan.nextLine();
+        				    	aview.StatusNumber();
+        				    	String pseq = scan.nextLine();
+        				    	
+
+        					StudentDTO dto = new StudentDTO();
+
+        					dto.setPseq(seq);
+        					dto.setPrseq(pseq);
+
+        					int resultUpdate = stdao.UpdateStatusStudent(dto);
+
+        					if (resultUpdate > 0) {
+        						System.out.println("수정 완료!");
+        						pause();
+        					} else {
+        						System.out.println("수정 실패!");
+        						pause();
+        					}
+        					makecourseManagement();   
+        				}
+        					
+        				    	
+        			    } else if (num.equals("2")) { //뒤로가기
+        				    makecourseManagement();            				
+        			    } else {
+        				System.out.println("잘못된 입력입니다");
+					pause();
+					break;
+        			    }
+        			    }
+        			} //수강생 수강정보 관리
+        			
+        			private void manageStudentStatusEach() { //학생별 수강정보 수정
+        			    aview.ManageStudentStatusMenuEach();
+        			    String num = scan.nextLine();
+        			    
+        			    while(loop) {
+        				if (num.equals("1")) { //학생별 수강정보 수정
+            				   			 
+        				    aview.StudentNumber();
+        				    String seq = scan.nextLine();
+        				    aview.StatusNumber();
+                    			    String pseq = scan.nextLine();
+                    			    
+                    			    StudentDTO dto2 = new StudentDTO();
+                    			    
+                    			    dto2.setPseq(seq);
+                    			    dto2.setPrseq(pseq);
+                    			    
+                    			    int resultUpdate = stdao.UpdateStatusEachStudent(dto2);
+                    			    
+                        		    if (resultUpdate > 0) {
+    						System.out.println("수정 완료!");
+    						pause();
+    					    } else {
+    					        System.out.println("수정 실패!");
+    					        pause();
+    					    }
+                        		    makecourseManagement();   
+        				    } else if (num.equals("0")) { //뒤로가기
+        			        	makecourseManagement();            				
+        			    	    } else {
+        			    		System.out.println("잘못된 입력입니다");
+        			    		pause();
+        			    		break;
+        			    	    }	
+        			    }
+        			} //학생별 수강정보 수정
+        				
+        			
+        			
+        			
+        			private void makeCourse() { //과정 개설
+        			   
+        			    while(loop) {
+        			    	aview.StartDate();
+					String startdate = scan.nextLine();
+					aview.Enddate();
+					String enddate = scan.nextLine();
+					aview.Roomnum();
+					String roomnum = scan.nextLine();
+					aview.TeacherNum();
+					String teachernum = scan.nextLine();
+					aview.Coursenum();
+					String coursenum = scan.nextLine();
+					
+					MakeCourceDTO cdto = new MakeCourceDTO();
+					
+					cdto.setPstartdate(startdate);
+					cdto.setPenddate(enddate);
+					cdto.setProomnum(roomnum);
+					cdto.setPteachernum(teachernum);
+					cdto.setPcourcenum(coursenum);
+					
+					int resultAdd = mcdao.addmakeCourse(cdto);
+					
+
+					if (resultAdd > 0) {
+						System.out.println("개설 완료");
+						pause();
+						makecourseManagement();  
+					} else {
+						System.out.println("개설 실패!!");
+						pause();
+						makecourseManagement();  
+					}
+					break;
+        					
+        			    }
+        			
+        			  
+        			    
+        			} //과정 개설
+        
+        			private void editMakeCourse() { //과정 수정
+        			
+        			    while(loop) {
+        			    	aview.MakeCourseNum();
+        				String pseq = scan.nextLine();
+        				aview.StartDate();
+					String startdate = scan.nextLine();
+					aview.Enddate();
+					String enddate = scan.nextLine();
+					aview.Roomnum();
+					String roomnum = scan.nextLine();
+					aview.TeacherNum();
+					String teachernum = scan.nextLine();
+					aview.Coursenum();
+					String coursenum = scan.nextLine();
+					
+					MakeCourceDTO ddto = new MakeCourceDTO();
+					
+					ddto.setPseq(pseq);
+					ddto.setPstartdate(startdate);
+					ddto.setPenddate(enddate);
+					ddto.setProomnum(roomnum);
+					ddto.setPteachernum(teachernum);
+					ddto.setPcourcenum(coursenum);
+					
+					int resultAdd = mcdao.ediMakeCourse(ddto);
+					
+
+					if (resultAdd > 0) {
+						System.out.println("수정 완료!!");
+						pause();
+						makecourseManagement();  
+					} else {
+						System.out.println("수정 실패!!");
+						pause();
+						makecourseManagement();  
+					}
+					break;
+        					
+        			    }
+        			
+        			    
+        			} //과정 수정
+        
+        			private void deleteMakeCourse() { //과정 삭제
+        			    
+        			    while(loop) {
+        			    	aview.Cancel();
+        				aview.MakeCourseNum();
+        				String pseq = scan.nextLine();
+        				
+        				if(pseq.equals("00")) {
+        				    makecourseManagement(); 
+        				}
+					
+					MakeCourceDTO fdto = new MakeCourceDTO();
+					
+					fdto.setPseq(pseq);
+					
+					
+					int resultAdd = mcdao.DeleteMakeCourse(fdto);
+					
+
+					if (resultAdd > 0) {
+						System.out.println("삭제 완료!!");
+						pause();
+						makecourseManagement();  
+					} else {
+						System.out.println("삭제 실패!!");
+						pause();
+						makecourseManagement();  
+					}
+					break;
+        					
+        			    }
+        			
+        			} //과정 삭제
+
+			private void makesubjectManagement() { // 개설 과정 관리 진입
+
+				int page = 10; // 한 페이지에 보여질 페이지의 개수
+				int endPage; // 끝 페이지
+				int nowPage = 1; // 현재 페이지
+				int startNum = 0;
+				int endNum = page;
+
+				while (true) {
+					System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+					System.out.println("개설과정 관리");
+					System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+					
+					ArrayList<MakeSubjectDTO> list = msdao.MakeSubjectList();
+					if (list.size() % page == 0) {
+						endPage = list.size() / page;
+					} else {
+						endPage = list.size() / page + 1;
+					}
+
+					for (int i = startNum; i < endNum; i++) {
+
+						System.out.printf(
+								"[번호]%2s [과목명] %s [일수] %s [과목상태] %s [교사명] %s [책제목] %s [분배상태] %s\n", list.get(i).getSeq(), list.get(i).getSubjectname(),
+								list.get(i).getDuration(), list.get(i).getStatus(), list.get(i).getTname(), list.get(i).getBookNum(), list.get(i).getBookdistristate());
+					}
+
+					System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+					System.out.println("1. 이전 페이지로 2. 다음 페이지로");
+					System.out.println("3. 개설 과목 생성");
+					System.out.println("4. 개설 과목 수정");
+					System.out.println("5. 개설 과목 삭제");
+					System.out.println("6. 개설 과목을 개설 과정에 연결하기");
+					System.out.println("7. 과정 과목 연계 삭제");
+					System.out.println("8. 책분배 관리");
+					System.out.println("0. 뒤로가기");
+					System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+					System.out.print("번호를 입력하세요 :");
+					num = scan.nextLine();
+
+					if (num.equals("1")) {
+						if (nowPage == 1) {
+							// 첫 페이지일때 - 이전 페이지로 갈 수 없음
+							System.out.println("현재 페이지가 첫 페이지 입니다");
+						} else {
+							nowPage--; // 현재페이지 1 감소
+							startNum = (nowPage - 1) * page;
+							endNum = startNum + page;
+						}
+					} else if (num.equals("2")) {
+						if (nowPage == endPage) {
+							// 끝 페이지 일때 - 다음 페이지로 갈 수 없음
+							System.err.println("현재 페이지가 끝 페이지 입니다");
+						} else if (nowPage == endPage - 1) {
+							nowPage++;
+							startNum = (nowPage - 1) * page;
+							int temp = (list.size() % page == 0) ? page : list.size() % page;
+							endNum = startNum + temp;
+						} else {
+							nowPage++; // 현재페이지 1 증가
+							startNum = (nowPage - 1) * page;
+							endNum = startNum + page;
+						}
+
+					} else if (num.equals("3")) {
+						// 개설 과목 생성
+					    	aview.MakeSubjectNum();
+	        				String psubjectnum = scan.nextLine();
+	        				aview.StartDate();
+						String pstartdate = scan.nextLine();
+						aview.Enddate();
+						String penddate = scan.nextLine();
+						aview.Booknum();
+						String pbooknum = scan.nextLine();
+						
+						
+						MakeSubjectDTO dto = new MakeSubjectDTO();
+						
+						dto.setPsubjectnum(psubjectnum);
+						dto.setPstartdate(pstartdate);
+						dto.setPenddate(penddate);
+						dto.setPbooknum(pbooknum);
+					
+						int result = msdao.AddMakeSubject(dto);
+						
+						if (result > 0) {
+							System.out.println("개설 완료!!");
+							pause();
+							makesubjectManagement();
+						} else {
+							System.out.println("개설 실패!!");
+							pause();
+							makesubjectManagement();
+						}
+						
+
+					} else if (num.equals("4")) { //개설과목 수정
+					    	
+					    	aview.MakeSubjectSeq();
+					    	String pseq = scan.nextLine();
+					    	aview.MakeSubjectNum();
+	        				String psubjectnum = scan.nextLine();
+	        				aview.StartDate();
+						String pstartdate = scan.nextLine();
+						aview.Enddate();
+						String penddate = scan.nextLine();
+						aview.Booknum();
+						String pbooknum = scan.nextLine();
+						
+						MakeSubjectDTO dto = new MakeSubjectDTO();
+						
+						dto.setPseq(pseq);
+						dto.setPsubjectnum(psubjectnum);
+						dto.setPstartdate(pstartdate);
+						dto.setPenddate(penddate);
+						dto.setPbooknum(pbooknum);
+						
+						int result = msdao.EditMakeSubject(dto);
+						
+						if (result > 0) {
+							System.out.println("수정 완료!!");
+							pause();
+							makesubjectManagement();
+						} else {
+							System.out.println("수정 실패!!");
+							pause();
+							makesubjectManagement();
+						}
+					    
+					} else if (num.equals("5")) {// 개설과목 삭제
+						aview.Cancel();
+						aview.MakeSubjectSeq();
+	        				String pseq = scan.nextLine();
+	        				
+	        				if(pseq.equals("00")) {
+	        				    makecourseManagement(); 
+	        				}
+						
+						MakeSubjectDTO dto = new MakeSubjectDTO();
+						
+						dto.setPseq(pseq);
+						
+						
+						int result = msdao.DeleteMakeSubject(dto);
+						
+
+						if (result > 0) {
+							System.out.println("삭제 완료!!");
+							pause();
+							makesubjectManagement();  
+						} else {
+							System.out.println("삭제 실패!!");
+							pause();
+							makesubjectManagement();
+						}
+					    
+						
+					} else if (num.equals("6")) {//개설 과목을 개설 과정에 연결하기
+					    aview.MakeCourseNum();
+					    String pseq = scan.nextLine(); //개설 과정 번호
+					    aview.MakeSubjectSeq();
+					    String pseq2 = scan.nextLine(); //개설 과목 번호
+					    
+					    MakeSubjectDTO dto = new MakeSubjectDTO();
+					    
+					    dto.setPseq(pseq);
+					    dto.setPseq2(pseq2);
+					    
+					    int result = msdao.ConnectMakeSubject(dto);
+					    
+					    if (result > 0) {
+						System.out.println("연계 완료!!");
+						pause();
+						makesubjectManagement();  
+					} else {
+						System.out.println("연계 실패!!");
+						pause();
+						makesubjectManagement();
+					}
+					} else if (num.equals("7")) {//과정 과목 연계 삭제
+					    	aview.Cancel();
+						aview.ConnectNum();
+	        				String pseq = scan.nextLine();
+	        				
+	        				if(pseq.equals("00")) {
+	        				    makecourseManagement(); 
+	        				}
+						
+						MakeSubjectDTO dto = new MakeSubjectDTO();
+						
+						dto.setPseq(pseq);
+						
+						
+						int result = msdao.DeleteMakeSubject(dto);
+						
+
+						if (result > 0) {
+							System.out.println("삭제 완료!!");
+							pause();
+							makesubjectManagement();  
+						} else {
+							System.out.println("삭제 실패!!");
+							pause();
+							makesubjectManagement();
+						}
+					} else if (num.equals("8")) {
+					    	aview.MakeSubjectSeq();
+					    	String pseq = scan.nextLine();
+					    	aview.DistristateBook();
+					    	String pstate = scan.nextLine();
+					    	
+					    	MakeSubjectDTO dto = new MakeSubjectDTO();
+					    
+					    	dto.setPseq(pseq);
+					    	dto.setPstate(pstate);
+					    	
+					    	int result = msdao.distriStateBook(dto);
+					    	
+						if (result > 0) {
+							System.out.println("실행 완료!!");
+							pause();
+							makesubjectManagement();  
+						} else {
+							System.out.println("실행 실패!!");
+							pause();
+							makesubjectManagement();
+						}
+					    	
+					} else if (num.equals("0")) {//뒤로가기
+					    	start();
+					} else {
+						System.out.println("잘못된 입력입니다");
+						pause();
+						
+					}
+
+				}
+
+				}
+			    
 			}// makesubjectManagement() 개설 과목 관리;
 
-	}
+	

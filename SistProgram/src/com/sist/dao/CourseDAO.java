@@ -64,9 +64,7 @@ public ArrayList<CourseDTO> list(String word) {
 			list.add(dto);
 			
 		}
-		rs.close();
-		stat.close();
-		conn.close();
+		
 		
 		return list;
 		

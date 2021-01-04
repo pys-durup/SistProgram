@@ -183,8 +183,9 @@ public class AttendanceDAO {
 				
 				SubjectListDTO dto = new SubjectListDTO();
 				
+				
 				dto.setSubjectseq(rs.getString("subjectseq"));
-				dto.setSubjectname(rs.getString("subjectname"));
+				dto.setSubjectname(makeSpace(rs.getString("subjectname")));
 				dto.setStartdate(rs.getString("startdate"));
 				dto.setEnddate(rs.getString("enddate"));
 				dto.setBookname(rs.getString("bookname"));
@@ -205,6 +206,28 @@ public class AttendanceDAO {
 		
 		return null;
 	}
+
+
+
+	private String makeSpace(String str) {
+		// TODO Auto-generated method stub
+
+		String space = "";
+		int count = 0;
+		
+		for(int i=0 ; i<str.length() ; i++) {
+			if((str.charAt(i) > 'a' && str.charAt(i) < 'z' ) || (str.charAt(i) > 'A' && str.charAt(i) < 'Z' )) {
+				count++;
+			}
+		}
+		
+		for(int i=0 ; i<count/2 ; i++ ) {
+			space += " ";
+		}
+		
+		return str + space;
+	}
+
 
 
 
@@ -278,11 +301,11 @@ public class AttendanceDAO {
 				String outtime = rs.getString("outtime");
 				
 				if(intime == null) {
-					intime = "-";
+					intime = "    -    ";
 				}
 				
 				if(outtime == null) {
-					outtime = "-";
+					outtime = "    -    ";
 				}
 				
 				dto.setAlldate(rs.getString("alldate"));

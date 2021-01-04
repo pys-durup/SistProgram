@@ -14,7 +14,7 @@ import com.sist.dto.TalentedStudentListDTO;
 import com.sist.main.DBUtil;
 
 /**
- * 추천 인재 관리 탭의 모든 기능을 담당하는 메서드
+ * 추천 인재 관리 탭의 모든 기능을 담당하는 클래스 입니다
  * @author YSPark
  *
  */
@@ -41,7 +41,7 @@ public class TalentedStudentDAO {
 	/**
 	 * 추천 인재 목록을 반환하는 메서드 입니다
 	 * @param word 검색어
-	 * @return
+	 * @return 추천 인재 목록 ArrayList
 	 */
 	public ArrayList<TalentedStudentListDTO> talentedStudenList(String word) {
 		
@@ -85,7 +85,7 @@ public class TalentedStudentDAO {
 	
 	/**
 	 * 수료한 학생중 추천인재가 될 수 있는 목록을 반환하는 메서드 입니다
-	 * @return
+	 * @return 추천인재가 될 수 있는 목록 ArrayList
 	 */
 	public ArrayList<AbleTStudentScoreListDTO> ableTStudentScoreList() {
 		

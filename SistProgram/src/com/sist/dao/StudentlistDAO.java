@@ -47,6 +47,18 @@ public class StudentlistDAO {
 			
 			stat = conn.createStatement();
 			rs = stat.executeQuery(sql);
+
+			//String sql = "{call procStudentList(?)}";
+			
+			//cstat = conn.prepareCall(sql);
+			
+			//cstat.registerOutParameter(1, OracleTypes.CURSOR);
+						
+			//cstat.executeQuery();
+			
+//			rs = (ResultSet)cstat.getObject(2);
+			//rs = (ResultSet)cstat.getObject(1);
+
 			
 			ArrayList<StudentlistDTO> list = new ArrayList<StudentlistDTO>();
 			
