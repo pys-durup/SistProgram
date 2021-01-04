@@ -10,6 +10,12 @@ public class StudentConsultListDTO {
 	private String courseDate; //과정기간
 	private String consultReason; // 상담사유
 	private String consultContent; //상담내용
+	private String makeSubjectNum;
+	private String reasonNum;
+	private String regiNum;
+	
+	
+
 	public String getSeq() {
 		return seq;
 	}
@@ -58,7 +64,24 @@ public class StudentConsultListDTO {
 	public void setConsultContent(String consultContent) {
 		this.consultContent = consultContent;
 	}
-	
+	public String getMakeSubjectNum() {
+		return makeSubjectNum;
+	}
+	public void setMakeSubjectNum(String makeSubjectNum) {
+		this.makeSubjectNum = makeSubjectNum;
+	}
+	public String getReasonNum() {
+		return reasonNum;
+	}
+	public void setReasonNum(String reasonNum) {
+		this.reasonNum = reasonNum;
+	}
+	public String getRegiNum() {
+		return regiNum;
+	}
+	public void setRegiNum(String regiNum) {
+		this.regiNum = regiNum;
+	}
 	
 	
 	

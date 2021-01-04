@@ -67,16 +67,14 @@ public class InterviewDataDAO {
 	public int add(InterviewDataDTO dto) {
 				
 		try {
-			
-			String sql = "{ call procAddInterviewData(?, '?', '?') }";
+			String sql = "insert into tblInterview (seq, question, standard) values (seqInterview.nextVal, ?, ?)";
 		
-			cstat = conn.prepareCall(sql);
+			pstat = conn.prepareStatement(sql);
 			
-			cstat.setString(1, dto.getSeq());
-			cstat.setString(2, dto.getQuestion());
-			cstat.setString(3, dto.getStandard());
+			pstat.setString(1, dto.getQuestion());
+			pstat.setString(2, dto.getStandard());
 					
-			return cstat.executeUpdate();
+			return pstat.executeUpdate();
 			
 			
 		} catch (Exception e) {
@@ -105,14 +103,14 @@ public class InterviewDataDAO {
 		return 0;
 	}
 
-	public InterviewDataDTO get(String seq) {
+	public InterviewDataDTO get(String num) {
 		
 		try {
 			
 			String sql = "select * from tblInterview where seq = ?";
 			
 			pstat = conn.prepareStatement(sql);
-			pstat.setString(1, seq);
+			pstat.setString(1, num);
 			
 			rs = pstat.executeQuery();
 			
@@ -137,14 +135,13 @@ public class InterviewDataDAO {
 	public int edit(InterviewDataDTO dto2) {
 		try {
 			
-			String sql = "{call procEditInterviewData(?,?)";
+			String sql = "update tblInterview set question=?, standard=? where seq=?";
 			
 			pstat= conn.prepareStatement(sql);
 			
 			pstat.setString(1, dto2.getQuestion());
 			pstat.setString(2, dto2.getStandard());
-		
-			
+			pstat.setString(3, dto2.getSeq());		
 
 			return pstat.executeUpdate();
 			

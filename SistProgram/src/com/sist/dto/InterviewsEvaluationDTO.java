@@ -8,6 +8,9 @@ public class InterviewsEvaluationDTO {
 	private String question;
 	private String evaluation;
 	private String score;
+	private String interviewNum;
+	private String teacherNum;
+	private String regiNum;
 	
 	public String getSeq() {
 		return seq;
@@ -45,7 +48,23 @@ public class InterviewsEvaluationDTO {
 	public void setScore(String score) {
 		this.score = score;
 	}
-
-	
+	public String getInterviewNum() {
+		return interviewNum;
+	}
+	public void setInterviewNum(String interviewNum) {
+		this.interviewNum = interviewNum;
+	}
+	public String getTeacherNum() {
+		return teacherNum;
+	}
+	public void setTeacherNum(String teacherNum) {
+		this.teacherNum = teacherNum;
+	}
+	public String getRegiNum() {
+		return regiNum;
+	}
+	public void setRegiNum(String regiNum) {
+		this.regiNum = regiNum;
+	}
 	
 }
