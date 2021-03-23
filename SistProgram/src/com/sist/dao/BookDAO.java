@@ -128,20 +128,20 @@ public BookDTO getBook(String seq) {
 public int UpdateBook(BookDTO dto2) {
     try {
 
-	String sql = " { call procUpdateBook( ?, ?, ?, ?, ?) } ";
+	String sql = " { call procUpdateBook( ?, ?, ?, ?, ?, ?) } ";
 	
-	pstat = conn.prepareCall(sql);
+	cstat = conn.prepareCall(sql);
 	
-	pstat.setString(1, dto2.getSeq());	
-	pstat.setString(2, dto2.getName());
-	pstat.setString(3, dto2.getWriter());
-	pstat.setString(4, dto2.getPublisher());
-	pstat.setString(5, dto2.getPrice());
-	pstat.setString(6, dto2.getCount());
+	cstat.setString(1, dto2.getPseq());	
+	cstat.setString(2, dto2.getPname());
+	cstat.setString(3, dto2.getPwriter());
+	cstat.setString(4, dto2.getPpublisher());
+	cstat.setString(5, dto2.getPprice());
+	cstat.setString(6, dto2.getPcount());
 	
 	
 
-	return pstat.executeUpdate();
+	return cstat.executeUpdate();
 
     } catch (Exception e) {
 	System.out.println("BookDAO.UpdateBook()");

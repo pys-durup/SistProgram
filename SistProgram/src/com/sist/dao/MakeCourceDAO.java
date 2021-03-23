@@ -138,7 +138,7 @@ public int addmakeCourse(MakeCourceDTO cdto) {
 public int ediMakeCourse(MakeCourceDTO ddto) {
     try {
 
-	String sql = " { call procMakeCourse( ?, ?, ?, ?, ?, ? ) }";
+	String sql = " { call procUpdateMakeCourse( ?, ?, ?, ?, ?, ? ) }";
 	
 	cstat = conn.prepareCall(sql);
 	

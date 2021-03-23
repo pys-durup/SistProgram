@@ -8,7 +8,12 @@ public class BookDTO {
 	private String publisher; //출판사
 	private String price; //가격
 	private String count; //수량
-	
+	private String pseq; // 번호
+	private String pname; //교재명
+	private String pwriter; //저자
+	private String ppublisher; //출판사
+	private String pprice; //가격
+	private String pcount; //수량
 	
 	public String getSeq() {
 		return seq;
@@ -45,6 +50,42 @@ public class BookDTO {
 	}
 	public void setCount(String count) {
 		this.count = count;
+	}
+	public String getPseq() {
+	    return pseq;
+	}
+	public String getPname() {
+	    return pname;
+	}
+	public String getPwriter() {
+	    return pwriter;
+	}
+	public String getPpublisher() {
+	    return ppublisher;
+	}
+	public String getPprice() {
+	    return pprice;
+	}
+	public String getPcount() {
+	    return pcount;
+	}
+	public void setPseq(String pseq) {
+	    this.pseq = pseq;
+	}
+	public void setPname(String pname) {
+	    this.pname = pname;
+	}
+	public void setPwriter(String pwriter) {
+	    this.pwriter = pwriter;
+	}
+	public void setPpublisher(String ppublisher) {
+	    this.ppublisher = ppublisher;
+	}
+	public void setPprice(String pprice) {
+	    this.pprice = pprice;
+	}
+	public void setPcount(String pcount) {
+	    this.pcount = pcount;
 	}
 
 }

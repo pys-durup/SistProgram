@@ -207,7 +207,7 @@ public class AdminView {
 	
 	public void CourseList(ArrayList<CourseDTO> list) {
 		for (CourseDTO dto : list) {
-			System.out.printf("[번호] %2s [과정] %s [과정목적] %s"
+			System.out.printf("[번호] %2s [과정] %s [과정목적] %s\n"
 							,dto.getSeq()
 							,dto.getName()
 							,dto.getPurpose());	
@@ -408,7 +408,7 @@ public class AdminView {
 		
 		System.out.println(line);
 	}
-}
+
 
 	public void HeadRoom() {
 	 	System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");

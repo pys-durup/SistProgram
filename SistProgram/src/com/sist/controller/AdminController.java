@@ -2528,12 +2528,12 @@ public class AdminController {
 			BookDTO dto2 = new BookDTO();
 			
 			
-			dto2.setSeq(seq);
-			dto2.setName(name);
-			dto2.setWriter(writer);
-			dto2.setPublisher(publisher);
-			dto2.setPrice(price);
-			dto2.setCount(count);
+			dto2.setPseq(seq);
+			dto2.setPname(name);
+			dto2.setPwriter(writer);
+			dto2.setPpublisher(publisher);
+			dto2.setPprice(price);
+			dto2.setPcount(count); 
 			
 			int resultUpdate = bodao.UpdateBook(dto2);
 														
@@ -3037,8 +3037,14 @@ public class AdminController {
 					for (int i = startNum; i < endNum; i++) {
 
 						System.out.printf(
-								"[번호]%2s [과목명] %s [일수] %s [과목상태] %s [교사명] %s [책제목] %s [분배상태] %s\n", list.get(i).getSeq(), list.get(i).getSubjectname(),
-								list.get(i).getDuration(), list.get(i).getStatus(), list.get(i).getTname(), list.get(i).getBookNum(), list.get(i).getBookdistristate());
+								"[번호] %s [과목명] %s [일수] %s [과목상태] %s [교사명] %s [책제목] %s [분배상태] %s\n", 
+								list.get(i).getSeq(), 
+								list.get(i).getSubjectname(),
+								list.get(i).getDuration(), 
+								list.get(i).getStatus(), 
+								list.get(i).getTname(), 
+								list.get(i).getBookNum(), 
+								list.get(i).getBookdistristate());
 					}
 
 					System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");

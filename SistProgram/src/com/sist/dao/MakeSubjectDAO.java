@@ -56,7 +56,7 @@ public ArrayList<MakeSubjectDTO> MakeSubjectList() {
 	    
 	    list.add(dto);
 	}
-	rs.close();
+	
 	return list;
 	
     } catch (Exception e) {
