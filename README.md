@@ -24,9 +24,9 @@
     </tr>
     <tr>
         <th>개발도구</th>
-        <th>Eclipse JEE</th>
+        <th>Eclipse JEE, sqldeveloper</th>
         <th>사용기술</th>
-        <th>Java console</th>
+        <th>Java, Oracle</th>
     </tr>
      <tr>
         <th>개발 인원</th>
@@ -42,10 +42,7 @@ Oracle 데이터베이스와 JDBC 를 사용해서 쌍용 교육센터에서 서
 프로그램을 통해서 이용할 수 있도록 하기 위한 쌍용 교육센터 프로그램을 개발한다
 
 ## 데이터 구조 
-
-
-## 프로젝트 특징
-
+<img src="images/data_structure.png" />
 
 
 ## 담당한 업무
@@ -57,10 +54,87 @@ Oracle 데이터베이스와 JDBC 를 사용해서 쌍용 교육센터에서 서
 
 
 ### 1. [관리자] 학생 출결 관리
+---
+<p float="left">
+  <img src="images/1_1.PNG" width="49%"/>
+  <img src="images/1_2.PNG" width="49%"/>
+</p>
+
+<p float="left">
+  <img src="images/1_3.PNG" width="49%"/>
+</p>
+
 ### 2. [관리자] 취업 현황 조회
+---
+<p float="left">
+  <img src="images/2_1.PNG" width="49%"/>
+  <img src="images/2_2.PNG" width="49%"/>
+</p>
+
+<p float="left">
+  <img src="images/2_3.PNG" width="49%"/>
+  <img src="images/2_4.PNG" width="49%"/>
+</p>
+
 ### 3. [관리자] 연계기업 CRUD + 검색
+---
+<p float="left">
+  <img src="images/3_1.PNG" width="49%"/>
+  <img src="images/3_2.PNG" width="49%"/>
+</p>
+
+<p float="left">
+  <img src="images/3_3.PNG" width="49%"/>
+  <img src="images/3_4.PNG" width="49%"/>
+</p>
+
+<p float="left">
+  <img src="images/3_5.PNG" width="49%"/>
+  <img src="images/3_6.PNG" width="49%"/>
+</p>
+
+<p float="left">
+  <img src="images/3_7.PNG" width="49%"/>
+</p>
+
 ### 4. [관리자] 추천인재 CRUD + 검색, 인재추천하기
+---
+<p float="left">
+  <img src="images/4_1.PNG" width="49%"/>
+  <img src="images/4_2.PNG" width="49%"/>
+</p>
+
+<p float="left">
+  <img src="images/4_3.PNG" width="49%"/>
+  <img src="images/4_4.PNG" width="49%"/>
+</p>
+
+<p float="left">
+  <img src="images/4_5.PNG" width="49%"/>
+  <img src="images/4_6.PNG" width="49%"/>
+</p>
+
+<p float="left">
+  <img src="images/4_7.PNG" width="49%"/>
+  <img src="images/4_8.PNG" width="49%"/>
+</p>
+
+<p float="left">
+  <img src="images/4_9.PNG" width="49%"/>
+  <img src="images/4_10.PNG" width="49%"/>
+</p>
+
 ### 5. [관리자] 데이터 통계 - 출석률, 수료율, 취업률
+---
+<p float="left">
+  <img src="images/5_1.PNG" width="49%"/>
+  <img src="images/5_2.PNG" width="49%"/>
+</p>
+
+<p float="left">
+  <img src="images/5_3.PNG" width="49%"/>
+  <img src="images/5_4.PNG" width="49%"/>
+</p>
 
 
 ## 후기
